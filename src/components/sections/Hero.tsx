@@ -47,12 +47,14 @@ export function Hero() {
             >
               Try Live Simulation <ArrowRight size={18} />
             </Link>
-            <Link 
-              href="#contact" 
+            <a 
+              href="https://calendly.com/ukkukk97/30min" 
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-transparent border border-white/20 text-white px-6 py-3.5 rounded-lg font-semibold hover:bg-white/5 transition-colors"
             >
               Book Enterprise Pilot
-            </Link>
+            </a>
           </div>
         </motion.div>
 

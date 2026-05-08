@@ -47,12 +47,14 @@ export function Navbar() {
             <Link href="#contact" className="text-sm font-medium text-white hover:text-orange-500 transition-colors">
               Sign In
             </Link>
-            <Link
-              href="#contact"
+            <a
+              href="https://calendly.com/ukkukk97/30min"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-white text-black px-4 py-2 rounded-full text-sm font-semibold hover:bg-zinc-200 transition-colors"
             >
               Book Pilot
-            </Link>
+            </a>
           </div>
         </nav>
 
@@ -78,7 +80,7 @@ export function Navbar() {
           <Link href="#technology" className="text-zinc-400 hover:text-white" onClick={() => setMobileMenuOpen(false)}>Technology</Link>
           <hr className="border-white/10 my-2" />
           <Link href="#contact" className="text-white font-medium" onClick={() => setMobileMenuOpen(false)}>Sign In</Link>
-          <Link href="#contact" className="bg-white text-black px-4 py-2 rounded-lg text-center font-semibold mt-2" onClick={() => setMobileMenuOpen(false)}>Book Pilot</Link>
+          <a href="https://calendly.com/ukkukk97/30min" target="_blank" rel="noopener noreferrer" className="bg-white text-black px-4 py-2 rounded-lg text-center font-semibold mt-2" onClick={() => setMobileMenuOpen(false)}>Book Pilot</a>
         </motion.div>
       )}
     </header>
