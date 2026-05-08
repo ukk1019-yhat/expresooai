@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable} scroll-smooth`}>
-      <body className="antialiased min-h-screen flex flex-col font-sans selection:bg-orange-500/30 selection:text-orange-200">
+      <body className="antialiased min-h-screen flex flex-col font-sans selection:bg-[#8b5a2b]/30 selection:text-orange-200">
         <Navbar />
         <main className="flex-grow pt-24">
           {children}

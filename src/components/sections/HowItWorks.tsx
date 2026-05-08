@@ -32,12 +32,12 @@ export function HowItWorks() {
   ];
 
   return (
-    <section className="py-24 bg-zinc-950 relative border-t border-white/5" id="how-it-works">
+    <section className="py-24 bg-[#fdfbf7] relative border-t border-[#e3d5c1]" id="how-it-works">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-sm font-semibold tracking-widest text-orange-500 uppercase mb-3">Workflow</h2>
-          <h3 className="text-3xl md:text-4xl font-bold text-white">How the Platform Works</h3>
-          <p className="text-zinc-400 mt-4 max-w-2xl mx-auto">
+          <h2 className="text-sm font-semibold tracking-widest text-[#8b5a2b] uppercase mb-3">Workflow</h2>
+          <h3 className="text-3xl md:text-4xl font-bold text-[#2c1e16]">How the Platform Works</h3>
+          <p className="text-[#6e5646] mt-4 max-w-2xl mx-auto">
             A seamless, adaptive pipeline from scenario selection to deep behavioral analytics.
           </p>
         </div>
@@ -53,18 +53,18 @@ export function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative z-10 bg-zinc-900 border border-white/5 rounded-2xl p-6 hover:border-orange-500/30 hover:bg-zinc-800/80 transition-all group"
+              className="relative z-10 bg-[#f4ebd8] border border-[#e3d5c1] rounded-2xl p-6 hover:border-[#8b5a2b]/30 hover:bg-[#e8decb]/80 transition-all group"
             >
               <div className="flex items-center justify-between mb-8">
-                <div className="w-12 h-12 rounded-xl bg-black border border-white/10 flex items-center justify-center text-zinc-400 group-hover:text-orange-500 group-hover:border-orange-500/50 transition-colors">
+                <div className="w-12 h-12 rounded-xl bg-[#fdfbf7] border border-[#d4c3ab] flex items-center justify-center text-[#6e5646] group-hover:text-[#8b5a2b] group-hover:border-[#8b5a2b]/50 transition-colors">
                   {step.icon}
                 </div>
-                <span className="text-4xl font-bold text-white/5 group-hover:text-white/10 transition-colors">
+                <span className="text-4xl font-bold text-[#2c1e16]/5 group-hover:text-[#2c1e16]/10 transition-colors">
                   {step.id}
                 </span>
               </div>
-              <h4 className="text-lg font-semibold text-white mb-2">{step.title}</h4>
-              <p className="text-sm text-zinc-400 leading-relaxed">{step.description}</p>
+              <h4 className="text-lg font-semibold text-[#2c1e16] mb-2">{step.title}</h4>
+              <p className="text-sm text-[#6e5646] leading-relaxed">{step.description}</p>
             </motion.div>
           ))}
         </div>

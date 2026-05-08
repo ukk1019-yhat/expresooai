@@ -7,16 +7,16 @@ export const metadata: Metadata = {
 
 export default function FAQPage() {
   return (
-    <div className="min-h-screen bg-black pt-32 pb-24 px-6">
+    <div className="min-h-screen bg-[#fdfbf7] pt-32 pb-24 px-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">Frequently Asked Questions</h1>
-        <p className="text-lg text-zinc-400 mb-16">
+        <h1 className="text-4xl md:text-6xl font-bold text-[#2c1e16] mb-6">Frequently Asked Questions</h1>
+        <p className="text-lg text-[#6e5646] mb-16">
           Everything you need to know about the product, underlying technology, and how enterprises are deploying EXPRESSO AI.
         </p>
 
         {/* Section 1: Product */}
         <section className="mb-16">
-          <h2 className="text-2xl font-bold text-orange-500 mb-8 border-b border-white/10 pb-4">Product</h2>
+          <h2 className="text-2xl font-bold text-[#8b5a2b] mb-8 border-b border-[#d4c3ab] pb-4">Product</h2>
           <div className="space-y-8">
             <FAQItem 
               question="What exactly is EXPRESSO AI?"
@@ -35,7 +35,7 @@ export default function FAQPage() {
 
         {/* Section 2: Technology */}
         <section className="mb-16">
-          <h2 className="text-2xl font-bold text-orange-500 mb-8 border-b border-white/10 pb-4">Technology</h2>
+          <h2 className="text-2xl font-bold text-[#8b5a2b] mb-8 border-b border-[#d4c3ab] pb-4">Technology</h2>
           <div className="space-y-8">
             <FAQItem 
               question="Is this just a wrapper around ChatGPT?"
@@ -54,7 +54,7 @@ export default function FAQPage() {
 
         {/* Section 3: Use Cases */}
         <section className="mb-16">
-          <h2 className="text-2xl font-bold text-orange-500 mb-8 border-b border-white/10 pb-4">Use Cases</h2>
+          <h2 className="text-2xl font-bold text-[#8b5a2b] mb-8 border-b border-[#d4c3ab] pb-4">Use Cases</h2>
           <div className="space-y-8">
             <FAQItem 
               question="How do Sales teams use EXPRESSO AI?"
@@ -71,14 +71,14 @@ export default function FAQPage() {
           </div>
         </section>
 
-        <div className="mt-24 p-8 bg-zinc-900 border border-white/10 rounded-2xl text-center">
-          <h3 className="text-2xl font-bold text-white mb-4">Still have questions?</h3>
-          <p className="text-zinc-400 mb-8">We'd love to show you how EXPRESSO AI can transform your organization.</p>
+        <div className="mt-24 p-8 bg-[#f4ebd8] border border-[#d4c3ab] rounded-2xl text-center">
+          <h3 className="text-2xl font-bold text-[#2c1e16] mb-4">Still have questions?</h3>
+          <p className="text-[#6e5646] mb-8">We'd love to show you how EXPRESSO AI can transform your organization.</p>
           <a 
             href="https://calendly.com/ukkukk97/30min"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-orange-500 transition-colors shadow-lg shadow-orange-600/20"
+            className="inline-flex items-center justify-center bg-[#704823] text-white px-8 py-4 rounded-lg font-semibold hover:bg-[#8b5a2b] transition-colors shadow-lg shadow-orange-600/20"
           >
             Book an Enterprise Pilot
           </a>
@@ -90,9 +90,9 @@ export default function FAQPage() {
 
 function FAQItem({ question, answer }: { question: string, answer: string }) {
   return (
-    <div className="bg-zinc-950 p-6 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
-      <h3 className="text-lg font-semibold text-white mb-3">{question}</h3>
-      <p className="text-zinc-400 leading-relaxed">{answer}</p>
+    <div className="bg-[#fdfbf7] p-6 rounded-xl border border-[#e3d5c1] hover:border-[#d4c3ab] transition-colors">
+      <h3 className="text-lg font-semibold text-[#2c1e16] mb-3">{question}</h3>
+      <p className="text-[#6e5646] leading-relaxed">{answer}</p>
     </div>
   );
 }

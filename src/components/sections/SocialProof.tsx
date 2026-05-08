@@ -5,17 +5,17 @@ import { Star } from "lucide-react";
 
 export function SocialProof() {
   return (
-    <section className="py-24 bg-black relative border-t border-white/5">
+    <section className="py-24 bg-[#fdfbf7] relative border-t border-[#e3d5c1]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-sm font-semibold tracking-widest text-orange-500 uppercase mb-3">Trusted by Innovators</h2>
-          <h3 className="text-3xl md:text-4xl font-bold text-white">Powering the next generation of enterprise communication.</h3>
+          <h2 className="text-sm font-semibold tracking-widest text-[#8b5a2b] uppercase mb-3">Trusted by Innovators</h2>
+          <h3 className="text-3xl md:text-4xl font-bold text-[#2c1e16]">Powering the next generation of enterprise communication.</h3>
         </div>
 
         {/* Enterprise Logos Mockup */}
         <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-50 mb-24 grayscale">
           {["Acme Corp", "GlobalTech", "Quantum", "Nexus", "Vertex"].map((logo, i) => (
-            <span key={i} className="text-2xl font-bold text-white tracking-tighter">{logo}</span>
+            <span key={i} className="text-2xl font-bold text-[#2c1e16] tracking-tighter">{logo}</span>
           ))}
         </div>
 
@@ -46,25 +46,25 @@ export function SocialProof() {
 
 function Metric({ title, value }: { title: string, value: string }) {
   return (
-    <div className="text-center p-6 border border-white/5 rounded-2xl bg-zinc-900/30">
-      <h4 className="text-4xl md:text-5xl font-bold text-white mb-2">{value}</h4>
-      <p className="text-sm text-zinc-400 font-medium">{title}</p>
+    <div className="text-center p-6 border border-[#e3d5c1] rounded-2xl bg-[#f4ebd8]/30">
+      <h4 className="text-4xl md:text-5xl font-bold text-[#2c1e16] mb-2">{value}</h4>
+      <p className="text-sm text-[#6e5646] font-medium">{title}</p>
     </div>
   );
 }
 
 function TestimonialCard({ quote, author, company }: { quote: string, author: string, company: string }) {
   return (
-    <div className="p-8 rounded-2xl bg-zinc-900/50 border border-white/5 relative">
+    <div className="p-8 rounded-2xl bg-[#f4ebd8]/50 border border-[#e3d5c1] relative">
       <div className="flex gap-1 mb-6">
-        {[1, 2, 3, 4, 5].map(i => <Star key={i} size={16} className="text-orange-500 fill-orange-500" />)}
+        {[1, 2, 3, 4, 5].map(i => <Star key={i} size={16} className="text-[#8b5a2b] fill-orange-500" />)}
       </div>
-      <p className="text-lg text-zinc-300 leading-relaxed mb-8">"{quote}"</p>
+      <p className="text-lg text-[#5c4433] leading-relaxed mb-8">"{quote}"</p>
       <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-full bg-zinc-800 border border-white/10" />
+        <div className="w-10 h-10 rounded-full bg-[#e8decb] border border-[#d4c3ab]" />
         <div>
-          <h5 className="text-white font-semibold text-sm">{author}</h5>
-          <p className="text-xs text-zinc-500">{company}</p>
+          <h5 className="text-[#2c1e16] font-semibold text-sm">{author}</h5>
+          <p className="text-xs text-[#826a57]">{company}</p>
         </div>
       </div>
     </div>
