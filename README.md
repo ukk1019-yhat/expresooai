@@ -1,143 +1,36 @@
-# EXPRESSO AI
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Behavioral Intelligence Infrastructure
+## Getting Started
 
-AI-powered simulation systems for communication, negotiation, leadership, and workforce intelligence.
-
----
-
-## Overview
-
-EXPRESSO AI is a next-generation Behavioral Intelligence platform that creates adaptive AI-driven simulations for high-stakes human interactions.
-
-The platform enables users to practice and improve:
-
-- Negotiation
-- Communication
-- Leadership
-- Decision-making
-- Interview performance
-- Conflict resolution
-- Public speaking
-
-Unlike traditional chatbots, EXPRESSO AI dynamically adapts conversations in real time based on:
-
-- User behavior
-- Emotional signals
-- Communication style
-- Confidence
-- Decision patterns
-
----
-
-# Core Vision
-
-Building the infrastructure layer for human behavioral intelligence.
-
-EXPRESSO AI combines:
-
-- Conversational AI
-- Behavioral analytics
-- Emotional adaptation
-- Simulation intelligence
-- Communication scoring
-- Decision analysis
-
-to create scalable AI-powered interaction environments.
-
----
-
-# Features
-
-## Adaptive AI Simulations
-
-Realistic AI personas capable of:
-
-- Emotional adaptation
-- Dynamic conversations
-- Negotiation behavior
-- Pressure simulation
-- Context-aware interaction
-
----
-
-## Behavioral Intelligence Engine
-
-Analyze:
-
-- Persuasion ability
-- Leadership communication
-- Emotional regulation
-- Confidence
-- Communication clarity
-- Negotiation performance
-
----
-
-## Real-Time Analytics
-
-Track:
-
-- Communication scores
-- Behavioral improvements
-- Performance trends
-- Simulation replays
-- Interaction insights
-
----
-
-## Simulation Environments
-
-Practice scenarios including:
-
-- Placement interviews
-- Sales negotiations
-- Investor pitching
-- Leadership conflicts
-- Customer escalation
-- Public speaking
-
----
-
-# Tech Stack
-
-## Frontend
-
-- React.js
-- Next.js
-- Tailwind CSS
-- Framer Motion
-
-## Backend
-
-- Python
-- FastAPI
-- Node.js
-
-## AI Infrastructure
-
-- Large Language Models
-- Voice AI Systems
-- Behavioral Scoring Models
-- Emotional Adaptation Systems
-
-## Cloud
-
-- Scalable AI inference
-- Real-time processing
-- Distributed architecture
-
----
-
-# Product Architecture
+First, run the development server:
 
 ```bash
-User Interaction
-       ↓
-Simulation Engine
-       ↓
-Behavioral Intelligence Layer
-       ↓
-Real-Time Scoring System
-       ↓
-Analytics Dashboard
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
