@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Platform | EXPRESSO AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.arch-layer {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    box-shadow: 0 10px 30px rgba(109,76,65,0.05);
+}
+.arch-label {
+    min-width: 180px;
+    font-weight: 700;
+    color: var(--brand-orange);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 14px;
+}
+@media (max-width: 768px) {
+    .arch-layer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo"><a href="index.html" style="color:inherit;text-decoration:none;">EXPRESSO<span>AI</span></a></div>
+  <div class="nav-links">
+    <a href="platform.html" style="color:var(--brand-orange)">Platform</a>
+    <a href="simulations.html">Simulations</a>
+    <a href="enterprise.html">Enterprise</a>
+    <a href="api.html">API</a>
+    <a href="#" style="pointer-events:none;color:var(--dim);display:flex;align-items:center;gap:6px;">Behavioral AI <span style="font-size:9px;padding:2px 4px;background:rgba(196,125,59,0.1);color:var(--brand-orange);border-radius:4px;text-transform:uppercase;font-weight:700;">Coming Soon</span></a>
+  </div>
+  <a href="https://calendly.com/ukkukk97/30min" class="nav-cta" target="_blank">Demo Call</a>
+</nav>
+
+<!-- HEADER -->
+<header style="padding: 140px 48px 80px; text-align: center; max-width: 800px; margin: 0 auto;">
+    <div class="eyebrow"><span style="width:6px;height:6px;border-radius:50%;background:var(--brand-orange);display:inline-block"></span> Architecture</div>
+    <h1 style="font-family:'Playfair Display',serif; font-size:48px; color:var(--text); margin-bottom:24px;">The Platform Engine</h1>
+    <p style="font-size:18px; color:var(--dim); line-height:1.6;">A robust infrastructure delivering real-time behavioral simulations, scoring, and analytics to the enterprise edge.</p>
+</header>
+
+<hr class="divider">
+
+<section>
+    <div class="section-label">System Architecture</div>
+    <h2 class="section-title">End-to-End Behavioral Intelligence</h2>
+    <div style="margin-top:48px;">
+        
+        <div class="arch-layer reveal">
+            <div class="arch-label">Application Layer</div>
+            <div>
+                <h4 style="font-size: 18px; margin-bottom: 8px;">Interactive Simulations & Replays</h4>
+                <p style="font-size: 14px; color: var(--muted); line-height: 1.6;">Where the user interacts. Real-time voice and text simulations, dynamic UI showing live emotional pressure, and post-session replay dashboards.</p>
+            </div>
+        </div>
+
+        <div class="arch-layer reveal">
+            <div class="arch-label">Intelligence Layer</div>
+            <div>
+                <h4 style="font-size: 18px; margin-bottom: 8px;">Behavioral Scoring & Emotional Engine</h4>
+                <p style="font-size: 14px; color: var(--muted); line-height: 1.6;">The brain of the platform. Evaluates 500+ parameters per second, dynamically adapting the AI persona's difficulty, emotional state, and objection logic.</p>
+            </div>
+        </div>
+
+        <div class="arch-layer reveal">
+            <div class="arch-label">Data Layer</div>
+            <div>
+                <h4 style="font-size: 18px; margin-bottom: 8px;">Analytics & Decision Intelligence</h4>
+                <p style="font-size: 14px; color: var(--muted); line-height: 1.6;">Aggregates behavioral data to construct comprehensive profiles, team benchmarks, and predictive ROI models for enterprise scaling.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section>
+    <div class="section-label">Infrastructure</div>
+    <h2 class="section-title">Built for Enterprise Scale</h2>
+    <div class="feature-grid" style="margin-top:48px;">
+        <div class="feature-card reveal">
+            <h4>Low Latency Voice</h4>
+            <p>Optimized infrastructure ensuring sub-200ms response times for hyper-realistic conversational roleplays.</p>
+        </div>
+        <div class="feature-card reveal">
+            <h4>Security & Compliance</h4>
+            <p>End-to-end encryption, SOC2 Type II compliance, and GDPR ready for global workforce deployment.</p>
+        </div>
+        <div class="feature-card reveal">
+            <h4>Custom Persona Training</h4>
+            <p>Upload your own historical sales calls and product docs to train highly specific internal personas.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">EXPRESSO<span>AI</span></div>
+  <div>Building the infrastructure for human behavioral intelligence.</div>
+  <div>© 2025 Expresso AI. All rights reserved.</div>
+</footer>
+
+<script>
+  // Global scroll reveal animation
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  });
+</script>
+
+</body>
+</html>

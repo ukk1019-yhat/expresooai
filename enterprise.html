@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise | EXPRESSO AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.roi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+}
+.roi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(109,76,65,0.05);
+}
+.roi-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: var(--brand-orange);
+    margin-bottom: 12px;
+}
+@media (max-width: 768px) {
+    .roi-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo"><a href="index.html" style="color:inherit;text-decoration:none;">EXPRESSO<span>AI</span></a></div>
+  <div class="nav-links">
+    <a href="platform.html">Platform</a>
+    <a href="simulations.html">Simulations</a>
+    <a href="enterprise.html" style="color:var(--brand-orange)">Enterprise</a>
+    <a href="api.html">API</a>
+    <a href="#" style="pointer-events:none;color:var(--dim);display:flex;align-items:center;gap:6px;">Behavioral AI <span style="font-size:9px;padding:2px 4px;background:rgba(196,125,59,0.1);color:var(--brand-orange);border-radius:4px;text-transform:uppercase;font-weight:700;">Coming Soon</span></a>
+  </div>
+  <a href="https://calendly.com/ukkukk97/30min" class="nav-cta" target="_blank">Demo Call</a>
+</nav>
+
+<!-- HEADER -->
+<header style="padding: 140px 48px 80px; text-align: center; max-width: 800px; margin: 0 auto;">
+    <div class="eyebrow"><span style="width:6px;height:6px;border-radius:50%;background:var(--brand-orange);display:inline-block"></span> Deployment</div>
+    <h1 style="font-family:'Playfair Display',serif; font-size:48px; color:var(--text); margin-bottom:24px;">Scale Behavioral Excellence</h1>
+    <p style="font-size:18px; color:var(--dim); line-height:1.6;">Deploy to 10,000+ employees instantly. Track organizational communication health and ROI.</p>
+</header>
+
+<hr class="divider">
+
+<section>
+    <div class="section-label">Impact</div>
+    <h2 class="section-title">Measurable ROI</h2>
+    <div class="roi-grid">
+        <div class="roi-card reveal">
+            <div class="roi-number">65%</div>
+            <h4 style="font-size: 16px; margin-bottom: 8px;">Faster Onboarding</h4>
+            <p style="font-size: 13px; color: var(--muted);">Time to first closed-won deal drops significantly with realistic AI practice.</p>
+        </div>
+        <div class="roi-card reveal">
+            <div class="roi-number">4.2x</div>
+            <h4 style="font-size: 16px; margin-bottom: 8px;">More Repetitions</h4>
+            <p style="font-size: 13px; color: var(--muted);">Employees train independently without requiring manager bandwidth.</p>
+        </div>
+        <div class="roi-card reveal">
+            <div class="roi-number">100%</div>
+            <h4 style="font-size: 16px; margin-bottom: 8px;">Visibility</h4>
+            <p style="font-size: 13px; color: var(--muted);">Every interaction is scored, creating the first objective behavioral baseline.</p>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="section-label">Security & Control</div>
+    <h2 class="section-title">Enterprise-Grade by Default</h2>
+    <div class="feature-grid" style="margin-top:48px;">
+        <div class="feature-card reveal">
+            <h4>SSO Integration</h4>
+            <p>Seamlessly integrate with Okta, Azure AD, and Google Workspace for secure, one-click access across the org.</p>
+        </div>
+        <div class="feature-card reveal">
+            <h4>Data Residency</h4>
+            <p>Choose where your behavioral data lives. We offer EU and US isolated hosting environments.</p>
+        </div>
+        <div class="feature-card reveal">
+            <h4>SOC2 Compliance</h4>
+            <p>Fully audited and compliant infrastructure. Your proprietary negotiation strategies never leave your tenant.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">EXPRESSO<span>AI</span></div>
+  <div>Building the infrastructure for human behavioral intelligence.</div>
+  <div>© 2025 Expresso AI. All rights reserved.</div>
+</footer>
+
+<script>
+  // Global scroll reveal animation
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  });
+</script>
+
+</body>
+</html>

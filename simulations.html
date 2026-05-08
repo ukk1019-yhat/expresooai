@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulations | EXPRESSO AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+.sim-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+    margin-top: 48px;
+}
+.sim-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(109,76,65,0.05);
+}
+.sim-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--brand-orange);
+}
+.sim-difficulty {
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(196,125,59,0.1);
+    color: var(--brand-orange);
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 11px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+.sim-diff-high { color: #E44444; background: rgba(228,68,68,0.1); }
+.sim-diff-medium { color: #f59e0b; background: rgba(245,158,11,0.1); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo"><a href="index.html" style="color:inherit;text-decoration:none;">EXPRESSO<span>AI</span></a></div>
+  <div class="nav-links">
+    <a href="platform.html">Platform</a>
+    <a href="simulations.html" style="color:var(--brand-orange)">Simulations</a>
+    <a href="enterprise.html">Enterprise</a>
+    <a href="api.html">API</a>
+    <a href="#" style="pointer-events:none;color:var(--dim);display:flex;align-items:center;gap:6px;">Behavioral AI <span style="font-size:9px;padding:2px 4px;background:rgba(196,125,59,0.1);color:var(--brand-orange);border-radius:4px;text-transform:uppercase;font-weight:700;">Coming Soon</span></a>
+  </div>
+  <a href="https://calendly.com/ukkukk97/30min" class="nav-cta" target="_blank">Demo Call</a>
+</nav>
+
+<!-- HEADER -->
+<header style="padding: 140px 48px 80px; text-align: center; max-width: 800px; margin: 0 auto;">
+    <div class="eyebrow"><span style="width:6px;height:6px;border-radius:50%;background:var(--brand-orange);display:inline-block"></span> Environment Library</div>
+    <h1 style="font-family:'Playfair Display',serif; font-size:48px; color:var(--text); margin-bottom:24px;">Immersive Training Scenarios</h1>
+    <p style="font-size:18px; color:var(--dim); line-height:1.6;">Deploy dynamic AI personas configured for specific high-stakes interactions.</p>
+</header>
+
+<hr class="divider">
+
+<section>
+    <div class="sim-grid">
+        <div class="sim-card reveal">
+            <div class="sim-difficulty sim-diff-high">Difficulty: Hard</div>
+            <h3 style="font-size: 20px; margin-bottom: 12px;">Hostile Procurement Negotiation</h3>
+            <p style="font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 24px;">Face a highly aggressive procurement officer focused entirely on price reduction. Test your value anchoring.</p>
+            <div style="font-size: 12px; font-weight: 600;">Key Metrics: Objection Handling, Emotional Control</div>
+        </div>
+        
+        <div class="sim-card reveal">
+            <div class="sim-difficulty sim-diff-medium">Difficulty: Medium</div>
+            <h3 style="font-size: 20px; margin-bottom: 12px;">Executive Leadership Crisis</h3>
+            <p style="font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 24px;">Deliver difficult news to an agitated internal team while maintaining authority, trust, and clarity.</p>
+            <div style="font-size: 12px; font-weight: 600;">Key Metrics: Clarity, Empathy, Authority</div>
+        </div>
+
+        <div class="sim-card reveal">
+            <div class="sim-difficulty sim-diff-high">Difficulty: Hard</div>
+            <h3 style="font-size: 20px; margin-bottom: 12px;">Series A Investor Pitch</h3>
+            <p style="font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 24px;">Pitch to a skeptical partner at a Tier 1 VC. Expect rapid-fire questions on unit economics and market size.</p>
+            <div style="font-size: 12px; font-weight: 600;">Key Metrics: Confidence, Precision, Defensibility</div>
+        </div>
+
+        <div class="sim-card reveal">
+            <div class="sim-difficulty sim-diff-medium">Difficulty: Medium</div>
+            <h3 style="font-size: 20px; margin-bottom: 12px;">Customer Escalation</h3>
+            <p style="font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 24px;">De-escalate an angry enterprise customer threatening to churn due to a major service outage.</p>
+            <div style="font-size: 12px; font-weight: 600;">Key Metrics: De-escalation, Active Listening</div>
+        </div>
+
+        <div class="sim-card reveal">
+            <div class="sim-difficulty">Difficulty: Adaptive</div>
+            <h3 style="font-size: 20px; margin-bottom: 12px;">Performance Review (Manager)</h3>
+            <p style="font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 24px;">Conduct a difficult performance review with an underperforming employee who is highly defensive.</p>
+            <div style="font-size: 12px; font-weight: 600;">Key Metrics: Constructive Feedback, Empathy</div>
+        </div>
+
+        <div class="sim-card reveal" style="border: 1px dashed var(--brand-orange); background: transparent;">
+            <div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: var(--brand-orange); cursor: pointer;">
+                <div style="font-size: 32px; margin-bottom: 16px;">+</div>
+                <h3 style="font-size: 18px;">Build Custom Persona</h3>
+                <p style="font-size: 13px; opacity: 0.8; margin-top: 8px;">Upload transcripts to train a specialized AI</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">EXPRESSO<span>AI</span></div>
+  <div>Building the infrastructure for human behavioral intelligence.</div>
+  <div>© 2025 Expresso AI. All rights reserved.</div>
+</footer>
+
+<script>
+  // Global scroll reveal animation
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  });
+</script>
+
+</body>
+</html>
