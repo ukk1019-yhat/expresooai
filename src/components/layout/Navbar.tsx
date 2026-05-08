@@ -44,9 +44,7 @@ export function Navbar() {
             Technology
           </Link>
           <div className="flex items-center gap-4 ml-4">
-            <Link href="#contact" className="text-sm font-medium text-[#2c1e16] hover:text-[#8b5a2b] transition-colors">
-              Sign In
-            </Link>
+
             <a
               href="https://calendly.com/ukkukk97/30min"
               target="_blank"
@@ -79,7 +77,7 @@ export function Navbar() {
           <Link href="#use-cases" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Use Cases</Link>
           <Link href="#technology" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Technology</Link>
           <hr className="border-[#d4c3ab] my-2" />
-          <Link href="#contact" className="text-[#2c1e16] font-medium" onClick={() => setMobileMenuOpen(false)}>Sign In</Link>
+
           <a href="https://calendly.com/ukkukk97/30min" target="_blank" rel="noopener noreferrer" className="bg-white text-black px-4 py-2 rounded-lg text-center font-semibold mt-2" onClick={() => setMobileMenuOpen(false)}>Book Pilot</a>
         </motion.div>
       )}

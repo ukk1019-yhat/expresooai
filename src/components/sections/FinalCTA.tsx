@@ -32,14 +32,6 @@ export function FinalCTA() {
             >
               Start Simulation <ArrowRight size={18} />
             </Link>
-            <a 
-              href="https://calendly.com/ukkukk97/30min" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#f4ebd8] border border-[#d4c3ab] text-[#2c1e16] px-8 py-4 rounded-lg font-semibold hover:bg-[#e8decb] transition-colors"
-            >
-              Contact Enterprise Team
-            </a>
           </div>
         </motion.div>
       </div>
