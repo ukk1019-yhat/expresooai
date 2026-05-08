@@ -34,13 +34,13 @@ export function Navbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
-          <Link href="#product" className="text-sm font-medium text-[#6e5646] hover:text-[#2c1e16] transition-colors">
+          <Link href="/#product" className="text-sm font-medium text-[#6e5646] hover:text-[#2c1e16] transition-colors">
             Product
           </Link>
-          <Link href="#use-cases" className="text-sm font-medium text-[#6e5646] hover:text-[#2c1e16] transition-colors">
+          <Link href="/#use-cases" className="text-sm font-medium text-[#6e5646] hover:text-[#2c1e16] transition-colors">
             Use Cases
           </Link>
-          <Link href="#technology" className="text-sm font-medium text-[#6e5646] hover:text-[#2c1e16] transition-colors">
+          <Link href="/#technology" className="text-sm font-medium text-[#6e5646] hover:text-[#2c1e16] transition-colors">
             Technology
           </Link>
           <div className="flex items-center gap-4 ml-4">
@@ -73,9 +73,9 @@ export function Navbar() {
           exit={{ opacity: 0, y: -10 }}
           className="absolute top-full left-0 right-0 bg-[#fdfbf7] border-b border-[#d4c3ab] py-6 px-6 flex flex-col gap-4 md:hidden"
         >
-          <Link href="#product" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Product</Link>
-          <Link href="#use-cases" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Use Cases</Link>
-          <Link href="#technology" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Technology</Link>
+          <Link href="/#product" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Product</Link>
+          <Link href="/#use-cases" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Use Cases</Link>
+          <Link href="/#technology" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Technology</Link>
           <hr className="border-[#d4c3ab] my-2" />
 
           <a href="https://calendly.com/ukkukk97/30min" target="_blank" rel="noopener noreferrer" className="bg-white text-black px-4 py-2 rounded-lg text-center font-semibold mt-2" onClick={() => setMobileMenuOpen(false)}>Book Pilot</a>

@@ -34,20 +34,20 @@ export function Footer() {
           <div>
             <h4 className="text-[#2c1e16] font-semibold mb-4 text-sm tracking-wide">Product</h4>
             <ul className="space-y-3">
-              <li><Link href="#product" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Platform</Link></li>
-              <li><Link href="#live-simulation" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Simulations</Link></li>
-              <li><Link href="#analytics" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Analytics</Link></li>
-              <li><Link href="#architecture" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Architecture API</Link></li>
+              <li><Link href="/platform" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Platform</Link></li>
+              <li><Link href="/simulations" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Simulations</Link></li>
+              <li><Link href="/analytics" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Analytics</Link></li>
+              <li><Link href="/architecture" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Architecture API</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-[#2c1e16] font-semibold mb-4 text-sm tracking-wide">Solutions</h4>
             <ul className="space-y-3">
-              <li><Link href="#use-cases" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Sales Training</Link></li>
-              <li><Link href="#use-cases" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Leadership Coaching</Link></li>
-              <li><Link href="#use-cases" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Recruitment</Link></li>
-              <li><Link href="#use-cases" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Customer Support</Link></li>
+              <li><Link href="/sales-training" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Sales Training</Link></li>
+              <li><Link href="/leadership-coaching" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Leadership Coaching</Link></li>
+              <li><Link href="/recruitment" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Recruitment</Link></li>
+              <li><Link href="/customer-support" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Customer Support</Link></li>
             </ul>
           </div>
 
@@ -55,8 +55,8 @@ export function Footer() {
             <h4 className="text-[#2c1e16] font-semibold mb-4 text-sm tracking-wide">Company</h4>
             <ul className="space-y-3">
               <li><Link href="/faq" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">FAQ</Link></li>
-              <li><Link href="#" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">About Us</Link></li>
-              <li><Link href="#" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Careers</Link></li>
+              <li><Link href="/about-us" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">About Us</Link></li>
+              <li><Link href="/careers" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Careers</Link></li>
               <li><Link href="/contact" className="text-[#826a57] hover:text-[#2c1e16] text-sm transition-colors">Contact</Link></li>
             </ul>
           </div>
