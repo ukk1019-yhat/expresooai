@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve the static frontend files
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, '..')));
 
 // Rate Limiter: Max 5 submissions per 15 minutes per IP
 const contactLimiter = rateLimit({
@@ -85,7 +85,12 @@ app.post(
     }
 );
 
-// Start Server
-app.listen(PORT, () => {
-    console.log(`Server running securely on http://localhost:${PORT}`);
-});
+// Export for Vercel serverless
+module.exports = app;
+
+// Start Server locally
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running securely on http://localhost:${PORT}`);
+    });
+}
