@@ -19,6 +19,7 @@
     <a href="simulations.html">Simulations</a>
     <a href="enterprise.html">Enterprise</a>
     <a href="api.html">API</a>
+    <a href="faq.html">FAQ</a>
     <a href="#" style="pointer-events:none;color:var(--dim);display:flex;align-items:center;gap:6px;">Behavioral AI <span style="font-size:9px;padding:2px 4px;background:rgba(196,125,59,0.1);color:var(--brand-orange);border-radius:4px;text-transform:uppercase;font-weight:700;">Coming Soon</span></a>
   </div>
   <a href="https://calendly.com/ukkukk97/30min" class="nav-cta" target="_blank">Demo Call</a>
@@ -49,41 +50,71 @@
     </div>
   </div>
 
-  <!-- RIGHT: live dashboard preview -->
+  <!-- RIGHT: simulation preview -->
   <div class="hero-visual">
-    <div class="hero-dashboard">
-      <div class="hero-dashboard-header">
-        <h4>Behavioral Intelligence Dashboard</h4>
-        <span class="hero-dashboard-badge">Live Session</span>
+    <div class="hero-sim-card">
+      <div class="hero-sim-header">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="hero-sim-dot"></div>
+          <span style="font-size:12px;font-weight:700;color:var(--text)">Live Simulation</span>
+        </div>
+        <span class="hero-dashboard-badge">Enterprise Deal · Round 3</span>
       </div>
-      <div class="hero-metric-grid">
-        <div class="hero-metric">
-          <div class="hero-metric-label">Persuasion Score</div>
-          <div class="hero-metric-value">84<span style="font-size:13px;color:var(--dim);font-weight:400">/100</span></div>
-          <div class="hero-metric-bar"><div class="hero-metric-fill" style="width:84%"></div></div>
+
+      <!-- AI persona -->
+      <div class="hero-sim-persona">
+        <div class="hero-sim-persona-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand-orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2" stroke="var(--accent)"/><path d="M12 7v4" stroke="var(--accent)"/></svg>
         </div>
-        <div class="hero-metric">
-          <div class="hero-metric-label">Emotional Control</div>
-          <div class="hero-metric-value">92<span style="font-size:13px;color:var(--dim);font-weight:400">/100</span></div>
-          <div class="hero-metric-bar"><div class="hero-metric-fill" style="width:92%"></div></div>
-        </div>
-        <div class="hero-metric">
-          <div class="hero-metric-label">Clarity Index</div>
-          <div class="hero-metric-value">88<span style="font-size:13px;color:var(--dim);font-weight:400">/100</span></div>
-          <div class="hero-metric-bar"><div class="hero-metric-fill" style="width:88%"></div></div>
-        </div>
-        <div class="hero-metric">
-          <div class="hero-metric-label">Objection Handling</div>
-          <div class="hero-metric-value">76<span style="font-size:13px;color:var(--dim);font-weight:400">/100</span></div>
-          <div class="hero-metric-bar"><div class="hero-metric-fill" style="width:76%"></div></div>
-        </div>
-      </div>
-      <div class="hero-chat-preview">
-        <div class="hero-chat-msg ai">"The pricing is too high compared to alternatives. We can't justify this budget."</div>
         <div>
-          <div class="hero-chat-msg user">"I understand the concern — let's look at total cost of ownership over 3 years..."</div>
-          <div class="hero-chat-score">↑ Persuasion Score +6 pts</div>
+          <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px">AI Buyer </div>
+          <div style="font-size:13px;color:var(--text);line-height:1.5">"Your competitors are offering the same at 30% less. Why should we pay a premium?"</div>
         </div>
+      </div>
+
+      <!-- Pressure indicator -->
+      <div class="hero-sim-pressure">
+        <span style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Pressure Level</span>
+        <div class="hero-sim-pressure-bar">
+          <div class="hero-sim-pressure-fill"></div>
+        </div>
+        <span style="font-size:10px;font-weight:700;color:#C47D3B">High</span>
+      </div>
+
+      <!-- User response area -->
+      <div class="hero-sim-response">
+        <div style="font-size:10px;color:var(--brand-orange);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Your Response</div>
+        <div style="font-size:13px;color:var(--text);line-height:1.6;font-style:italic;opacity:0.85">"That's a fair question. The difference is in what you're not seeing our platform reduces ramp time by 60%, which means your team generates ROI in week one, not month six..."</div>
+      </div>
+
+      <!-- Real-time scores -->
+      <div class="hero-sim-scores">
+        <div class="hero-sim-score-item">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:4px">Persuasion</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="hero-sim-score-bar"><div style="width:84%;height:100%;background:var(--brand-orange);border-radius:2px"></div></div>
+            <span style="font-size:11px;font-weight:700;color:var(--text)">84</span>
+          </div>
+        </div>
+        <div class="hero-sim-score-item">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:4px">Confidence</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="hero-sim-score-bar"><div style="width:79%;height:100%;background:var(--accent);border-radius:2px"></div></div>
+            <span style="font-size:11px;font-weight:700;color:var(--text)">79</span>
+          </div>
+        </div>
+        <div class="hero-sim-score-item">
+          <div style="font-size:10px;color:var(--muted);margin-bottom:4px">Clarity</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="hero-sim-score-bar"><div style="width:91%;height:100%;background:var(--accent2);border-radius:2px"></div></div>
+            <span style="font-size:11px;font-weight:700;color:var(--text)">91</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:11px;color:var(--muted)">500+ behavioral dimensions tracked</span>
+        <span style="font-size:11px;font-weight:700;color:var(--brand-orange)">↑ Score improving</span>
       </div>
     </div>
   </div>
@@ -133,7 +164,7 @@
 <!-- PRODUCT -->
 <section>
   <div class="section-label">Product</div>
-  <h2 class="section-title">EXPRESSO NEGOTIATE — The First Module</h2>
+  <h2 class="section-title">EXPRESSO NEGOTIATE - The First Module</h2>
   <p class="section-sub">AI-powered negotiation simulation and behavioral scoring for enterprise sales teams, MBAs, and founders.</p>
   <div style="margin-top:48px" class="feature-grid">
     <div class="feature-card">
@@ -247,35 +278,109 @@
 
 <hr class="divider">
 
-<!-- TESTIMONIALS & FAQ -->
+<!-- WHY NOW / MARKET PROOF -->
 <section style="padding-top: 0;">
-  <div class="section-label">Proof</div>
-  <h2 class="section-title">What teams are saying</h2>
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 48px; margin-bottom: 80px;">
-    <div style="padding: 32px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 10px 30px rgba(109,76,65,0.05);">
-      <div style="color: var(--brand-orange); font-size: 32px; margin-bottom: 8px; line-height: 1; font-family: 'Playfair Display', serif;">"</div>
-      <p style="font-size: 14px; color: var(--text); line-height: 1.6; margin-bottom: 24px; font-style: italic;">Expresso AI revealed blind spots in our sales team's negotiation tactics that we couldn't see in live calls. Training is now data-driven.</p>
-      <div style="font-size: 13px; font-weight: 600;">Sarah J.</div>
-      <div style="font-size: 11px; color: var(--muted);">VP of Sales, TechCorp</div>
+  <div class="section-label">Why Now</div>
+  <h2 class="section-title">The market is forcing this shift</h2>
+  <p class="section-sub">The data already exists. The problem is well-documented. The infrastructure doesn't.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:48px;margin-bottom:64px">
+    <div class="proof-stat-card">
+      <div class="proof-stat-num">$370B</div>
+      <div class="proof-stat-label">spent annually on corporate training globally</div>
+      <div class="proof-stat-source">World Economic Forum, 2024</div>
     </div>
-    <div style="padding: 32px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 10px 30px rgba(109,76,65,0.05);">
-      <div style="color: var(--brand-orange); font-size: 32px; margin-bottom: 8px; line-height: 1; font-family: 'Playfair Display', serif;">"</div>
-      <p style="font-size: 14px; color: var(--text); line-height: 1.6; margin-bottom: 24px; font-style: italic;">The AI persona adapts flawlessly. It's like having a dedicated executive coach for every employee, scaling instantly to 1,000+ people.</p>
-      <div style="font-size: 13px; font-weight: 600;">David L.</div>
-      <div style="font-size: 11px; color: var(--muted);">Chief Learning Officer</div>
+    <div class="proof-stat-card">
+      <div class="proof-stat-num">70%</div>
+      <div class="proof-stat-label">of that spend produces no measurable behavior change</div>
+      <div class="proof-stat-source">McKinsey & Company</div>
+    </div>
+    <div class="proof-stat-card">
+      <div class="proof-stat-num">85%</div>
+      <div class="proof-stat-label">of job success comes from soft skills, not technical ability</div>
+      <div class="proof-stat-source">Harvard / Stanford / Carnegie</div>
+    </div>
+    <div class="proof-stat-card">
+      <div class="proof-stat-num">92%</div>
+      <div class="proof-stat-label">of executives say soft skills are equally or more important than technical skills</div>
+      <div class="proof-stat-source">Deloitte Human Capital Report</div>
     </div>
   </div>
-  
-  <div class="section-label">FAQ</div>
-  <h2 class="section-title" style="font-size: 24px;">Frequently Asked Questions</h2>
-  <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 32px; max-width: 800px;">
-    <div style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; transition: all 0.3s ease;">
-      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 8px;">How does the AI measure emotional control?</h4>
-      <p style="font-size: 13px; color: var(--muted); line-height: 1.5;">We analyze sentiment progression, response latency, word choice confidence, and structural clarity in real-time to compute a reliable emotional stability metric.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:stretch">
+    <!-- The gap -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:32px">
+      <div class="section-label" style="margin-bottom:12px">The Gap</div>
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:20px;color:var(--text)">Everything is measured — except human performance</h3>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text)">
+          <span style="width:20px;height:20px;border-radius:50%;background:rgba(196,125,59,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;color:var(--brand-orange);font-weight:700">✓</span>
+          Sales pipeline tracked in CRM
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text)">
+          <span style="width:20px;height:20px;border-radius:50%;background:rgba(196,125,59,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;color:var(--brand-orange);font-weight:700">✓</span>
+          Product usage tracked in analytics
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text)">
+          <span style="width:20px;height:20px;border-radius:50%;background:rgba(196,125,59,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;color:var(--brand-orange);font-weight:700">✓</span>
+          Code quality tracked in CI/CD
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:var(--muted);margin-top:4px">
+          <span style="width:20px;height:20px;border-radius:50%;background:rgba(109,76,65,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;color:var(--dim);font-weight:700">✗</span>
+          <span>Negotiation skill? <em style="color:var(--text)">No system exists.</em></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:var(--muted)">
+          <span style="width:20px;height:20px;border-radius:50%;background:rgba(109,76,65,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;color:var(--dim);font-weight:700">✗</span>
+          <span>Leadership under pressure? <em style="color:var(--text)">No system exists.</em></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:13px;color:var(--muted)">
+          <span style="width:20px;height:20px;border-radius:50%;background:rgba(109,76,65,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;color:var(--dim);font-weight:700">✗</span>
+          <span>Communication effectiveness? <em style="color:var(--text)">No system exists.</em></span>
+        </div>
+      </div>
     </div>
-    <div style="padding: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; transition: all 0.3s ease;">
-      <h4 style="font-size: 15px; font-weight: 600; margin-bottom: 8px;">Can we create custom simulation environments?</h4>
-      <p style="font-size: 13px; color: var(--muted); line-height: 1.5;">Yes. Enterprise customers can upload past transcripts, internal documentation, and product specs to train custom personas specific to their business cases.</p>
+
+    <!-- The timing -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:32px">
+      <div class="section-label" style="margin-bottom:12px">The Timing</div>
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:20px;color:var(--text)">Three forces converging right now</h3>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="padding:14px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;border-left:3px solid var(--brand-orange)">
+          <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px">AI is automating technical work</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.5">Human value is shifting entirely to communication, judgment, and influence — the skills no one is measuring.</div>
+        </div>
+        <div style="padding:14px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;border-left:3px solid var(--accent2)">
+          <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px">LLMs can now simulate humans convincingly</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.5">The technology to build realistic behavioral simulations at scale only became viable in 2023–2024.</div>
+        </div>
+        <div style="padding:14px 16px;background:var(--bg);border:1px solid var(--border);border-radius:8px;border-left:3px solid var(--dim)">
+          <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px">Enterprises are demanding ROI on L&D</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.5">Post-pandemic budget scrutiny means "click-through training" is no longer acceptable. Measurable outcomes are required.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:64px;margin-bottom:12px">FAQ</div>
+  <h2 class="section-title" style="font-size:24px;">Frequently Asked Questions</h2>
+  <div style="display:flex;flex-direction:column;gap:16px;margin-top:32px;max-width:800px">
+    <div style="padding:24px;background:var(--surface);border:1px solid var(--border);border-radius:10px">
+      <h4 style="font-size:15px;font-weight:600;margin-bottom:8px">How does the AI measure emotional control?</h4>
+      <p style="font-size:13px;color:var(--muted);line-height:1.5">We analyze sentiment progression, response latency, word choice confidence, and structural clarity in real-time to compute a reliable emotional stability metric.</p>
+    </div>
+    <div style="padding:24px;background:var(--surface);border:1px solid var(--border);border-radius:10px">
+      <h4 style="font-size:15px;font-weight:600;margin-bottom:8px">Can we create custom simulation environments?</h4>
+      <p style="font-size:13px;color:var(--muted);line-height:1.5">Yes. Enterprise customers can upload past transcripts, internal documentation, and product specs to train custom personas specific to their business cases.</p>
+    </div>
+    <div style="padding:24px;background:var(--surface);border:1px solid var(--border);border-radius:10px">
+      <h4 style="font-size:15px;font-weight:600;margin-bottom:8px">Are you live yet?</h4>
+      <p style="font-size:13px;color:var(--muted);line-height:1.5">We're in early access. Book a demo call to get a live walkthrough and be among the first teams to pilot the platform.</p>
+    </div>
+    <div style="margin-top:24px;text-align:left">
+      <a href="faq.html" style="display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--brand-orange);border:1px solid rgba(196,125,59,0.3);padding:10px 20px;border-radius:8px;transition:all .2s;text-decoration:none" onmouseover="this.style.background='rgba(196,125,59,0.08)';this.style.borderColor='var(--brand-orange)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(196,125,59,0.3)'">
+        View all questions
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
     </div>
   </div>
 </section>

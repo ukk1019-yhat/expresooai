@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXPRESSO AI – FAQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* FAQ-specific overrides */
+  .faq-hero {
+    padding: 140px 48px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .faq-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 56px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .faq-hero p {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  .faq-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 48px 100px;
+  }
+
+  /* Category tabs */
+  .faq-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 48px;
+  }
+  .faq-tab {
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: transparent;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: 0.02em;
+    transition: all .2s;
+  }
+  .faq-tab:hover { border-color: var(--accent2); color: var(--text); }
+  .faq-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* FAQ items */
+  .faq-item {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: border-color .25s;
+  }
+  .faq-item.open { border-color: var(--accent); }
+  .faq-item[style*="none"] { display: none !important; }
+
+  .faq-q {
+    width: 100%;
+    background: var(--surface);
+    border: none;
+    padding: 20px 24px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    transition: background .2s;
+  }
+  .faq-q:hover { background: var(--surface2); }
+  .faq-q-text {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .faq-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all .25s;
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1;
+  }
+  .faq-item.open .faq-icon {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    transform: rotate(45deg);
+  }
+
+  .faq-a {
+    display: none;
+    padding: 0 24px 20px;
+    background: var(--surface);
+  }
+  .faq-item.open .faq-a { display: block; }
+  .faq-a-inner {
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+  .faq-a p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+  .faq-a strong { color: var(--text); font-weight: 600; }
+  .faq-a em { color: var(--text); font-style: italic; }
+
+  /* Tags */
+  .faq-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+  .tag-product  { background: rgba(109,76,65,.1);  color: var(--accent);       border: 1px solid rgba(109,76,65,.2); }
+  .tag-biz      { background: rgba(196,125,59,.1); color: var(--brand-orange); border: 1px solid rgba(196,125,59,.2); }
+  .tag-tech     { background: rgba(141,110,99,.1); color: var(--accent2);      border: 1px solid rgba(141,110,99,.2); }
+  .tag-market   { background: rgba(62,39,35,.12);  color: var(--dim);          border: 1px solid rgba(62,39,35,.2); }
+
+  @media(max-width:768px) {
+    .faq-hero { padding: 120px 20px 60px; }
+    .faq-wrap { padding: 0 20px 80px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">EXPRESSO<span>AI</span></div>
+  <div class="nav-links">
+    <a href="platform.html">Platform</a>
+    <a href="simulations.html">Simulations</a>
+    <a href="enterprise.html">Enterprise</a>
+    <a href="api.html">API</a>
+    <a href="faq.html" style="color:var(--text);font-weight:600">FAQ</a>
+  </div>
+  <a href="https://calendly.com/ukkukk97/30min" class="nav-cta" target="_blank">Demo Call</a>
+</nav>
+
+<!-- HERO -->
+<div class="faq-hero">
+  <div class="eyebrow">
+    <span style="width:6px;height:6px;border-radius:50%;background:var(--brand-orange);display:inline-block"></span>
+    Knowledge Base
+  </div>
+  <h1>Frequently Asked <em>Questions</em></h1>
+  <p>Everything you need to know about EXPRESSO AI and behavioral intelligence infrastructure.</p>
+</div>
+
+<!-- FAQ BODY -->
+<div class="faq-wrap">
+
+  <!-- Tabs -->
+  <div class="faq-tabs">
+    <button class="faq-tab active" onclick="showGroup('all',this)">All</button>
+    <button class="faq-tab" onclick="showGroup('product',this)">Product</button>
+    <button class="faq-tab" onclick="showGroup('business',this)">Business Model</button>
+    <button class="faq-tab" onclick="showGroup('tech',this)">Technology</button>
+    <button class="faq-tab" onclick="showGroup('market',this)">Market &amp; Vision</button>
+  </div>
+
+  <!-- ── PRODUCT ── -->
+  <div class="faq-item" data-cat="product">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">What exactly is EXPRESSO AI and how is it different from a chatbot?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-product">Product</span>
+      <p>EXPRESSO AI is <strong>behavioral intelligence infrastructure</strong> — not a chatbot. While chatbots generate conversational responses, EXPRESSO AI operates at the layer <em>above</em> conversation: it measures how you communicate, scores your persuasion, evaluates your emotional control, and generates adaptive high-pressure simulations. Think of it less like a chat assistant and more like a flight simulator for human performance.</p>
+    </div></div>
+  </div>
+
+  <div class="faq-item" data-cat="product">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">What is EXPRESSO NEGOTIATE and who is it for?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-product">Product</span>
+      <p>EXPRESSO NEGOTIATE is the first product module, focused entirely on <strong>AI negotiation training and behavioral scoring</strong>. It is built for enterprise sales teams, MBA students, startup founders, recruiters, and customer success organizations — anyone whose performance depends on high-stakes conversations. The goal is clear ROI: measurable improvement in negotiation outcomes and communication effectiveness.</p>
+    </div></div>
+  </div>
+
+  <div class="faq-item" data-cat="product">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">How does the AI buyer persona system work?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-product">Product</span>
+      <p>The AI buyer personas are adaptive simulation agents capable of generating <strong>objections, pricing resistance, emotional pressure, urgency, skepticism, and personality variation</strong>. Crucially, they are not static scripts — the Adaptive Pressure System dynamically shifts the persona's behavior based on your confidence, hesitation, negotiation strategy, and emotional signals in real time. This makes simulations feel realistic rather than scripted.</p>
+    </div></div>
+  </div>
+
+  <div class="faq-item" data-cat="product">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">What does the Behavioral Scoring Engine actually measure?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-product">Product</span>
+      <p>The scoring engine analyzes across multiple behavioral dimensions including: <strong>persuasion quality, confidence, clarity, objection handling ability, listening behavior, negotiation structure, emotional control, and overall communication effectiveness</strong>. After each simulation, the Replay Intelligence system surfaces missed opportunities, emotional analysis, persuasion insights, and concrete communication recommendations — turning every session into a structured coaching event.</p>
+    </div></div>
+  </div>
+
+  <div class="faq-item" data-cat="product">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">Will EXPRESSO AI replace human coaches and trainers?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-product">Product</span>
+      <p>No. EXPRESSO AI is explicitly positioned to <strong>enhance human capability</strong>, not replace it. The platform provides the scalable infrastructure layer — unlimited practice reps, consistent measurement, and objective data — that human coaches cannot deliver at scale. Human coaches can use EXPRESSO AI data to make their sessions more targeted and effective rather than spending time on baseline skill-building.</p>
+    </div></div>
+  </div>
+
+  <!-- ── BUSINESS ── -->
+  <div class="faq-item" data-cat="business">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">What are the revenue streams and business models?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-biz">Business</span>
+      <p>EXPRESSO AI is built on four revenue streams: <strong>(1) SaaS Subscriptions</strong> — companies pay based on employees, simulations, and analytics seats. <strong>(2) Enterprise Licensing</strong> — private infrastructure with custom AI personas, dedicated analytics, and secure deployment. <strong>(3) Behavioral Intelligence API</strong> — third-party platforms integrate scoring and simulation capabilities. <strong>(4) Simulation Marketplace</strong> — companies purchase industry-specific scenario packs for negotiation, leadership, conflict, and customer escalation.</p>
+    </div></div>
+  </div>
+
+  <div class="faq-item" data-cat="business">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">What is the go-to-market strategy — where does growth start?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-biz">Business</span>
+      <p>The GTM follows a three-phase approach. <strong>Phase 1</strong> targets MBA programs, accelerators, startup founders, and sales teams — lower sales cycles, faster feedback loops, and high demand. <strong>Phase 2</strong> moves to enterprise sales organizations — SaaS companies, B2B teams, customer success departments — with a focus on measurable negotiation ROI. <strong>Phase 3</strong> expands the platform into hiring, leadership development, and full workforce intelligence.</p>
+    </div></div>
+  </div>
+
+  <div class="faq-item" data-cat="business">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">Why start with negotiation instead of leadership or hiring?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-biz">Business</span>
+      <p>Negotiation is the strongest initial wedge because it has <strong>clear, measurable ROI, high enterprise training budgets, and a repetitive high-value interaction pattern</strong>. Enterprises already spend heavily on sales training but get inconsistent results. EXPRESSO NEGOTIATE directly replaces this with a measurable, scalable system. The focus discipline also forces product quality — building one killer workflow first rather than spreading thin across verticals too early.</p>
+    </div></div>
+  </div>
+
+  <div class="faq-item" data-cat="business">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">What is the long-term defensibility — what prevents competitors from copying this?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-biz">Business</span>
+      <p>The moat is <strong>proprietary behavioral data</strong>. Every simulation generates persuasion patterns, emotional transitions, decision structures, and conflict resolution pathways. Over time this compounds into the world's largest behavioral intelligence dataset — enabling better scoring models, industry benchmarks, and org-level analytics that no competitor can replicate. This creates strong data network effects: more simulations → better models → higher switching costs → deeper enterprise lock-in.</p>
+    </div></div>
+  </div>
+
+  <!-- ── TECHNOLOGY ── -->
+  <div class="faq-item" data-cat="tech">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">What does the technology stack look like?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-tech">Technology</span>
+      <p>The AI layer combines <strong>Large Language Models, Voice AI, Behavioral Adaptation Models, Emotional Response Systems, Reinforcement Learning, and Scenario Generation Engines</strong>. The backend runs on Python and FastAPI with Node.js, real-time AI orchestration, and event-driven distributed inference systems. Infrastructure is cloud-based with scalable low-latency processing and enterprise-grade security. The frontend delivers a web dashboard, analytics console, simulation interface, and enterprise admin portal.</p>
+    </div></div>
+  </div>
+
+  <div class="faq-item" data-cat="tech">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">How does the Adaptive Pressure System work technically?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-tech">Technology</span>
+      <p>The Adaptive Pressure System is powered by <strong>real-time behavioral signal processing</strong>. As a user responds during a simulation, the system continuously monitors linguistic cues, response latency, hesitation patterns, and communication structure. These signals feed into a behavioral adaptation model that dynamically recalibrates the AI persona's pressure level, emotional tone, and negotiation tactics — creating a realistic, personalized simulation rather than a fixed script.</p>
+    </div></div>
+  </div>
+
+  <div class="faq-item" data-cat="tech">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">Can enterprises deploy EXPRESSO AI on private infrastructure?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-tech">Technology</span>
+      <p>Yes. The Enterprise Licensing tier supports <strong>private infrastructure deployment</strong> with custom AI personas built around company-specific workflows, dedicated analytics environments, and secure simulation environments. This is designed for large organizations in regulated industries — finance, healthcare, government, defense — where data privacy and security requirements prevent use of shared cloud environments.</p>
+    </div></div>
+  </div>
+
+  <!-- ── MARKET ── -->
+  <div class="faq-item" data-cat="market">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">Why is this a billion-dollar opportunity?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-market">Market</span>
+      <p>The addressable market spans <strong>enterprise training, recruitment, education, healthcare, government, defense, customer support, leadership development, and sales enablement</strong> globally. As AI automates technical and cognitive work, human value concentrates in behavioral skills — making measurement and training of those skills economically critical. Communication failures already cost organizations billions annually in lost revenue, poor hiring, and leadership failures. Behavioral intelligence has direct, measurable ROI at every level.</p>
+    </div></div>
+  </div>
+
+  <div class="faq-item" data-cat="market">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">Why is now the right time to build this?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-market">Market</span>
+      <p>Several converging trends create the perfect window: <strong>rise of generative AI</strong> which is commoditizing technical skills and shifting enterprise value toward human performance; <strong>remote workforce expansion</strong> which has broken traditional coaching and mentorship structures; <strong>enterprise AI adoption</strong> creating infrastructure budgets and appetite for AI-native systems; and <strong>growing demand for measurable soft skills</strong> as organizations struggle to evaluate behavioral performance at scale.</p>
+    </div></div>
+  </div>
+
+  <div class="faq-item" data-cat="market">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">Who are the competitors and how does EXPRESSO AI differentiate?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-market">Market</span>
+      <p>Most adjacent companies focus on <strong>content generation, AI avatars, voice cloning, generic assistants, or productivity AI</strong>. Traditional LMS players like Cornerstone or Workday Learning focus on content delivery, not behavioral evaluation. EXPRESSO AI's differentiation is the focus on <strong>behavioral evaluation and human performance intelligence</strong> — not content, not avatars, not chat. This creates a distinct infrastructure category with its own data moat, enterprise pricing power, and long-term defensibility.</p>
+    </div></div>
+  </div>
+
+  <div class="faq-item" data-cat="market">
+    <button class="faq-q" onclick="toggle(this)">
+      <span class="faq-q-text">What is the long-term vision beyond the current product?</span>
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-a"><div class="faq-a-inner">
+      <span class="faq-tag tag-market">Market</span>
+      <p>The long-term vision is for EXPRESSO AI to become <strong>the operating system for human behavioral intelligence globally</strong> — the infrastructure layer that powers behavioral evaluation, communication scoring, and workforce simulation across enterprises, governments, schools, and hiring platforms. The company aims to be the foundational AI infrastructure company for human performance, in the same way that Salesforce became infrastructure for CRM or Workday for HR — deeply embedded, data-rich, and irreplaceable.</p>
+    </div></div>
+  </div>
+
+  <!-- CTA -->
+  <div style="margin-top:64px;padding:40px;background:var(--surface);border:1px solid var(--border);border-radius:12px;text-align:center">
+    <div class="section-label" style="justify-content:center;display:flex;margin-bottom:12px">Still have questions?</div>
+    <h3 style="font-size:22px;font-weight:700;margin-bottom:12px;color:var(--text)">Book a 30-minute demo call</h3>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:24px;max-width:400px;margin-inline:auto">We'll walk you through the platform live and answer anything specific to your use case.</p>
+    <a href="https://calendly.com/ukkukk97/30min" class="btn-primary" target="_blank" style="display:inline-block">Book Demo Call</a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">EXPRESSO<span>AI</span></div>
+  <div>Building the infrastructure for human behavioral intelligence.</div>
+  <div>© 2025 Expresso AI. All rights reserved.</div>
+</footer>
+
+<script>
+  function toggle(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  function showGroup(cat, tabEl) {
+    document.querySelectorAll('.faq-tab').forEach(t => t.classList.remove('active'));
+    tabEl.classList.add('active');
+    document.querySelectorAll('.faq-item').forEach(item => {
+      if (cat === 'all' || item.dataset.cat === cat) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+        item.classList.remove('open');
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

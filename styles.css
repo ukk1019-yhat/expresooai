@@ -47,22 +47,20 @@
   .hero-stat-row{display:flex;gap:40px;margin-top:64px;padding-top:40px;border-top:1px solid var(--border);justify-content:flex-start;flex-wrap:wrap;opacity:0;animation:fadeInUp 0.8s ease forwards 0.6s;width:100%}
   .hero-stat .num{font-size:28px;font-weight:700;color:var(--text)}
   .hero-stat .label{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
-  /* Hero right-side dashboard card */
-  .hero-dashboard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(109,76,65,0.1);animation:fadeInUp 0.8s ease forwards 0.3s;opacity:0}
-  .hero-dashboard-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-  .hero-dashboard-header h4{font-size:13px;font-weight:600;color:var(--text)}
-  .hero-dashboard-badge{font-size:10px;padding:4px 10px;background:rgba(196,125,59,0.12);color:var(--brand-orange);border-radius:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
-  .hero-metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
-  .hero-metric{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px}
-  .hero-metric-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
-  .hero-metric-value{font-size:22px;font-weight:700;color:var(--text)}
-  .hero-metric-bar{width:100%;height:3px;background:var(--surface2);border-radius:2px;margin-top:10px;overflow:hidden}
-  .hero-metric-fill{height:100%;background:var(--brand-orange);border-radius:2px}
-  .hero-chat-preview{display:flex;flex-direction:column;gap:10px}
-  .hero-chat-msg{padding:12px 14px;border-radius:8px;font-size:12px;line-height:1.5}
-  .hero-chat-msg.ai{background:var(--bg);border:1px solid var(--border);color:var(--text)}
-  .hero-chat-msg.user{background:var(--accent);color:#fff;align-self:flex-end;max-width:85%}
-  .hero-chat-score{font-size:10px;color:var(--brand-orange);font-weight:700;margin-top:4px;text-align:right}
+  /* Hero right-side simulation card */
+  .hero-sim-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;width:100%;max-width:460px;box-shadow:0 20px 60px rgba(109,76,65,0.1);animation:fadeInUp 0.8s ease forwards 0.3s;opacity:0;display:flex;flex-direction:column;gap:16px}
+  .hero-dashboard-badge{font-size:10px;padding:4px 10px;background:rgba(196,125,59,0.12);color:var(--brand-orange);border-radius:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+  .hero-sim-header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .hero-sim-dot{width:8px;height:8px;border-radius:50%;background:#C47D3B;box-shadow:0 0 0 3px rgba(196,125,59,0.2);animation:pulse 2s infinite}
+  .hero-sim-persona{display:flex;align-items:flex-start;gap:12px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px}
+  .hero-sim-persona-icon{width:36px;height:36px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .hero-sim-pressure{display:flex;align-items:center;gap:10px}
+  .hero-sim-pressure-bar{flex:1;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden}
+  .hero-sim-pressure-fill{width:78%;height:100%;background:linear-gradient(90deg,var(--accent2),var(--brand-orange));border-radius:2px}
+  .hero-sim-response{background:rgba(196,125,59,0.06);border:1px solid rgba(196,125,59,0.2);border-radius:10px;padding:16px}
+  .hero-sim-scores{display:flex;flex-direction:column;gap:10px}
+  .hero-sim-score-item{}
+  .hero-sim-score-bar{flex:1;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden}
 
   /* SECTION */
   section{padding:100px 48px;max-width:1200px;margin:0 auto}
@@ -136,6 +134,13 @@
   .moat-point h4{font-size:14px;font-weight:600;margin-bottom:6px}
   .moat-point p{font-size:13px;color:var(--muted)}
 
+
+  /* PROOF / WHY NOW */
+  .proof-stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 24px;display:flex;flex-direction:column;gap:8px;transition:all 0.3s ease}
+  .proof-stat-card:hover{border-color:var(--brand-orange);transform:translateY(-4px);box-shadow:0 12px 30px rgba(196,125,59,0.1)}
+  .proof-stat-num{font-family:'Playfair Display',serif;font-size:48px;font-weight:800;color:var(--brand-orange);line-height:1}
+  .proof-stat-label{font-size:14px;color:var(--text);line-height:1.5;font-weight:500}
+  .proof-stat-source{font-size:11px;color:var(--dim);letter-spacing:.04em;margin-top:4px}
 
   /* CONTACT FORM */
   .contact-section{padding:100px 48px;max-width:800px;margin:0 auto;text-align:center;border-top:1px solid var(--border)}
