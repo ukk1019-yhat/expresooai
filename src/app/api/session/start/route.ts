@@ -25,7 +25,7 @@ export async function POST() {
 
     if (error) throw error;
 
-    // Get AI opening message
+    // Get AI opening message (empty history = AI speaks first)
     const openingMessage = await getAIResponse([]);
 
     // Save AI opening message

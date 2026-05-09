@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import { getAIResponse } from "@/lib/gemini";
+import { getAIResponse, type ChatMessage } from "@/lib/gemini";
 import { createServiceClient } from "@/lib/supabase";
 
 export async function POST(req: NextRequest) {
@@ -21,16 +21,17 @@ export async function POST(req: NextRequest) {
       content: message,
     });
 
-    // Build Gemini history format
-    const geminiHistory = history.map(
-      (m: { role: string; content: string }) => ({
-        role: m.role === "assistant" ? "model" : "user",
-        parts: [{ text: m.content }],
-      })
-    );
+    // Build history for OpenRouter (include the new user message)
+    const chatHistory: ChatMessage[] = [
+      ...history.map((m: { role: string; content: string }) => ({
+        role: m.role as "user" | "assistant",
+        content: m.content,
+      })),
+      { role: "user" as const, content: message },
+    ];
 
     // Get AI response
-    const aiResponse = await getAIResponse(geminiHistory);
+    const aiResponse = await getAIResponse(chatHistory);
 
     // Save AI message
     await supabase.from("messages").insert({
