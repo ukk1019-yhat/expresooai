@@ -1,6 +1,10 @@
+import "server-only";
 import OpenAI from "openai";
+import { BUYER_PERSONA } from "./persona";
 
-// OpenRouter client — uses OpenAI-compatible API
+export { BUYER_PERSONA };
+
+// OpenRouter client — server-side only
 const openrouter = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
   apiKey: process.env.OPENROUTER_API_KEY!,
@@ -10,25 +14,9 @@ const openrouter = new OpenAI({
   },
 });
 
-// Model to use — Gemma 3 27B via OpenRouter
 const MODEL = "google/gemma-3-27b-it";
 
-export const BUYER_PERSONA = {
-  name: "Marcus Chen",
-  title: "VP of Operations",
-  company: "Meridian Logistics",
-  personality: "skeptical and analytical",
-  difficulty: 7,
-  goals: [
-    "reduce pricing by at least 20%",
-    "challenge ROI claims with hard questions",
-    "test the salesperson's confidence under pressure",
-    "bring up competitor alternatives",
-    "question implementation complexity",
-  ],
-};
-
-export const SYSTEM_PROMPT = `You are Marcus Chen, VP of Operations at Meridian Logistics, a mid-sized enterprise company.
+const SYSTEM_PROMPT = `You are Marcus Chen, VP of Operations at Meridian Logistics, a mid-sized enterprise company.
 
 Your personality:
 - Skeptical and analytical — you don't believe claims without proof
@@ -62,7 +50,6 @@ export async function getAIResponse(history: ChatMessage[]): Promise<string> {
     ...history,
   ];
 
-  // If no history, trigger the opening
   if (history.length === 0) {
     messages.push({ role: "user", content: "Hello, thanks for taking the time to meet with me today." });
   }
@@ -102,14 +89,7 @@ Return ONLY valid JSON in this exact format with no extra text:
   "feedback": "<2-3 sentence overall assessment>",
   "weaknesses": ["<weakness 1>", "<weakness 2>", "<weakness 3>"],
   "suggestions": ["<suggestion 1>", "<suggestion 2>", "<suggestion 3>"]
-}
-
-Scoring criteria:
-- confidence: How assertive and self-assured was the salesperson?
-- persuasion: How effectively did they build a compelling case?
-- clarity: How clearly did they communicate value?
-- objection_handling: How well did they address Marcus's objections?
-- overall: Weighted average of all four dimensions`;
+}`;
 
   const completion = await openrouter.chat.completions.create({
     model: MODEL,
@@ -122,10 +102,7 @@ Scoring criteria:
   });
 
   const text = completion.choices[0]?.message?.content ?? "";
-
-  // Extract JSON — handle cases where model wraps in markdown
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (!jsonMatch) throw new Error(`Failed to parse scoring response: ${text}`);
-
   return JSON.parse(jsonMatch[0]);
 }

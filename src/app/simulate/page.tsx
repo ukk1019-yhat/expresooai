@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Send, Square, Clock, User, Bot, Loader2 } from "lucide-react";
-import { BUYER_PERSONA } from "@/lib/gemini";
+import { BUYER_PERSONA } from "@/lib/persona";
 
 type Message = {
   role: "user" | "assistant";
