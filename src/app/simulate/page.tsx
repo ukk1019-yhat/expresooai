@@ -139,7 +139,7 @@ export default function SimulatePage() {
             <span className="text-xs font-medium text-[#c47d3b] uppercase tracking-wider">SaaS Sales Objection Call</span>
           </div>
 
-          <h1 className="text-4xl font-bold text-white mb-4">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
             You&apos;re about to pitch to<br />
             <span className="text-[#c47d3b]">{BUYER_PERSONA.name}</span>
           </h1>
@@ -182,40 +182,37 @@ export default function SimulatePage() {
   return (
     <div className="min-h-screen bg-[#0a0a0f] flex flex-col">
       {/* Header */}
-      <div className="border-b border-zinc-800 bg-[#0d0d14] px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <a
-            href="/"
-            className="flex items-center gap-1.5 text-zinc-500 hover:text-zinc-300 text-xs transition-colors px-2 py-1.5 rounded-lg hover:bg-zinc-800/50"
-          >
-            <Home size={13} /> Home
+      <div className="border-b border-zinc-800 bg-[#0d0d14] px-3 sm:px-6 py-3 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+          <a href="/" className="flex items-center gap-1 text-zinc-500 hover:text-zinc-300 text-xs transition-colors px-2 py-1.5 rounded-lg hover:bg-zinc-800/50 flex-shrink-0">
+            <Home size={13} /> <span className="hidden sm:inline">Home</span>
           </a>
-          <div className="w-10 h-10 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center">
-            <User size={18} className="text-zinc-300" />
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center flex-shrink-0">
+            <User size={16} className="text-zinc-300" />
           </div>
-          <div>
-            <div className="text-sm font-semibold text-white">{BUYER_PERSONA.name}</div>
-            <div className="text-xs text-zinc-500">{BUYER_PERSONA.title} · {BUYER_PERSONA.company}</div>
+          <div className="min-w-0">
+            <div className="text-xs sm:text-sm font-semibold text-white truncate">{BUYER_PERSONA.name}</div>
+            <div className="text-xs text-zinc-500 hidden sm:block">{BUYER_PERSONA.title} · {BUYER_PERSONA.company}</div>
           </div>
-          <div className="ml-2 px-2 py-0.5 rounded-full bg-red-500/10 border border-red-500/20 text-xs text-red-400 font-medium">
+          <div className="hidden sm:block px-2 py-0.5 rounded-full bg-red-500/10 border border-red-500/20 text-xs text-red-400 font-medium flex-shrink-0">
             Difficulty {BUYER_PERSONA.difficulty}/10
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 text-zinc-400 text-sm">
-            <Clock size={14} />
+        <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+          <div className="flex items-center gap-1 text-zinc-400 text-xs sm:text-sm">
+            <Clock size={13} />
             <span className="font-mono">{formatTime(elapsed)}</span>
           </div>
           <button
             onClick={endSession}
             disabled={isEnding || messages.length < 3}
-            className="flex items-center gap-2 bg-zinc-800 hover:bg-red-500/20 border border-zinc-700 hover:border-red-500/40 text-zinc-300 hover:text-red-400 px-4 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex items-center gap-1 sm:gap-2 bg-zinc-800 hover:bg-red-500/20 border border-zinc-700 hover:border-red-500/40 text-zinc-300 hover:text-red-400 px-2 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {isEnding ? (
-              <><Loader2 size={14} className="animate-spin" /> Analyzing...</>
+              <><Loader2 size={13} className="animate-spin" /> <span className="hidden sm:inline">Analyzing...</span></>
             ) : (
-              <><Square size={14} /> End Session</>
+              <><Square size={13} /> <span className="hidden sm:inline">End Session</span><span className="sm:hidden">End</span></>
             )}
           </button>
         </div>

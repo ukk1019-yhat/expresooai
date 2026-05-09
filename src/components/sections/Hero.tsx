@@ -7,7 +7,7 @@ import Link from "next/link";
 export function Hero() {
   return (
     <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-20 pb-32 overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#704823]/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] sm:w-[600px] sm:h-[600px] lg:w-[800px] lg:h-[800px] bg-[#704823]/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-8 items-center z-10">
 
@@ -23,7 +23,7 @@ export function Hero() {
             <span className="text-xs font-medium text-[#5c4433] uppercase tracking-wider">AI Roleplay Simulations</span>
           </div>
 
-          <h1 className="text-5xl lg:text-6xl font-bold tracking-tight text-[#2c1e16] leading-[1.1]">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#2c1e16] leading-[1.1]">
             Train Teams for<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#a67243] to-[#704823]">
               High-Stakes Conversations

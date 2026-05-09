@@ -89,18 +89,20 @@ export function AnalyticsDashboard() {
           </div>
 
           {/* Bottom Area: Heatmap Mockup */}
-          <div className="mt-6 bg-[#fdfbf7]/40 border border-[#e3d5c1] rounded-xl p-6">
+          <div className="mt-6 bg-[#fdfbf7]/40 border border-[#e3d5c1] rounded-xl p-4 md:p-6 overflow-x-auto">
             <h5 className="text-sm font-semibold text-[#2c1e16] mb-4">Skill Heatmap by Department</h5>
-            <div className="space-y-3">
-              <HeatmapRow name="Enterprise Sales" scores={[92, 88, 95, 82]} />
-              <HeatmapRow name="SDR Team" scores={[75, 68, 80, 72]} />
-              <HeatmapRow name="Customer Success" scores={[88, 94, 85, 90]} />
-            </div>
-            <div className="flex justify-end gap-8 mt-4 text-[10px] text-[#826a57] font-medium uppercase tracking-widest w-full">
-              <span className="w-16 text-center">Discovery</span>
-              <span className="w-16 text-center">Empathy</span>
-              <span className="w-16 text-center">Closing</span>
-              <span className="w-16 text-center">Clarity</span>
+            <div className="min-w-[360px]">
+              <div className="space-y-3">
+                <HeatmapRow name="Enterprise Sales" scores={[92, 88, 95, 82]} />
+                <HeatmapRow name="SDR Team" scores={[75, 68, 80, 72]} />
+                <HeatmapRow name="Customer Success" scores={[88, 94, 85, 90]} />
+              </div>
+              <div className="flex justify-end gap-2 mt-4 text-[10px] text-[#826a57] font-medium uppercase tracking-widest w-full">
+                <span className="w-16 text-center">Discovery</span>
+                <span className="w-16 text-center">Empathy</span>
+                <span className="w-16 text-center">Closing</span>
+                <span className="w-16 text-center">Clarity</span>
+              </div>
             </div>
           </div>
 

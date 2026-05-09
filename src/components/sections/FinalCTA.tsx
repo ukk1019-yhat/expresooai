@@ -21,7 +21,7 @@ export function FinalCTA() {
             transition={{ duration: 0.5 }}
             className="lg:pt-4"
           >
-            <h2 className="text-4xl md:text-6xl font-bold text-[#2c1e16] mb-6 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-[#2c1e16] mb-6 tracking-tight">
               Build high-performing teams<br className="hidden md:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#a67243] to-[#704823]">with AI-powered simulations.</span>
             </h2>
@@ -52,7 +52,7 @@ export function FinalCTA() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="bg-[#f4ebd8] border border-[#d4c3ab] rounded-2xl p-8"
+            className="bg-[#f4ebd8] border border-[#d4c3ab] rounded-2xl p-5 sm:p-8"
           >
             <div className="mb-6">
               <p className="text-xs font-semibold tracking-widest text-[#8b5a2b] uppercase mb-1">Get in Touch</p>

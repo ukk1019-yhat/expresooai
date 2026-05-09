@@ -93,6 +93,10 @@ export function Navbar() {
             <>
               <Link href="/simulate" className="bg-[#704823] text-white px-4 py-2 rounded-lg text-center font-semibold" onClick={() => setMobileMenuOpen(false)}>Start Simulation</Link>
               <Link href="/dashboard" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
+              <div className="flex items-center gap-3 pt-2">
+                <UserButton />
+                <span className="text-sm text-[#6e5646]">Account</span>
+              </div>
             </>
           ) : (
             <>
