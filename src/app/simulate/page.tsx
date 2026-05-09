@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Send, Square, Clock, User, Bot, Loader2 } from "lucide-react";
+import { Send, Square, Clock, User, Bot, Loader2, ArrowLeft, Home } from "lucide-react";
 import { BUYER_PERSONA } from "@/lib/persona";
 
 type Message = {
@@ -123,6 +123,16 @@ export default function SimulatePage() {
   if (!started) {
     return (
       <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center px-4">
+        {/* Back to home */}
+        <div className="fixed top-4 left-4">
+          <a
+            href="/"
+            className="flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors px-3 py-2 rounded-lg hover:bg-zinc-800/50"
+          >
+            <ArrowLeft size={15} /> Home
+          </a>
+        </div>
+
         <div className="max-w-lg w-full text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#c47d3b]/10 border border-[#c47d3b]/20 mb-6">
             <span className="w-2 h-2 rounded-full bg-[#c47d3b] animate-pulse" />
@@ -174,6 +184,12 @@ export default function SimulatePage() {
       {/* Header */}
       <div className="border-b border-zinc-800 bg-[#0d0d14] px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
+          <a
+            href="/"
+            className="flex items-center gap-1.5 text-zinc-500 hover:text-zinc-300 text-xs transition-colors px-2 py-1.5 rounded-lg hover:bg-zinc-800/50"
+          >
+            <Home size={13} /> Home
+          </a>
           <div className="w-10 h-10 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center">
             <User size={18} className="text-zinc-300" />
           </div>

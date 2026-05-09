@@ -42,6 +42,9 @@ export default async function DashboardPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-12">
           <div>
+            <Link href="/" className="flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors mb-3 w-fit">
+              ← Home
+            </Link>
             <h1 className="text-3xl font-bold text-white mb-1">Your Dashboard</h1>
             <p className="text-zinc-400 text-sm">Track your progress across all simulation sessions</p>
           </div>

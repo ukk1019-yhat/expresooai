@@ -2,7 +2,7 @@ import { createServiceClient } from "@/lib/supabase";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, TrendingUp, MessageSquare, Target, Shield, ChevronRight } from "lucide-react";
+import { ArrowRight, TrendingUp, MessageSquare, Target, ChevronRight, ArrowLeft, LayoutDashboard } from "lucide-react";
 
 function ScoreRing({ score, label, color }: { score: number; label: string; color: string }) {
   const radius = 36;
@@ -66,6 +66,23 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
   return (
     <div className="min-h-screen bg-[#0a0a0f] py-16 px-4">
       <div className="max-w-3xl mx-auto">
+
+        {/* Back nav */}
+        <div className="flex items-center gap-3 mb-8">
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors px-3 py-2 rounded-lg hover:bg-zinc-800/50"
+          >
+            <ArrowLeft size={15} /> Dashboard
+          </Link>
+          <span className="text-zinc-700">/</span>
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors px-3 py-2 rounded-lg hover:bg-zinc-800/50"
+          >
+            Home
+          </Link>
+        </div>
 
         {/* Header */}
         <div className="text-center mb-12">
@@ -163,7 +180,7 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
             href="/dashboard"
             className="flex-1 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 font-semibold py-4 rounded-xl text-center transition-colors flex items-center justify-center gap-2"
           >
-            <Shield size={16} /> View Dashboard
+            <LayoutDashboard size={16} /> View Dashboard
           </Link>
         </div>
       </div>
