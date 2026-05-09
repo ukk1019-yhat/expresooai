@@ -1,18 +1,17 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useAuth, UserButton } from "@clerk/nextjs";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { isSignedIn } = useAuth();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -40,19 +39,37 @@ export function Navbar() {
           <Link href="/#use-cases" className="text-sm font-medium text-[#6e5646] hover:text-[#2c1e16] transition-colors">
             Use Cases
           </Link>
-          <Link href="/#technology" className="text-sm font-medium text-[#6e5646] hover:text-[#2c1e16] transition-colors">
-            Technology
+          <Link href="/faq" className="text-sm font-medium text-[#6e5646] hover:text-[#2c1e16] transition-colors">
+            FAQ
           </Link>
-          <div className="flex items-center gap-4 ml-4">
 
-            <a
-              href="https://calendly.com/ukkukk97/30min"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#2c1e16] text-[#fdfbf7] px-4 py-2 rounded-full text-sm font-semibold hover:bg-zinc-200 transition-colors"
-            >
-              Book Pilot
-            </a>
+          <div className="flex items-center gap-3 ml-4">
+            {isSignedIn ? (
+              <>
+                <Link
+                  href="/simulate"
+                  className="bg-[#704823] text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-[#8b5a2b] transition-colors"
+                >
+                  Start Simulation
+                </Link>
+                <Link href="/dashboard" className="text-sm font-medium text-[#6e5646] hover:text-[#2c1e16] transition-colors">
+                  Dashboard
+                </Link>
+                <UserButton />
+              </>
+            ) : (
+              <>
+                <Link href="/sign-in" className="text-sm font-medium text-[#6e5646] hover:text-[#2c1e16] transition-colors">
+                  Sign In
+                </Link>
+                <Link
+                  href="/sign-up"
+                  className="bg-[#2c1e16] text-[#fdfbf7] px-4 py-2 rounded-full text-sm font-semibold hover:bg-[#704823] transition-colors"
+                >
+                  Get Started Free
+                </Link>
+              </>
+            )}
           </div>
         </nav>
 
@@ -67,19 +84,23 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="absolute top-full left-0 right-0 bg-[#fdfbf7] border-b border-[#d4c3ab] py-6 px-6 flex flex-col gap-4 md:hidden"
-        >
+        <div className="absolute top-full left-0 right-0 bg-[#fdfbf7] border-b border-[#d4c3ab] py-6 px-6 flex flex-col gap-4 md:hidden">
           <Link href="/#product" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Product</Link>
           <Link href="/#use-cases" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Use Cases</Link>
-          <Link href="/#technology" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Technology</Link>
+          <Link href="/faq" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>FAQ</Link>
           <hr className="border-[#d4c3ab] my-2" />
-
-          <a href="https://calendly.com/ukkukk97/30min" target="_blank" rel="noopener noreferrer" className="bg-white text-black px-4 py-2 rounded-lg text-center font-semibold mt-2" onClick={() => setMobileMenuOpen(false)}>Book Pilot</a>
-        </motion.div>
+          {isSignedIn ? (
+            <>
+              <Link href="/simulate" className="bg-[#704823] text-white px-4 py-2 rounded-lg text-center font-semibold" onClick={() => setMobileMenuOpen(false)}>Start Simulation</Link>
+              <Link href="/dashboard" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
+            </>
+          ) : (
+            <>
+              <Link href="/sign-in" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Sign In</Link>
+              <Link href="/sign-up" className="bg-[#2c1e16] text-white px-4 py-2 rounded-lg text-center font-semibold" onClick={() => setMobileMenuOpen(false)}>Get Started Free</Link>
+            </>
+          )}
+        </div>
       )}
     </header>
   );
