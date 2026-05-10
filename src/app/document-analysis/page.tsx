@@ -1,5 +1,3 @@
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, FileSearch, Zap, Share2, Shield } from "lucide-react";
 import { DocumentAnalyzer } from "@/components/sections/DocumentAnalyzer";
@@ -11,8 +9,6 @@ export const metadata = {
 };
 
 export default async function DocumentAnalysisPage() {
-  const { userId } = await auth();
-  if (!userId) redirect("/sign-in");
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] py-16 px-4">
