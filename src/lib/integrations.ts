@@ -187,98 +187,161 @@ export async function sendToNotion(
   }
 }
 
-// ─── Email (via SMTP / Google Script fallback) ────────────────────────────────
+// ─── Email (via Resend) ───────────────────────────────────────────────────────
 
 export async function sendEmailReport(
   toEmail: string,
   report: DocumentReport,
   fileName: string
 ): Promise<void> {
-  const googleScriptUrl = process.env.GOOGLE_SCRIPT_URL;
-
-  if (!googleScriptUrl) {
-    throw new Error("GOOGLE_SCRIPT_URL is not configured");
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      "RESEND_API_KEY is not configured. Add it to your .env.local file."
+    );
   }
+
+  const scoreColor =
+    report.score >= 8 ? "#22c55e" : report.score >= 6 ? "#c47d3b" : "#ef4444";
 
   const issueRows = report.issues
     .map(
       (issue) =>
         `<tr>
-          <td style="padding:8px;border:1px solid #333;color:${issue.severity === "high" ? "#ef4444" : issue.severity === "medium" ? "#f59e0b" : "#22c55e"}">${issue.severity.toUpperCase()}</td>
-          <td style="padding:8px;border:1px solid #333;color:#e4e4e7">${issue.title}</td>
-          <td style="padding:8px;border:1px solid #333;color:#a1a1aa">${issue.description}</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #27272a;color:${
+            issue.severity === "high"
+              ? "#ef4444"
+              : issue.severity === "medium"
+              ? "#f59e0b"
+              : "#22c55e"
+          };font-size:11px;font-weight:700;text-transform:uppercase;white-space:nowrap">${issue.severity}</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #27272a;color:#e4e4e7;font-weight:600">${issue.title}</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #27272a;color:#a1a1aa;font-size:13px">${issue.description}</td>
         </tr>`
     )
     .join("");
 
-  const solutionRows = report.solutions
+  const solutionItems = report.solutions
     .map(
-      (s) =>
-        `<tr>
-          <td style="padding:8px;border:1px solid #333;color:#e4e4e7">${s.issue}</td>
-          <td style="padding:8px;border:1px solid #333;color:#a1a1aa">${s.solution}</td>
-        </tr>`
+      (s, i) =>
+        `<div style="display:flex;gap:12px;margin-bottom:12px">
+          <div style="min-width:24px;height:24px;border-radius:50%;background:#c47d3b22;border:1px solid #c47d3b44;display:flex;align-items:center;justify-content:center;color:#c47d3b;font-size:11px;font-weight:700;flex-shrink:0;text-align:center;line-height:24px">${i + 1}</div>
+          <div>
+            <div style="color:#c47d3b;font-size:12px;font-weight:600;margin-bottom:2px">${s.issue}</div>
+            <div style="color:#d4d4d8;font-size:13px;line-height:1.5">${s.solution}</div>
+          </div>
+        </div>`
     )
     .join("");
 
-  const html = `
-    <div style="font-family:sans-serif;background:#0a0a0f;color:#e4e4e7;padding:32px;max-width:700px;margin:0 auto">
-      <h1 style="color:#c47d3b;margin-bottom:4px">Document Analysis Report</h1>
-      <p style="color:#71717a;margin-top:0">File: ${fileName}</p>
+  const recItems = report.recommendations
+    .map(
+      (r, i) =>
+        `<div style="display:flex;gap:10px;margin-bottom:8px;align-items:flex-start">
+          <span style="color:#c47d3b;font-weight:700;font-size:13px;flex-shrink:0">${i + 1}.</span>
+          <span style="color:#d4d4d8;font-size:13px;line-height:1.5">${r}</span>
+        </div>`
+    )
+    .join("");
 
-      <div style="background:#111118;border:1px solid #27272a;border-radius:12px;padding:20px;margin:24px 0">
-        <div style="font-size:48px;font-weight:bold;color:${report.score >= 8 ? "#22c55e" : report.score >= 6 ? "#c47d3b" : "#ef4444"}">${report.score}<span style="font-size:24px;color:#52525b">/10</span></div>
-        <div style="color:#71717a;font-size:12px;text-transform:uppercase;letter-spacing:0.1em">Health Score</div>
+  const html = `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#09090b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <div style="max-width:680px;margin:0 auto;padding:32px 16px">
+
+    <!-- Header -->
+    <div style="text-align:center;margin-bottom:32px">
+      <div style="font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.5px">
+        EXPRESSO<span style="color:#c47d3b">AI</span>
       </div>
+      <div style="color:#71717a;font-size:13px;margin-top:4px">Document Intelligence Report</div>
+    </div>
 
-      <h2 style="color:#c47d3b">Summary</h2>
-      <p style="color:#a1a1aa;line-height:1.6">${report.summary}</p>
+    <!-- Title card -->
+    <div style="background:#111118;border:1px solid #27272a;border-radius:16px;padding:24px;margin-bottom:20px">
+      <div style="color:#71717a;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">Analyzed File</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-bottom:4px">${report.title}</div>
+      <div style="color:#52525b;font-size:12px">${fileName}</div>
+    </div>
 
-      <h2 style="color:#c47d3b">Issues Found (${report.issues.length})</h2>
-      <table style="width:100%;border-collapse:collapse;margin-bottom:24px">
+    <!-- Score + summary -->
+    <div style="background:#111118;border:1px solid #27272a;border-radius:16px;padding:24px;margin-bottom:20px;display:flex;gap:24px;align-items:center">
+      <div style="text-align:center;flex-shrink:0">
+        <div style="font-size:52px;font-weight:800;color:${scoreColor};line-height:1">${report.score}</div>
+        <div style="font-size:18px;color:#52525b;margin-top:-4px">/10</div>
+        <div style="color:#71717a;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;margin-top:4px">Health Score</div>
+      </div>
+      <div style="flex:1;border-left:1px solid #27272a;padding-left:24px">
+        <div style="color:#71717a;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">Summary</div>
+        <div style="color:#d4d4d8;font-size:14px;line-height:1.6">${report.summary}</div>
+      </div>
+    </div>
+
+    <!-- Issues -->
+    <div style="background:#111118;border:1px solid #27272a;border-radius:16px;overflow:hidden;margin-bottom:20px">
+      <div style="padding:16px 20px;border-bottom:1px solid #27272a">
+        <div style="color:#71717a;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em">
+          Issues Found (${report.issues.length})
+        </div>
+      </div>
+      <table style="width:100%;border-collapse:collapse">
         <thead>
-          <tr style="background:#1c1c27">
-            <th style="padding:8px;border:1px solid #333;text-align:left;color:#71717a">Severity</th>
-            <th style="padding:8px;border:1px solid #333;text-align:left;color:#71717a">Issue</th>
-            <th style="padding:8px;border:1px solid #333;text-align:left;color:#71717a">Description</th>
+          <tr style="background:#0d0d14">
+            <th style="padding:8px 12px;text-align:left;color:#52525b;font-size:11px;font-weight:600;text-transform:uppercase">Severity</th>
+            <th style="padding:8px 12px;text-align:left;color:#52525b;font-size:11px;font-weight:600;text-transform:uppercase">Issue</th>
+            <th style="padding:8px 12px;text-align:left;color:#52525b;font-size:11px;font-weight:600;text-transform:uppercase">Description</th>
           </tr>
         </thead>
         <tbody>${issueRows}</tbody>
       </table>
-
-      <h2 style="color:#c47d3b">Solutions</h2>
-      <table style="width:100%;border-collapse:collapse;margin-bottom:24px">
-        <thead>
-          <tr style="background:#1c1c27">
-            <th style="padding:8px;border:1px solid #333;text-align:left;color:#71717a">Issue</th>
-            <th style="padding:8px;border:1px solid #333;text-align:left;color:#71717a">Solution</th>
-          </tr>
-        </thead>
-        <tbody>${solutionRows}</tbody>
-      </table>
-
-      <h2 style="color:#c47d3b">Recommendations</h2>
-      <ul style="color:#a1a1aa;line-height:2">
-        ${report.recommendations.map((r) => `<li>${r}</li>`).join("")}
-      </ul>
-
-      <p style="color:#52525b;font-size:12px;margin-top:32px;border-top:1px solid #27272a;padding-top:16px">
-        Generated by EXPRESSO AI · Document Intelligence
-      </p>
     </div>
-  `;
 
-  const res = await fetch(googleScriptUrl, {
+    <!-- Solutions -->
+    <div style="background:#111118;border:1px solid #27272a;border-radius:16px;padding:20px;margin-bottom:20px">
+      <div style="color:#71717a;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px">
+        Solutions (${report.solutions.length})
+      </div>
+      ${solutionItems}
+    </div>
+
+    <!-- Recommendations -->
+    <div style="background:#111118;border:1px solid #27272a;border-radius:16px;padding:20px;margin-bottom:32px">
+      <div style="color:#71717a;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px">
+        Recommendations
+      </div>
+      ${recItems}
+    </div>
+
+    <!-- Footer -->
+    <div style="text-align:center;color:#3f3f46;font-size:11px;border-top:1px solid #18181b;padding-top:20px">
+      Generated by EXPRESSO AI · Document Intelligence<br>
+      <span style="color:#27272a">·</span>
+    </div>
+
+  </div>
+</body>
+</html>`;
+
+  // Call Resend API directly (no SDK needed, keeps bundle small)
+  const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
-      to: toEmail,
+      from: "EXPRESSO AI <onboarding@resend.dev>",
+      to: [toEmail],
       subject: `Document Analysis Report: ${fileName}`,
       html,
     }),
   });
 
   if (!res.ok) {
-    throw new Error(`Email send failed: ${res.status}`);
+    const err = await res.json().catch(() => ({}));
+    throw new Error(
+      `Resend API error ${res.status}: ${JSON.stringify(err)}`
+    );
   }
 }
