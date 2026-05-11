@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Check, Crown, Zap, ArrowLeft } from "lucide-react";
 
