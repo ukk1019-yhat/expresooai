@@ -20,8 +20,8 @@ import {
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const FREE_LIMIT_SECONDS = 15 * 60; // 15 minutes
-const CAPTURE_INTERVAL_MS = 6000;   // capture frame every 6 seconds
-const JPEG_QUALITY = 0.45;          // lower = faster + cheaper
+const CAPTURE_INTERVAL_MS = 20000;  // auto-analyze every 20 seconds
+const JPEG_QUALITY = 0.45;
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -112,6 +112,7 @@ export default function AICoachPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const isAnalyzingRef = useRef(false); // sync ref so interval can check without stale closure
   const [timeLeft, setTimeLeft] = useState(FREE_LIMIT_SECONDS);
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [autoMode, setAutoMode] = useState(true); // auto-capture every N seconds
@@ -163,10 +164,13 @@ export default function AICoachPage() {
   const analyzeFrame = useCallback(async (userMsg?: string) => {
     if (!captureVideoRef.current || !canvasRef.current) return;
     if (sessionState !== "active") return;
+    // Prevent concurrent calls — if already analyzing, skip (unless user explicitly sent a message)
+    if (isAnalyzingRef.current && !userMsg?.trim()) return;
 
     const frameBase64 = captureFrame(captureVideoRef.current, canvasRef.current);
     if (!frameBase64) return;
 
+    isAnalyzingRef.current = true;
     setIsAnalyzing(true);
     setLastFrameTime(Date.now());
 
@@ -210,6 +214,7 @@ export default function AICoachPage() {
         },
       ]);
     } finally {
+      isAnalyzingRef.current = false;
       setIsAnalyzing(false);
     }
   }, [sessionState]);
@@ -217,9 +222,14 @@ export default function AICoachPage() {
   // Auto-capture loop
   useEffect(() => {
     if (sessionState === "active" && autoMode) {
-      // Initial analysis after 1s
-      const initial = setTimeout(() => analyzeFrame(), 1000);
-      captureRef.current = setInterval(() => analyzeFrame(), CAPTURE_INTERVAL_MS);
+      // Initial analysis after 3s (give user time to orient)
+      const initial = setTimeout(() => analyzeFrame(), 3000);
+      captureRef.current = setInterval(() => {
+        // Skip if already analyzing — don't queue up
+        if (!isAnalyzingRef.current) {
+          analyzeFrame();
+        }
+      }, CAPTURE_INTERVAL_MS);
       return () => {
         clearTimeout(initial);
         if (captureRef.current) clearInterval(captureRef.current);
@@ -292,11 +302,18 @@ export default function AICoachPage() {
   }
 
   async function handleSend() {
-    if (!input.trim() || isAnalyzing) return;
+    if (!input.trim() || isAnalyzingRef.current) return;
     const msg = input.trim();
     setInput("");
 
     if (sessionState === "active") {
+      // Reset the auto-capture interval so it doesn't fire right after user message
+      if (captureRef.current) {
+        clearInterval(captureRef.current);
+        captureRef.current = setInterval(() => {
+          if (!isAnalyzingRef.current) analyzeFrame();
+        }, CAPTURE_INTERVAL_MS);
+      }
       await analyzeFrame(msg);
     } else {
       // No screen share — just chat
@@ -305,7 +322,7 @@ export default function AICoachPage() {
         ...prev,
         {
           role: "assistant",
-          content: "Please start a screen sharing session so I can see your screen and give you specific guidance. Click **Start AI Coach Session** above.",
+          content: "Please start a screen sharing session so I can see your screen and give you specific guidance. Click Start AI Coach Session above.",
           timestamp: Date.now(),
         },
       ]);
@@ -565,7 +582,7 @@ export default function AICoachPage() {
                     placeholder={
                       sessionState === "expired"
                         ? "Session expired — upgrade for more time"
-                        : "Ask about what's on your screen... (Enter to send)"
+                        : "Ask me anything or give me a task... (Enter to send)"
                     }
                     disabled={sessionState === "expired"}
                     rows={2}
@@ -594,8 +611,8 @@ export default function AICoachPage() {
                 <p className="text-center text-xs text-zinc-700 mt-2">
                   {sessionState === "active"
                     ? autoMode
-                      ? "Auto-analyzing every 6 seconds · Ask anything specific below"
-                      : "Manual mode — click ↑ to analyze or ask a question"
+                      ? "Auto-analyzing every 20 seconds · Type a task to get instant guidance"
+                      : "Manual mode — click ↑ to analyze or type a task"
                     : sessionState === "paused"
                     ? "Session paused — resume to continue analysis"
                     : "Upgrade to Pro for unlimited sessions"}
