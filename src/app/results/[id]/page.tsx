@@ -10,9 +10,9 @@ function ScoreRing({ score, label, color }: { score: number; label: string; colo
   const offset = circumference - (score / 10) * circumference;
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      <div className="relative w-24 h-24">
-        <svg className="w-24 h-24 -rotate-90" viewBox="0 0 96 96">
+    <div className="flex flex-col items-center gap-1 sm:gap-2">
+      <div className="relative w-16 h-16 sm:w-24 sm:h-24">
+        <svg className="w-16 h-16 sm:w-24 sm:h-24 -rotate-90" viewBox="0 0 96 96">
           <circle cx="48" cy="48" r={radius} fill="none" stroke="#1a1a24" strokeWidth="8" />
           <circle
             cx="48" cy="48" r={radius}
@@ -26,10 +26,10 @@ function ScoreRing({ score, label, color }: { score: number; label: string; colo
           />
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-2xl font-bold text-white">{score}</span>
+          <span className="text-base sm:text-2xl font-bold text-white">{score}</span>
         </div>
       </div>
-      <span className="text-xs text-zinc-400 font-medium uppercase tracking-wider">{label}</span>
+      <span className="text-[9px] sm:text-xs text-zinc-400 font-medium uppercase tracking-wider text-center">{label}</span>
     </div>
   );
 }
@@ -64,11 +64,11 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
   const scoreColor = (s: number) => s >= 8 ? "#22c55e" : s >= 6 ? "#c47d3b" : "#ef4444";
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] py-16 px-4">
+    <div className="min-h-screen bg-[#0a0a0f] py-8 sm:py-16 px-4">
       <div className="max-w-3xl mx-auto">
 
         {/* Back nav */}
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center gap-2 mb-6 sm:mb-8">
           <Link
             href="/dashboard"
             className="flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors px-3 py-2 rounded-lg hover:bg-zinc-800/50"
@@ -85,26 +85,26 @@ export default async function ResultsPage({ params }: { params: Promise<{ id: st
         </div>
 
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 sm:mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#c47d3b]/10 border border-[#c47d3b]/20 mb-4">
             <span className="text-xs font-medium text-[#c47d3b] uppercase tracking-wider">Session Complete</span>
           </div>
-          <h1 className="text-4xl font-bold text-white mb-2">Your Results</h1>
-          <p className="text-zinc-400">SaaS Sales Objection Call · Marcus Chen</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">Your Results</h1>
+          <p className="text-zinc-400 text-sm">SaaS Sales Objection Call · Marcus Chen</p>
         </div>
 
         {/* Overall score */}
-        <div className="bg-[#111118] border border-zinc-800 rounded-2xl p-8 mb-6 text-center">
+        <div className="bg-[#111118] border border-zinc-800 rounded-2xl p-6 sm:p-8 mb-5 text-center">
           <div className="text-5xl sm:text-7xl font-bold mb-2" style={{ color: scoreColor(score.overall_score) }}>
-            {score.overall_score}<span className="text-3xl text-zinc-500">/10</span>
+            {score.overall_score}<span className="text-2xl sm:text-3xl text-zinc-500">/10</span>
           </div>
           <div className="text-zinc-400 text-sm uppercase tracking-wider font-medium">Overall Score</div>
         </div>
 
         {/* Score breakdown */}
-        <div className="bg-[#111118] border border-zinc-800 rounded-2xl p-8 mb-6">
-          <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-8">Score Breakdown</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 justify-items-center">
+        <div className="bg-[#111118] border border-zinc-800 rounded-2xl p-5 sm:p-8 mb-5">
+          <h2 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-6 sm:mb-8">Score Breakdown</h2>
+          <div className="grid grid-cols-4 gap-2 sm:gap-6 justify-items-center">
             <ScoreRing score={score.confidence_score} label="Confidence" color={scoreColor(score.confidence_score)} />
             <ScoreRing score={score.persuasion_score} label="Persuasion" color={scoreColor(score.persuasion_score)} />
             <ScoreRing score={score.clarity_score} label="Clarity" color={scoreColor(score.clarity_score)} />

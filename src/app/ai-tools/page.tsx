@@ -47,25 +47,25 @@ export default async function AIToolsPage() {
   if (!userId) redirect("/sign-in");
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] py-16 px-4">
+    <div className="min-h-screen bg-[#0a0a0f] py-8 sm:py-16 px-4">
       <div className="max-w-5xl mx-auto">
 
         {/* Back */}
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors mb-10"
+          className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors mb-8 sm:mb-10"
         >
           <ArrowLeft size={15} /> Dashboard
         </Link>
 
         {/* Header */}
-        <div className="mb-12">
+        <div className="mb-8 sm:mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#c47d3b]/10 border border-[#c47d3b]/20 mb-4">
             <span className="w-2 h-2 rounded-full bg-[#c47d3b] animate-pulse" />
             <span className="text-xs font-medium text-[#c47d3b] uppercase tracking-wider">AI Tools</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">All AI Tools</h1>
-          <p className="text-zinc-400 max-w-xl">
+          <p className="text-zinc-400 max-w-xl text-sm sm:text-base">
             Everything you need to level up your marketing and sales — powered by AI.
           </p>
         </div>

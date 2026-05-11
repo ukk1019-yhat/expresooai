@@ -36,11 +36,11 @@ export default async function DashboardPage() {
   const trend = latest && previous ? latest.overall_score - previous.overall_score : null;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] py-16 px-4">
+    <div className="min-h-screen bg-[#0a0a0f] py-8 sm:py-16 px-4">
       <div className="max-w-4xl mx-auto">
 
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
+        <div className="flex flex-col gap-4 mb-8 sm:mb-12">
           <div>
             <Link href="/" className="flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors mb-3 w-fit">
               ← Home
@@ -48,41 +48,43 @@ export default async function DashboardPage() {
             <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">Your Dashboard</h1>
             <p className="text-zinc-400 text-sm">Track your progress across all simulation sessions</p>
           </div>
-          <Link
-            href="/simulate"
-            className="bg-[#c47d3b] hover:bg-[#a66830] text-white font-semibold px-6 py-3 rounded-xl transition-colors flex items-center gap-2 text-sm"
-          >
-            New Session <ArrowRight size={16} />
-          </Link>
-          <Link
-            href="/ai-tools"
-            className="bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 font-semibold px-6 py-3 rounded-xl transition-colors flex items-center gap-2 text-sm"
-          >
-            <Sparkles size={16} /> AI Tools
-          </Link>
+          <div className="flex gap-3">
+            <Link
+              href="/simulate"
+              className="flex-1 sm:flex-none bg-[#c47d3b] hover:bg-[#a66830] text-white font-semibold px-5 py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm"
+            >
+              New Session <ArrowRight size={16} />
+            </Link>
+            <Link
+              href="/ai-tools"
+              className="flex-1 sm:flex-none bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 font-semibold px-5 py-3 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm"
+            >
+              <Sparkles size={16} /> AI Tools
+            </Link>
+          </div>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          <div className="bg-[#111118] border border-zinc-800 rounded-2xl p-6">
-            <div className="flex items-center gap-2 text-zinc-400 text-xs uppercase tracking-wider mb-3">
-              <BarChart2 size={14} /> Sessions Completed
+        <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-8 sm:mb-10">
+          <div className="bg-[#111118] border border-zinc-800 rounded-2xl p-4 sm:p-6">
+            <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] sm:text-xs uppercase tracking-wider mb-2 sm:mb-3">
+              <BarChart2 size={12} /> <span className="hidden sm:inline">Sessions</span><span className="sm:hidden">Done</span>
             </div>
-            <div className="text-4xl font-bold text-white">{conversations?.length ?? 0}</div>
+            <div className="text-2xl sm:text-4xl font-bold text-white">{conversations?.length ?? 0}</div>
           </div>
-          <div className="bg-[#111118] border border-zinc-800 rounded-2xl p-6">
-            <div className="flex items-center gap-2 text-zinc-400 text-xs uppercase tracking-wider mb-3">
-              <TrendingUp size={14} /> Average Score
+          <div className="bg-[#111118] border border-zinc-800 rounded-2xl p-4 sm:p-6">
+            <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] sm:text-xs uppercase tracking-wider mb-2 sm:mb-3">
+              <TrendingUp size={12} /> <span className="hidden sm:inline">Avg Score</span><span className="sm:hidden">Avg</span>
             </div>
-            <div className="text-4xl font-bold text-white">
-              {avgScore !== null ? avgScore : "—"}<span className="text-xl text-zinc-500">/10</span>
+            <div className="text-2xl sm:text-4xl font-bold text-white">
+              {avgScore !== null ? avgScore : "—"}<span className="text-base sm:text-xl text-zinc-500">/10</span>
             </div>
           </div>
-          <div className="bg-[#111118] border border-zinc-800 rounded-2xl p-6">
-            <div className="flex items-center gap-2 text-zinc-400 text-xs uppercase tracking-wider mb-3">
-              <TrendingUp size={14} /> Last vs Previous
+          <div className="bg-[#111118] border border-zinc-800 rounded-2xl p-4 sm:p-6">
+            <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] sm:text-xs uppercase tracking-wider mb-2 sm:mb-3">
+              <TrendingUp size={12} /> <span className="hidden sm:inline">Trend</span><span className="sm:hidden">±</span>
             </div>
-            <div className={`text-4xl font-bold ${trend === null ? "text-zinc-500" : trend > 0 ? "text-emerald-400" : trend < 0 ? "text-red-400" : "text-zinc-300"}`}>
+            <div className={`text-2xl sm:text-4xl font-bold ${trend === null ? "text-zinc-500" : trend > 0 ? "text-emerald-400" : trend < 0 ? "text-red-400" : "text-zinc-300"}`}>
               {trend === null ? "—" : trend > 0 ? `+${trend.toFixed(1)}` : trend.toFixed(1)}
             </div>
           </div>

@@ -24,42 +24,42 @@ const PRO_FEATURES = [
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-[#0a0a0f] py-16 px-4">
+    <div className="min-h-screen bg-[#0a0a0f] py-8 sm:py-16 px-4">
       <div className="max-w-4xl mx-auto">
 
         {/* Back */}
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors mb-10"
+          className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm transition-colors mb-8 sm:mb-10"
         >
           <ArrowLeft size={15} /> Dashboard
         </Link>
 
         {/* Header */}
-        <div className="text-center mb-14">
+        <div className="text-center mb-10 sm:mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#c47d3b]/10 border border-[#c47d3b]/20 mb-4">
             <Crown size={13} className="text-[#c47d3b]" />
             <span className="text-xs font-medium text-[#c47d3b] uppercase tracking-wider">Simple Pricing</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+          <h1 className="text-3xl sm:text-5xl font-bold text-white mb-4">
             Upgrade your marketing
           </h1>
-          <p className="text-zinc-400 max-w-md mx-auto">
+          <p className="text-zinc-400 max-w-md mx-auto text-sm sm:text-base">
             Start free. Upgrade when you need more time and power.
           </p>
         </div>
 
         {/* Plans */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-12">
 
           {/* Free */}
-          <div className="bg-[#111118] border border-zinc-800 rounded-2xl p-8">
-            <div className="mb-6">
+          <div className="bg-[#111118] border border-zinc-800 rounded-2xl p-6 sm:p-8">
+            <div className="mb-5 sm:mb-6">
               <div className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-2">Free</div>
-              <div className="text-5xl font-bold text-white mb-1">$0</div>
+              <div className="text-4xl sm:text-5xl font-bold text-white mb-1">$0</div>
               <div className="text-zinc-500 text-sm">Forever free</div>
             </div>
-            <ul className="space-y-3 mb-8">
+            <ul className="space-y-2.5 sm:space-y-3 mb-6 sm:mb-8">
               {FREE_FEATURES.map((f) => (
                 <li key={f} className="flex items-start gap-3 text-sm text-zinc-300">
                   <Check size={15} className="text-zinc-500 flex-shrink-0 mt-0.5" />
@@ -76,27 +76,24 @@ export default function PricingPage() {
           </div>
 
           {/* Pro */}
-          <div className="bg-[#111118] border border-[#c47d3b]/40 rounded-2xl p-8 relative overflow-hidden">
-            {/* Glow */}
+          <div className="bg-[#111118] border border-[#c47d3b]/40 rounded-2xl p-6 sm:p-8 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-48 h-48 bg-[#c47d3b]/5 rounded-full blur-3xl pointer-events-none" />
-
             <div className="relative">
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-start justify-between mb-5 sm:mb-6">
                 <div>
                   <div className="text-sm font-semibold text-[#c47d3b] uppercase tracking-wider mb-2 flex items-center gap-2">
                     <Crown size={13} /> Pro
                   </div>
-                  <div className="text-5xl font-bold text-white mb-1">
-                    $29<span className="text-2xl text-zinc-400 font-normal">/mo</span>
+                  <div className="text-4xl sm:text-5xl font-bold text-white mb-1">
+                    $29<span className="text-xl sm:text-2xl text-zinc-400 font-normal">/mo</span>
                   </div>
                   <div className="text-zinc-500 text-sm">Billed monthly</div>
                 </div>
-                <div className="bg-[#c47d3b]/10 border border-[#c47d3b]/20 rounded-full px-3 py-1 text-xs font-semibold text-[#c47d3b]">
-                  Most Popular
+                <div className="bg-[#c47d3b]/10 border border-[#c47d3b]/20 rounded-full px-2.5 py-1 text-xs font-semibold text-[#c47d3b] flex-shrink-0">
+                  Popular
                 </div>
               </div>
-
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-2.5 sm:space-y-3 mb-6 sm:mb-8">
                 {PRO_FEATURES.map((f) => (
                   <li key={f} className="flex items-start gap-3 text-sm text-zinc-200">
                     <Check size={15} className="text-[#c47d3b] flex-shrink-0 mt-0.5" />
@@ -104,7 +101,6 @@ export default function PricingPage() {
                   </li>
                 ))}
               </ul>
-
               <button
                 className="w-full bg-[#c47d3b] hover:bg-[#a66830] text-white font-semibold py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2"
                 onClick={() => alert("Stripe integration coming soon! Contact us to upgrade early.")}
@@ -119,9 +115,9 @@ export default function PricingPage() {
         </div>
 
         {/* FAQ */}
-        <div className="bg-[#111118] border border-zinc-800 rounded-2xl p-8">
-          <h2 className="text-lg font-bold text-white mb-6">Common questions</h2>
-          <div className="space-y-6">
+        <div className="bg-[#111118] border border-zinc-800 rounded-2xl p-5 sm:p-8">
+          <h2 className="text-lg font-bold text-white mb-5 sm:mb-6">Common questions</h2>
+          <div className="space-y-5 sm:space-y-6">
             {[
               {
                 q: "How does the 15-minute free limit work?",
@@ -140,7 +136,7 @@ export default function PricingPage() {
                 a: "Any tool visible in your browser — Google Ads, Meta Ads Manager, Mailchimp, HubSpot, Canva, Notion, Google Analytics, Shopify, and more.",
               },
             ].map((item) => (
-              <div key={item.q} className="border-b border-zinc-800 pb-6 last:border-0 last:pb-0">
+              <div key={item.q} className="border-b border-zinc-800 pb-5 last:border-0 last:pb-0">
                 <h3 className="text-sm font-semibold text-white mb-2">{item.q}</h3>
                 <p className="text-sm text-zinc-400 leading-relaxed">{item.a}</p>
               </div>

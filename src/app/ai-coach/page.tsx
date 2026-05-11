@@ -369,9 +369,9 @@ export default function AICoachPage() {
           {sessionState === "idle" || sessionState === "error" ? (
             <button
               onClick={startScreenShare}
-              className="flex items-center gap-2 bg-[#c47d3b] hover:bg-[#a66830] text-white px-4 py-2 rounded-xl text-sm font-semibold transition-colors"
+              className="flex items-center gap-1.5 sm:gap-2 bg-[#c47d3b] hover:bg-[#a66830] text-white px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-colors"
             >
-              <Monitor size={14} /> Start Session
+              <Monitor size={14} /> <span className="hidden xs:inline sm:inline">Start</span>
             </button>
           ) : sessionState === "requesting" ? (
             <div className="flex items-center gap-2 text-zinc-400 text-sm px-4 py-2">
@@ -433,42 +433,43 @@ export default function AICoachPage() {
 
           {/* Idle / error state */}
           {(sessionState === "idle" || sessionState === "error") && (
-            <div className="flex-1 flex items-center justify-center px-4">
+            <div className="flex-1 flex items-center justify-center px-4 py-6">
               <div className="max-w-lg w-full text-center">
                 {sessionState === "error" && (
-                  <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 text-sm text-red-400 flex items-center gap-2 justify-center mb-6">
+                  <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 text-sm text-red-400 flex items-center gap-2 justify-center mb-5">
                     <AlertTriangle size={15} />
                     Screen share was denied or cancelled. Try again.
                   </div>
                 )}
 
-                <div className="w-20 h-20 rounded-2xl bg-[#c47d3b]/10 border border-[#c47d3b]/20 flex items-center justify-center mx-auto mb-6">
-                  <Monitor size={36} className="text-[#c47d3b]" />
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#c47d3b]/10 border border-[#c47d3b]/20 flex items-center justify-center mx-auto mb-5">
+                  <Monitor size={28} className="text-[#c47d3b] sm:hidden" />
+                  <Monitor size={36} className="text-[#c47d3b] hidden sm:block" />
                 </div>
 
-                <h2 className="text-2xl font-bold text-white mb-3">AI Marketing Coach</h2>
-                <p className="text-zinc-400 text-sm leading-relaxed mb-8 max-w-sm mx-auto">
+                <h2 className="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">AI Marketing Coach</h2>
+                <p className="text-zinc-400 text-sm leading-relaxed mb-6 max-w-sm mx-auto">
                   Share your screen and get real-time AI guidance on ads, email campaigns, social content, landing pages, and more.
                 </p>
 
-                <div className="grid grid-cols-2 gap-3 mb-8 text-left">
+                <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-6 text-left">
                   {[
-                    { icon: "📢", title: "Ad Copy", desc: "Google, Meta, LinkedIn ads" },
-                    { icon: "📧", title: "Email Campaigns", desc: "Subject lines, CTAs, flows" },
-                    { icon: "📱", title: "Social Media", desc: "Captions, hashtags, strategy" },
-                    { icon: "📊", title: "Analytics", desc: "Interpret data, find wins" },
+                    { icon: "📢", title: "Ad Copy", desc: "Google, Meta, LinkedIn" },
+                    { icon: "📧", title: "Email", desc: "Subject lines, CTAs" },
+                    { icon: "📱", title: "Social", desc: "Captions, strategy" },
+                    { icon: "📊", title: "Analytics", desc: "Interpret data" },
                   ].map((f) => (
-                    <div key={f.title} className="bg-[#111118] border border-zinc-800 rounded-xl p-4">
-                      <div className="text-xl mb-2">{f.icon}</div>
-                      <div className="text-sm font-semibold text-white mb-0.5">{f.title}</div>
+                    <div key={f.title} className="bg-[#111118] border border-zinc-800 rounded-xl p-3 sm:p-4">
+                      <div className="text-lg sm:text-xl mb-1.5">{f.icon}</div>
+                      <div className="text-xs sm:text-sm font-semibold text-white mb-0.5">{f.title}</div>
                       <div className="text-xs text-zinc-500">{f.desc}</div>
                     </div>
                   ))}
                 </div>
 
-                <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl px-4 py-3 text-xs text-amber-400/80 mb-6 flex items-center gap-2 justify-center">
+                <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl px-4 py-3 text-xs text-amber-400/80 mb-5 flex items-center gap-2 justify-center flex-wrap">
                   <Clock size={13} />
-                  Free tier: 15 minutes per session · <Link href="/pricing" className="underline hover:text-amber-300">Upgrade for unlimited</Link>
+                  Free: 15 min/session · <Link href="/pricing" className="underline hover:text-amber-300">Upgrade for unlimited</Link>
                 </div>
 
                 <button

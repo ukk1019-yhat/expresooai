@@ -107,7 +107,7 @@ function DropZone({
       onDragLeave={() => setIsDragging(false)}
       onDrop={handleDrop}
       onClick={() => inputRef.current?.click()}
-      className={`relative border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all duration-200 ${
+      className={`relative border-2 border-dashed rounded-2xl p-6 sm:p-10 text-center cursor-pointer transition-all duration-200 ${
         isDragging
           ? "border-[#c47d3b] bg-[#c47d3b]/5"
           : "border-zinc-700 hover:border-zinc-500 bg-[#111118] hover:bg-zinc-900/50"
@@ -654,22 +654,22 @@ export function DocumentAnalyzer() {
             <p className="text-zinc-500 text-sm mb-4">
               Send the full analysis to your team via Email, Slack, or Notion.
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3">
               <button
                 onClick={() => setShowSendPanel(true)}
-                className="flex items-center gap-2 bg-[#c47d3b] hover:bg-[#a66830] text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
+                className="flex items-center justify-center gap-2 bg-[#c47d3b] hover:bg-[#a66830] text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
               >
                 <Mail size={15} /> Send via Email
               </button>
               <button
                 onClick={() => setShowSendPanel(true)}
-                className="flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
+                className="flex items-center justify-center gap-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
               >
                 <MessageSquare size={15} /> Send to Slack
               </button>
               <button
                 onClick={() => setShowSendPanel(true)}
-                className="flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
+                className="flex items-center justify-center gap-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
               >
                 <BookOpen size={15} /> Save to Notion
               </button>
