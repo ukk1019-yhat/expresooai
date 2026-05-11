@@ -51,11 +51,8 @@ export function Navbar() {
                 >
                   Start Simulation
                 </Link>
-                <Link href="/ai-coach" className="text-sm font-medium text-[#6e5646] hover:text-[#2c1e16] transition-colors">
-                  AI Coach
-                </Link>
-                <Link href="/document-analysis" className="text-sm font-medium text-[#6e5646] hover:text-[#2c1e16] transition-colors">
-                  Doc Analysis
+                <Link href="/ai-tools" className="text-sm font-medium text-[#6e5646] hover:text-[#2c1e16] transition-colors">
+                  AI Tools
                 </Link>
                 <Link href="/dashboard" className="text-sm font-medium text-[#6e5646] hover:text-[#2c1e16] transition-colors">
                   Dashboard
@@ -97,8 +94,7 @@ export function Navbar() {
           {isSignedIn ? (
             <>
               <Link href="/simulate" className="bg-[#704823] text-white px-4 py-2 rounded-lg text-center font-semibold" onClick={() => setMobileMenuOpen(false)}>Start Simulation</Link>
-              <Link href="/ai-coach" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>AI Coach</Link>
-              <Link href="/document-analysis" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Doc Analysis</Link>
+              <Link href="/ai-tools" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>AI Tools</Link>
               <Link href="/dashboard" className="text-[#6e5646] hover:text-[#2c1e16]" onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
               <div className="flex items-center gap-3 pt-2">
                 <UserButton />

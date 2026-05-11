@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { createServiceClient } from "@/lib/supabase";
 import Link from "next/link";
-import { ArrowRight, TrendingUp, Clock, BarChart2, FileSearch, Monitor } from "lucide-react";
+import { ArrowRight, TrendingUp, Clock, BarChart2, Sparkles } from "lucide-react";
 
 export default async function DashboardPage() {
   const { userId } = await auth();
@@ -55,16 +55,10 @@ export default async function DashboardPage() {
             New Session <ArrowRight size={16} />
           </Link>
           <Link
-            href="/ai-coach"
+            href="/ai-tools"
             className="bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 font-semibold px-6 py-3 rounded-xl transition-colors flex items-center gap-2 text-sm"
           >
-            <Monitor size={16} /> AI Coach
-          </Link>
-          <Link
-            href="/document-analysis"
-            className="bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 font-semibold px-6 py-3 rounded-xl transition-colors flex items-center gap-2 text-sm"
-          >
-            <FileSearch size={16} /> Analyze Doc
+            <Sparkles size={16} /> AI Tools
           </Link>
         </div>
 

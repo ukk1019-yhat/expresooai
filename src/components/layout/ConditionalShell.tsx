@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 
-const FULL_SCREEN_ROUTES = ["/simulate", "/results", "/sign-in", "/sign-up", "/dashboard", "/document-analysis", "/ai-coach"];
+const FULL_SCREEN_ROUTES = ["/simulate", "/results", "/sign-in", "/sign-up", "/dashboard", "/document-analysis", "/ai-coach", "/ai-tools", "/pricing"];
 
 export function ConditionalShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
