@@ -3,42 +3,47 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
-  Monitor,
-  MonitorOff,
-  Send,
-  Loader2,
-  ArrowLeft,
-  Clock,
-  Crown,
-  Bot,
-  User,
-  Zap,
-  AlertTriangle,
-  RefreshCw,
+  Monitor, MonitorOff, Send, Loader2, ArrowLeft, Clock,
+  Crown, Bot, User, Zap, AlertTriangle, RefreshCw, Mic, MicOff, Volume2, VolumeX,
 } from "lucide-react";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-
-const FREE_LIMIT_SECONDS = 15 * 60; // 15 minutes
-const CAPTURE_INTERVAL_MS = 20000;  // auto-analyze every 20 seconds
+const FREE_LIMIT_SECONDS = 15 * 60;
+const CAPTURE_INTERVAL_MS = 20000;
 const JPEG_QUALITY = 0.45;
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-
-type Message = {
-  role: "user" | "assistant";
-  content: string;
-  timestamp: number;
-};
-
+type Message = { role: "user" | "assistant"; content: string; timestamp: number; };
 type SessionState = "idle" | "requesting" | "active" | "paused" | "expired" | "error";
+type VoiceState = "off" | "listening" | "processing";
+
+// Web Speech API types (not in TS lib by default)
+interface ISpeechRecognition extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  start(): void;
+  stop(): void;
+  onstart: (() => void) | null;
+  onend: (() => void) | null;
+  onerror: ((e: Event) => void) | null;
+  onresult: ((e: ISpeechRecognitionEvent) => void) | null;
+}
+interface ISpeechRecognitionEvent {
+  resultIndex: number;
+  results: { length: number; [i: number]: { isFinal: boolean; [j: number]: { transcript: string } } };
+}
+interface ISpeechRecognitionCtor { new(): ISpeechRecognition; }
+declare global {
+  interface Window {
+    SpeechRecognition?: ISpeechRecognitionCtor;
+    webkitSpeechRecognition?: ISpeechRecognitionCtor;
+  }
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function formatTime(seconds: number) {
-  const m = Math.floor(seconds / 60).toString().padStart(2, "0");
-  const s = (seconds % 60).toString().padStart(2, "0");
-  return `${m}:${s}`;
+function formatTime(s: number) {
+  return `${Math.floor(s / 60).toString().padStart(2, "0")}:${(s % 60).toString().padStart(2, "0")}`;
 }
 
 function captureFrame(video: HTMLVideoElement, canvas: HTMLCanvasElement): string | null {
@@ -48,115 +53,117 @@ function captureFrame(video: HTMLVideoElement, canvas: HTMLCanvasElement): strin
     canvas.width = Math.min(video.videoWidth, 1280);
     canvas.height = Math.round((canvas.width / video.videoWidth) * video.videoHeight);
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const dataUrl = canvas.toDataURL("image/jpeg", JPEG_QUALITY);
-    return dataUrl.split(",")[1]; // strip "data:image/jpeg;base64,"
-  } catch {
-    return null;
-  }
+    return canvas.toDataURL("image/jpeg", JPEG_QUALITY).split(",")[1];
+  } catch { return null; }
 }
 
 // ─── Upgrade Modal ────────────────────────────────────────────────────────────
-
 function UpgradeModal({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-[#111118] border border-zinc-800 rounded-2xl w-full max-w-md shadow-2xl">
-        <div className="p-8 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-[#c47d3b]/10 border border-[#c47d3b]/20 flex items-center justify-center mx-auto mb-5">
-            <Crown size={28} className="text-[#c47d3b]" />
-          </div>
-          <h2 className="text-2xl font-bold text-white mb-2">Free Time Used</h2>
-          <p className="text-zinc-400 text-sm leading-relaxed mb-6">
-            You&apos;ve used your 15-minute free session. Upgrade to Pro for unlimited AI coaching sessions, priority analysis, and advanced marketing guidance.
-          </p>
-
-          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 mb-6 text-left space-y-3">
-            {[
-              "Unlimited screen coaching sessions",
-              "Real-time ad copy & campaign guidance",
-              "Priority AI response speed",
-              "Session history & insights",
-              "Slack & Notion report delivery",
-            ].map((f) => (
-              <div key={f} className="flex items-center gap-3 text-sm text-zinc-300">
-                <div className="w-4 h-4 rounded-full bg-[#c47d3b]/20 border border-[#c47d3b]/40 flex items-center justify-center flex-shrink-0">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#c47d3b]" />
-                </div>
-                {f}
-              </div>
-            ))}
-          </div>
-
-          <Link
-            href="/pricing"
-            className="block w-full bg-[#c47d3b] hover:bg-[#a66830] text-white font-semibold py-3.5 rounded-xl transition-colors text-center mb-3"
-          >
-            Upgrade to Pro →
-          </Link>
-          <button
-            onClick={onClose}
-            className="w-full text-zinc-500 hover:text-zinc-300 text-sm transition-colors py-2"
-          >
-            Maybe later
-          </button>
+      <div className="bg-[#111118] border border-zinc-800 rounded-2xl w-full max-w-md shadow-2xl p-8 text-center">
+        <div className="w-16 h-16 rounded-2xl bg-[#c47d3b]/10 border border-[#c47d3b]/20 flex items-center justify-center mx-auto mb-5">
+          <Crown size={28} className="text-[#c47d3b]" />
         </div>
+        <h2 className="text-2xl font-bold text-white mb-2">Free Time Used</h2>
+        <p className="text-zinc-400 text-sm leading-relaxed mb-6">
+          You&apos;ve used your 15-minute free session. Upgrade to Pro for unlimited AI coaching, voice control, and automation.
+        </p>
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 mb-6 text-left space-y-3">
+          {["Unlimited screen coaching sessions", "Voice command automation", "Real-time ad copy & campaign guidance", "Priority AI response speed", "Slack & Notion report delivery"].map((f) => (
+            <div key={f} className="flex items-center gap-3 text-sm text-zinc-300">
+              <div className="w-4 h-4 rounded-full bg-[#c47d3b]/20 border border-[#c47d3b]/40 flex items-center justify-center flex-shrink-0">
+                <div className="w-1.5 h-1.5 rounded-full bg-[#c47d3b]" />
+              </div>
+              {f}
+            </div>
+          ))}
+        </div>
+        <Link href="/pricing" className="block w-full bg-[#c47d3b] hover:bg-[#a66830] text-white font-semibold py-3.5 rounded-xl transition-colors text-center mb-3">
+          Upgrade to Pro →
+        </Link>
+        <button onClick={onClose} className="w-full text-zinc-500 hover:text-zinc-300 text-sm transition-colors py-2">
+          Maybe later
+        </button>
       </div>
     </div>
   );
 }
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
-
 export default function AICoachPage() {
   const [sessionState, setSessionState] = useState<SessionState>("idle");
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const isAnalyzingRef = useRef(false); // sync ref so interval can check without stale closure
+  const isAnalyzingRef = useRef(false);
   const [timeLeft, setTimeLeft] = useState(FREE_LIMIT_SECONDS);
   const [showUpgrade, setShowUpgrade] = useState(false);
-  const [autoMode, setAutoMode] = useState(true); // auto-capture every N seconds
+  const [autoMode, setAutoMode] = useState(true);
   const [lastFrameTime, setLastFrameTime] = useState<number | null>(null);
 
-  const captureVideoRef = useRef<HTMLVideoElement>(null); // hidden, used for frame capture
-  const previewVideoRef = useRef<HTMLVideoElement>(null);  // visible screen preview
+  // Voice state
+  const [voiceState, setVoiceState] = useState<VoiceState>("off");
+  const [voiceTranscript, setVoiceTranscript] = useState("");
+  const [ttsEnabled, setTtsEnabled] = useState(true);
+  const recognitionRef = useRef<ISpeechRecognition | null>(null);
+  const synthRef = useRef<SpeechSynthesis | null>(null);
+
+  const captureVideoRef = useRef<HTMLVideoElement>(null);
+  const previewVideoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const captureRef = useRef<NodeJS.Timeout | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const historyRef = useRef<Message[]>([]);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Keep history ref in sync
-  useEffect(() => {
-    historyRef.current = messages;
-  }, [messages]);
+  useEffect(() => { historyRef.current = messages; }, [messages]);
+  useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
-  // Auto-scroll
+  // Init TTS
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      synthRef.current = window.speechSynthesis;
+    }
+  }, []);
+
+  // Speak AI response
+  const speak = useCallback((text: string) => {
+    if (!ttsEnabled || !synthRef.current) return;
+    synthRef.current.cancel();
+    // Strip emojis and special chars for cleaner speech
+    const clean = text.replace(/[\u{1F300}-\u{1FAFF}]/gu, "").replace(/[👁✅💡⚠️]/g, "").trim();
+    const utt = new SpeechSynthesisUtterance(clean);
+    utt.rate = 1.05;
+    utt.pitch = 1;
+    utt.volume = 0.9;
+    // Prefer a natural voice
+    const voices = synthRef.current.getVoices();
+    const preferred = voices.find(v => v.name.includes("Google") || v.name.includes("Natural") || v.name.includes("Samantha"));
+    if (preferred) utt.voice = preferred;
+    synthRef.current.speak(utt);
+  }, [ttsEnabled]);
 
   // Countdown timer
   useEffect(() => {
     if (sessionState === "active") {
       timerRef.current = setInterval(() => {
         setTimeLeft((t) => {
-          if (t <= 1) {
-            handleExpire();
-            return 0;
-          }
+          if (t <= 1) { handleExpire(); return 0; }
           return t - 1;
         });
       }, 1000);
     }
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionState]);
 
   function handleExpire() {
     if (timerRef.current) clearInterval(timerRef.current);
     if (captureRef.current) clearInterval(captureRef.current);
+    stopVoice();
     setSessionState("expired");
     setShowUpgrade(true);
   }
@@ -164,7 +171,6 @@ export default function AICoachPage() {
   const analyzeFrame = useCallback(async (userMsg?: string) => {
     if (!captureVideoRef.current || !canvasRef.current) return;
     if (sessionState !== "active") return;
-    // Prevent concurrent calls — if already analyzing, skip (unless user explicitly sent a message)
     if (isAnalyzingRef.current && !userMsg?.trim()) return;
 
     const frameBase64 = captureFrame(captureVideoRef.current, canvasRef.current);
@@ -174,10 +180,8 @@ export default function AICoachPage() {
     setIsAnalyzing(true);
     setLastFrameTime(Date.now());
 
-    // Add user message to chat if they typed something
     if (userMsg?.trim()) {
-      const userEntry: Message = { role: "user", content: userMsg.trim(), timestamp: Date.now() };
-      setMessages((prev) => [...prev, userEntry]);
+      setMessages((prev) => [...prev, { role: "user", content: userMsg.trim(), timestamp: Date.now() }]);
     }
 
     try {
@@ -187,48 +191,31 @@ export default function AICoachPage() {
         body: JSON.stringify({
           frameBase64,
           userMessage: userMsg ?? "",
-          history: historyRef.current.slice(-8).map((m) => ({
-            role: m.role,
-            content: m.content,
-          })),
+          history: historyRef.current.slice(-8).map((m) => ({ role: m.role, content: m.content })),
         }),
       });
-
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-
-      const aiEntry: Message = {
-        role: "assistant",
-        content: data.response,
-        timestamp: Date.now(),
-      };
+      const aiEntry: Message = { role: "assistant", content: data.response, timestamp: Date.now() };
       setMessages((prev) => [...prev, aiEntry]);
+      speak(data.response);
     } catch (err) {
       console.error("Coach error:", err);
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content: "⚠️ Couldn't analyze the screen right now. I'll try again shortly.",
-          timestamp: Date.now(),
-        },
-      ]);
+      const errMsg = "Sorry, I couldn't analyze the screen right now. Please try again.";
+      setMessages((prev) => [...prev, { role: "assistant", content: errMsg, timestamp: Date.now() }]);
+      speak(errMsg);
     } finally {
       isAnalyzingRef.current = false;
       setIsAnalyzing(false);
     }
-  }, [sessionState]);
+  }, [sessionState, speak]);
 
   // Auto-capture loop
   useEffect(() => {
     if (sessionState === "active" && autoMode) {
-      // Initial analysis after 3s (give user time to orient)
       const initial = setTimeout(() => analyzeFrame(), 3000);
       captureRef.current = setInterval(() => {
-        // Skip if already analyzing — don't queue up
-        if (!isAnalyzingRef.current) {
-          analyzeFrame();
-        }
+        if (!isAnalyzingRef.current) analyzeFrame();
       }, CAPTURE_INTERVAL_MS);
       return () => {
         clearTimeout(initial);
@@ -237,9 +224,100 @@ export default function AICoachPage() {
     } else {
       if (captureRef.current) clearInterval(captureRef.current);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionState, autoMode]);
 
+  // ─── Voice Control ──────────────────────────────────────────────────────────
+  function startVoice() {
+    if (typeof window === "undefined") return;
+    const SpeechRecognitionCtor: ISpeechRecognitionCtor | undefined =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognitionCtor) {
+      alert("Voice control is not supported in this browser. Please use Chrome or Edge.");
+      return;
+    }
+
+    const recognition = new SpeechRecognitionCtor();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = "en-US";
+
+    recognition.onstart = () => setVoiceState("listening");
+
+    recognition.onresult = (event: ISpeechRecognitionEvent) => {
+      let interim = "";
+      let final = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const t = event.results[i][0].transcript;
+        if (event.results[i].isFinal) final += t;
+        else interim += t;
+      }
+      setVoiceTranscript(final || interim);
+      if (final) {
+        setVoiceTranscript("");
+        setVoiceState("processing");
+        const cmd = final.trim();
+        setInput(cmd);
+        setTimeout(() => { handleVoiceCommand(cmd); }, 100);
+      }
+    };
+
+    recognition.onerror = () => {
+      setVoiceState("off");
+      setVoiceTranscript("");
+    };
+
+    recognition.onend = () => {
+      if (voiceState === "listening") setVoiceState("off");
+      setVoiceTranscript("");
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
+  }
+
+  function stopVoice() {
+    recognitionRef.current?.stop();
+    recognitionRef.current = null;
+    setVoiceState("off");
+    setVoiceTranscript("");
+    synthRef.current?.cancel();
+  }
+
+  function toggleVoice() {
+    if (voiceState !== "off") {
+      stopVoice();
+    } else {
+      startVoice();
+    }
+  }
+
+  async function handleVoiceCommand(cmd: string) {
+    setInput("");
+    setVoiceState("off");
+    if (!cmd.trim()) return;
+
+    if (sessionState === "active") {
+      if (captureRef.current) {
+        clearInterval(captureRef.current);
+        captureRef.current = setInterval(() => {
+          if (!isAnalyzingRef.current) analyzeFrame();
+        }, CAPTURE_INTERVAL_MS);
+      }
+      await analyzeFrame(cmd);
+    } else {
+      const reply = "Please start a screen sharing session first so I can see your screen.";
+      setMessages((prev) => [
+        ...prev,
+        { role: "user", content: cmd, timestamp: Date.now() },
+        { role: "assistant", content: reply, timestamp: Date.now() },
+      ]);
+      speak(reply);
+    }
+  }
+
+  // ─── Screen Share ───────────────────────────────────────────────────────────
   async function startScreenShare() {
     setSessionState("requesting");
     try {
@@ -247,32 +325,20 @@ export default function AICoachPage() {
         video: { frameRate: 5, width: { ideal: 1280 } },
         audio: false,
       });
-
       streamRef.current = stream;
-
-      // Attach to capture video (hidden)
       if (captureVideoRef.current) {
         captureVideoRef.current.srcObject = stream;
         await captureVideoRef.current.play();
       }
-
-      // Attach to preview video (visible)
       if (previewVideoRef.current) {
         previewVideoRef.current.srcObject = stream;
         await previewVideoRef.current.play();
       }
-
-      // Handle user stopping share via browser UI
-      stream.getVideoTracks()[0].addEventListener("ended", () => {
-        stopSession();
-      });
-
+      stream.getVideoTracks()[0].addEventListener("ended", stopSession);
       setSessionState("active");
-      setMessages([{
-        role: "assistant",
-        content: "👋 I can see your screen! I'll analyze it every few seconds and guide you through your marketing tasks. You can also ask me anything specific by typing below.\n\n✅ Do this next: Tell me what marketing task you're working on so I can give you focused guidance.",
-        timestamp: Date.now(),
-      }]);
+      const greeting = "I can see your screen! I'll analyze it automatically and guide you through your marketing tasks. You can type a command, or press the mic button and speak your task out loud.";
+      setMessages([{ role: "assistant", content: "👋 " + greeting, timestamp: Date.now() }]);
+      speak(greeting);
     } catch (err) {
       console.error("Screen share error:", err);
       setSessionState("error");
@@ -280,14 +346,13 @@ export default function AICoachPage() {
   }
 
   function stopSession() {
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach((t) => t.stop());
-      streamRef.current = null;
-    }
+    streamRef.current?.getTracks().forEach((t) => t.stop());
+    streamRef.current = null;
     if (timerRef.current) clearInterval(timerRef.current);
     if (captureRef.current) clearInterval(captureRef.current);
     if (captureVideoRef.current) captureVideoRef.current.srcObject = null;
     if (previewVideoRef.current) previewVideoRef.current.srcObject = null;
+    stopVoice();
     setSessionState("idle");
   }
 
@@ -305,9 +370,7 @@ export default function AICoachPage() {
     if (!input.trim() || isAnalyzingRef.current) return;
     const msg = input.trim();
     setInput("");
-
     if (sessionState === "active") {
-      // Reset the auto-capture interval so it doesn't fire right after user message
       if (captureRef.current) {
         clearInterval(captureRef.current);
         captureRef.current = setInterval(() => {
@@ -316,37 +379,28 @@ export default function AICoachPage() {
       }
       await analyzeFrame(msg);
     } else {
-      // No screen share — just chat
-      setMessages((prev) => [...prev, { role: "user", content: msg, timestamp: Date.now() }]);
+      const reply = "Please start a screen sharing session so I can see your screen and give you specific guidance.";
       setMessages((prev) => [
         ...prev,
-        {
-          role: "assistant",
-          content: "Please start a screen sharing session so I can see your screen and give you specific guidance. Click Start AI Coach Session above.",
-          timestamp: Date.now(),
-        },
+        { role: "user", content: msg, timestamp: Date.now() },
+        { role: "assistant", content: reply, timestamp: Date.now() },
       ]);
     }
   }
 
-  const timerColor =
-    timeLeft > 300 ? "text-emerald-400" : timeLeft > 60 ? "text-amber-400" : "text-red-400";
-  const timerBg =
-    timeLeft > 300 ? "bg-emerald-500/10 border-emerald-500/20" : timeLeft > 60 ? "bg-amber-500/10 border-amber-500/20" : "bg-red-500/10 border-red-500/20";
+  const timerColor = timeLeft > 300 ? "text-emerald-400" : timeLeft > 60 ? "text-amber-400" : "text-red-400";
+  const timerBg = timeLeft > 300 ? "bg-emerald-500/10 border-emerald-500/20" : timeLeft > 60 ? "bg-amber-500/10 border-amber-500/20" : "bg-red-500/10 border-red-500/20";
+  const isSessionActive = sessionState === "active" || sessionState === "paused" || sessionState === "expired";
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] flex flex-col">
-      {/* Hidden video for frame capture + canvas */}
       <video ref={captureVideoRef} className="hidden" muted playsInline />
       <canvas ref={canvasRef} className="hidden" />
 
-      {/* Header */}
+      {/* ── Header ── */}
       <div className="border-b border-zinc-800 bg-[#0d0d14] px-4 sm:px-6 py-3 flex items-center justify-between gap-3 flex-shrink-0">
         <div className="flex items-center gap-3 min-w-0">
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-1.5 text-zinc-500 hover:text-zinc-300 text-xs transition-colors px-2 py-1.5 rounded-lg hover:bg-zinc-800/50 flex-shrink-0"
-          >
+          <Link href="/dashboard" className="flex items-center gap-1.5 text-zinc-500 hover:text-zinc-300 text-xs transition-colors px-2 py-1.5 rounded-lg hover:bg-zinc-800/50 flex-shrink-0">
             <ArrowLeft size={13} /> <span className="hidden sm:inline">Dashboard</span>
           </Link>
           <div className="w-8 h-8 rounded-lg bg-[#c47d3b]/10 border border-[#c47d3b]/20 flex items-center justify-center flex-shrink-0">
@@ -354,79 +408,72 @@ export default function AICoachPage() {
           </div>
           <div className="min-w-0">
             <div className="text-sm font-semibold text-white">AI Marketing Coach</div>
-            <div className="text-xs text-zinc-500 hidden sm:block">Screen-aware guidance</div>
+            <div className="text-xs text-zinc-500 hidden sm:block">Screen · Voice · Automation</div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-          {/* Timer */}
-          {(sessionState === "active" || sessionState === "paused" || sessionState === "expired") && (
-            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-mono font-semibold ${timerBg} ${timerColor}`}>
-              <Clock size={12} />
-              {formatTime(timeLeft)}
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+          {isSessionActive && (
+            <div className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border text-xs font-mono font-semibold ${timerBg} ${timerColor}`}>
+              <Clock size={11} />{formatTime(timeLeft)}
             </div>
           )}
 
-          {/* Auto mode toggle */}
+          {/* TTS toggle */}
+          {isSessionActive && (
+            <button
+              onClick={() => { setTtsEnabled(v => !v); synthRef.current?.cancel(); }}
+              title={ttsEnabled ? "Mute AI voice" : "Enable AI voice"}
+              className={`w-8 h-8 rounded-lg flex items-center justify-center border transition-all ${ttsEnabled ? "bg-indigo-500/10 border-indigo-500/30 text-indigo-400" : "bg-zinc-800 border-zinc-700 text-zinc-500"}`}
+            >
+              {ttsEnabled ? <Volume2 size={13} /> : <VolumeX size={13} />}
+            </button>
+          )}
+
+          {/* Auto mode */}
           {sessionState === "active" && (
             <button
-              onClick={() => setAutoMode((v) => !v)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-all ${
-                autoMode
-                  ? "bg-[#c47d3b]/10 border-[#c47d3b]/30 text-[#c47d3b]"
-                  : "bg-zinc-800 border-zinc-700 text-zinc-400"
-              }`}
+              onClick={() => setAutoMode(v => !v)}
+              className={`flex items-center gap-1 px-2.5 py-1.5 rounded-full border text-xs font-medium transition-all ${autoMode ? "bg-[#c47d3b]/10 border-[#c47d3b]/30 text-[#c47d3b]" : "bg-zinc-800 border-zinc-700 text-zinc-400"}`}
             >
-              <RefreshCw size={11} className={autoMode ? "animate-spin" : ""} style={{ animationDuration: "3s" }} />
+              <RefreshCw size={10} className={autoMode ? "animate-spin" : ""} style={{ animationDuration: "3s" }} />
               <span className="hidden sm:inline">{autoMode ? "Auto" : "Manual"}</span>
             </button>
           )}
 
-          {/* Upgrade */}
-          <Link
-            href="/pricing"
-            className="flex items-center gap-1.5 bg-[#c47d3b]/10 hover:bg-[#c47d3b]/20 border border-[#c47d3b]/30 text-[#c47d3b] px-3 py-1.5 rounded-full text-xs font-semibold transition-colors"
-          >
-            <Crown size={12} /> Pro
+          <Link href="/pricing" className="flex items-center gap-1 bg-[#c47d3b]/10 hover:bg-[#c47d3b]/20 border border-[#c47d3b]/30 text-[#c47d3b] px-2.5 py-1.5 rounded-full text-xs font-semibold transition-colors">
+            <Crown size={11} /> Pro
           </Link>
 
-          {/* Session controls */}
-          {sessionState === "idle" || sessionState === "error" ? (
-            <button
-              onClick={startScreenShare}
-              className="flex items-center gap-1.5 sm:gap-2 bg-[#c47d3b] hover:bg-[#a66830] text-white px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-colors"
-            >
-              <Monitor size={14} /> <span className="hidden xs:inline sm:inline">Start</span>
+          {(sessionState === "idle" || sessionState === "error") && (
+            <button onClick={startScreenShare} className="flex items-center gap-1.5 bg-[#c47d3b] hover:bg-[#a66830] text-white px-3 py-2 rounded-xl text-xs font-semibold transition-colors">
+              <Monitor size={13} /> <span className="hidden sm:inline">Start</span>
             </button>
-          ) : sessionState === "requesting" ? (
-            <div className="flex items-center gap-2 text-zinc-400 text-sm px-4 py-2">
-              <Loader2 size={14} className="animate-spin" /> Waiting...
+          )}
+          {sessionState === "requesting" && (
+            <div className="flex items-center gap-2 text-zinc-400 text-xs px-3 py-2">
+              <Loader2 size={13} className="animate-spin" /> Waiting...
             </div>
-          ) : sessionState === "active" || sessionState === "paused" ? (
-            <div className="flex items-center gap-2">
-              <button
-                onClick={togglePause}
-                className="flex items-center gap-1.5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-300 px-3 py-2 rounded-xl text-xs font-medium transition-colors"
-              >
-                {sessionState === "paused" ? <><Zap size={12} /> Resume</> : <><Clock size={12} /> Pause</>}
+          )}
+          {(sessionState === "active" || sessionState === "paused") && (
+            <div className="flex items-center gap-1.5">
+              <button onClick={togglePause} className="flex items-center gap-1 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-300 px-2.5 py-2 rounded-xl text-xs font-medium transition-colors">
+                {sessionState === "paused" ? <><Zap size={11} /> Resume</> : <><Clock size={11} /> Pause</>}
               </button>
-              <button
-                onClick={stopSession}
-                className="flex items-center gap-1.5 bg-zinc-800 hover:bg-red-500/20 border border-zinc-700 hover:border-red-500/40 text-zinc-400 hover:text-red-400 px-3 py-2 rounded-xl text-xs font-medium transition-all"
-              >
-                <MonitorOff size={12} /> Stop
+              <button onClick={stopSession} className="flex items-center gap-1 bg-zinc-800 hover:bg-red-500/20 border border-zinc-700 hover:border-red-500/40 text-zinc-400 hover:text-red-400 px-2.5 py-2 rounded-xl text-xs font-medium transition-all">
+                <MonitorOff size={11} /> Stop
               </button>
             </div>
-          ) : null}
+          )}
         </div>
       </div>
 
-      {/* Main content */}
+      {/* ── Main ── */}
       <div className="flex-1 flex overflow-hidden">
 
-        {/* Screen preview (left, hidden on mobile) */}
+        {/* Screen preview sidebar */}
         {(sessionState === "active" || sessionState === "paused") && (
-          <div className="hidden lg:flex w-80 xl:w-96 flex-shrink-0 border-r border-zinc-800 bg-[#0d0d14] flex-col">
+          <div className="hidden lg:flex w-72 xl:w-80 flex-shrink-0 border-r border-zinc-800 bg-[#0d0d14] flex-col">
             <div className="px-4 py-3 border-b border-zinc-800 flex items-center justify-between">
               <span className="text-xs font-medium text-zinc-500 uppercase tracking-wider">Screen Preview</span>
               <div className="flex items-center gap-1.5">
@@ -434,20 +481,26 @@ export default function AICoachPage() {
                 <span className="text-xs text-zinc-600">{sessionState === "active" ? "Live" : "Paused"}</span>
               </div>
             </div>
-            <div className="flex-1 p-3 flex items-center justify-center">
+            <div className="flex-1 p-3 flex items-start justify-center pt-4">
               <div className="w-full rounded-xl overflow-hidden border border-zinc-800 bg-zinc-900">
-                <video
-                  ref={previewVideoRef}
-                  className="w-full h-auto"
-                  muted
-                  playsInline
-                  style={{ display: "block" }}
-                />
+                <video ref={previewVideoRef} className="w-full h-auto block" muted playsInline />
               </div>
             </div>
             {lastFrameTime && (
               <div className="px-4 py-2 border-t border-zinc-800 text-xs text-zinc-600 text-center">
                 Last analyzed {Math.round((Date.now() - lastFrameTime) / 1000)}s ago
+              </div>
+            )}
+
+            {/* Voice status in sidebar */}
+            {voiceState !== "off" && (
+              <div className={`mx-3 mb-3 px-4 py-3 rounded-xl border text-xs font-medium flex items-center gap-2 ${
+                voiceState === "listening"
+                  ? "bg-red-500/10 border-red-500/20 text-red-400"
+                  : "bg-amber-500/10 border-amber-500/20 text-amber-400"
+              }`}>
+                <Mic size={12} className={voiceState === "listening" ? "animate-pulse" : ""} />
+                {voiceState === "listening" ? (voiceTranscript || "Listening...") : "Processing command..."}
               </div>
             )}
           </div>
@@ -456,87 +509,78 @@ export default function AICoachPage() {
         {/* Chat panel */}
         <div className="flex-1 flex flex-col min-w-0">
 
-          {/* Idle / error state */}
+          {/* Idle / error */}
           {(sessionState === "idle" || sessionState === "error") && (
             <div className="flex-1 flex items-center justify-center px-4 py-6">
               <div className="max-w-lg w-full text-center">
                 {sessionState === "error" && (
                   <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3 text-sm text-red-400 flex items-center gap-2 justify-center mb-5">
-                    <AlertTriangle size={15} />
-                    Screen share was denied or cancelled. Try again.
+                    <AlertTriangle size={15} /> Screen share was denied or cancelled. Try again.
                   </div>
                 )}
-
                 <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#c47d3b]/10 border border-[#c47d3b]/20 flex items-center justify-center mx-auto mb-5">
-                  <Monitor size={28} className="text-[#c47d3b] sm:hidden" />
-                  <Monitor size={36} className="text-[#c47d3b] hidden sm:block" />
+                  <Monitor size={32} className="text-[#c47d3b]" />
                 </div>
-
-                <h2 className="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">AI Marketing Coach</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">AI Marketing Coach</h2>
                 <p className="text-zinc-400 text-sm leading-relaxed mb-6 max-w-sm mx-auto">
-                  Share your screen and get real-time AI guidance on ads, email campaigns, social content, landing pages, and more.
+                  Share your screen, type or speak a command, and the AI will guide you through any marketing task in real time.
                 </p>
-
-                <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-6 text-left">
+                <div className="grid grid-cols-2 gap-2 mb-6 text-left">
                   {[
+                    { icon: "🎙️", title: "Voice Commands", desc: "Speak tasks hands-free" },
                     { icon: "📢", title: "Ad Copy", desc: "Google, Meta, LinkedIn" },
                     { icon: "📧", title: "Email", desc: "Subject lines, CTAs" },
-                    { icon: "📱", title: "Social", desc: "Captions, strategy" },
-                    { icon: "📊", title: "Analytics", desc: "Interpret data" },
+                    { icon: "📊", title: "Analytics", desc: "Interpret & act on data" },
                   ].map((f) => (
-                    <div key={f.title} className="bg-[#111118] border border-zinc-800 rounded-xl p-3 sm:p-4">
-                      <div className="text-lg sm:text-xl mb-1.5">{f.icon}</div>
-                      <div className="text-xs sm:text-sm font-semibold text-white mb-0.5">{f.title}</div>
+                    <div key={f.title} className="bg-[#111118] border border-zinc-800 rounded-xl p-3">
+                      <div className="text-lg mb-1">{f.icon}</div>
+                      <div className="text-xs font-semibold text-white mb-0.5">{f.title}</div>
                       <div className="text-xs text-zinc-500">{f.desc}</div>
                     </div>
                   ))}
                 </div>
-
                 <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl px-4 py-3 text-xs text-amber-400/80 mb-5 flex items-center gap-2 justify-center flex-wrap">
-                  <Clock size={13} />
-                  Free: 15 min/session · <Link href="/pricing" className="underline hover:text-amber-300">Upgrade for unlimited</Link>
+                  <Clock size={12} /> Free: 15 min/session ·{" "}
+                  <Link href="/pricing" className="underline hover:text-amber-300">Upgrade for unlimited</Link>
                 </div>
-
-                <button
-                  onClick={startScreenShare}
-                  className="w-full bg-[#c47d3b] hover:bg-[#a66830] text-white font-semibold py-4 rounded-xl transition-colors flex items-center justify-center gap-2 text-base"
-                >
+                <button onClick={startScreenShare} className="w-full bg-[#c47d3b] hover:bg-[#a66830] text-white font-semibold py-4 rounded-xl transition-colors flex items-center justify-center gap-2">
                   <Monitor size={18} /> Start AI Coach Session
                 </button>
               </div>
             </div>
           )}
 
-          {/* Active / paused / expired chat */}
-          {(sessionState === "active" || sessionState === "paused" || sessionState === "expired") && (
+          {/* Active chat */}
+          {isSessionActive && (
             <>
+              {/* Mobile voice status bar */}
+              {voiceState !== "off" && (
+                <div className={`lg:hidden px-4 py-2 flex items-center gap-2 text-xs font-medium border-b ${
+                  voiceState === "listening"
+                    ? "bg-red-500/10 border-red-500/20 text-red-400"
+                    : "bg-amber-500/10 border-amber-500/20 text-amber-400"
+                }`}>
+                  <Mic size={12} className={voiceState === "listening" ? "animate-pulse" : ""} />
+                  {voiceState === "listening" ? (voiceTranscript || "Listening for your command...") : "Processing your command..."}
+                </div>
+              )}
+
               {/* Messages */}
               <div className="flex-1 overflow-y-auto px-4 py-5 space-y-4">
                 {sessionState === "paused" && (
                   <div className="flex items-center justify-center">
                     <div className="bg-zinc-800/80 border border-zinc-700 rounded-full px-4 py-2 text-xs text-zinc-400 flex items-center gap-2">
-                      <Clock size={12} /> Session paused — timer stopped
+                      <Clock size={12} /> Session paused
                     </div>
                   </div>
                 )}
 
                 {messages.map((msg, i) => (
                   <div key={i} className={`flex gap-3 ${msg.role === "user" ? "flex-row-reverse" : ""}`}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 ${
-                      msg.role === "assistant"
-                        ? "bg-[#c47d3b]/20 border border-[#c47d3b]/30"
-                        : "bg-zinc-700 border border-zinc-600"
-                    }`}>
-                      {msg.role === "assistant"
-                        ? <Bot size={14} className="text-[#c47d3b]" />
-                        : <User size={14} className="text-zinc-300" />
-                      }
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 ${msg.role === "assistant" ? "bg-[#c47d3b]/20 border border-[#c47d3b]/30" : "bg-zinc-700 border border-zinc-600"}`}>
+                      {msg.role === "assistant" ? <Bot size={14} className="text-[#c47d3b]" /> : <User size={14} className="text-zinc-300" />}
                     </div>
-                    <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
-                      msg.role === "assistant"
-                        ? "bg-[#111118] border border-zinc-800 text-zinc-200 rounded-tl-sm"
-                        : "bg-[#c47d3b] text-white rounded-tr-sm"
-                    }`}>
+                    <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${msg.role === "assistant" ? "bg-[#111118] border border-zinc-800 text-zinc-200 rounded-tl-sm" : "bg-[#c47d3b] text-white rounded-tr-sm"}`}>
                       {msg.role === "assistant" && (
                         <div className="text-xs text-zinc-500 mb-1.5 font-medium flex items-center gap-1.5">
                           <Bot size={10} /> AI Coach
@@ -567,28 +611,21 @@ export default function AICoachPage() {
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Input */}
+              {/* Input bar */}
               <div className="border-t border-zinc-800 bg-[#0d0d14] px-4 py-3 flex-shrink-0">
-                <div className="flex gap-3 items-end max-w-3xl mx-auto">
+                <div className="flex gap-2 items-end max-w-3xl mx-auto">
                   <textarea
+                    ref={inputRef}
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && !e.shiftKey) {
-                        e.preventDefault();
-                        handleSend();
-                      }
-                    }}
-                    placeholder={
-                      sessionState === "expired"
-                        ? "Session expired — upgrade for more time"
-                        : "Ask me anything or give me a task... (Enter to send)"
-                    }
+                    onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+                    placeholder={sessionState === "expired" ? "Session expired — upgrade for more time" : voiceState === "listening" ? "🎙️ Listening..." : "Type a task or command... (Enter to send)"}
                     disabled={sessionState === "expired"}
                     rows={2}
                     className="flex-1 bg-[#111118] border border-zinc-700 focus:border-[#c47d3b] rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-600 resize-none focus:outline-none transition-colors disabled:opacity-40"
                   />
                   <div className="flex flex-col gap-2">
+                    {/* Send */}
                     <button
                       onClick={handleSend}
                       disabled={!input.trim() || isAnalyzing || sessionState === "expired"}
@@ -596,25 +633,43 @@ export default function AICoachPage() {
                     >
                       {isAnalyzing ? <Loader2 size={15} className="animate-spin text-white" /> : <Send size={15} className="text-white" />}
                     </button>
+
+                    {/* Voice button */}
+                    {sessionState === "active" && (
+                      <button
+                        onClick={toggleVoice}
+                        title={voiceState !== "off" ? "Stop listening" : "Start voice command"}
+                        className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all border ${
+                          voiceState === "listening"
+                            ? "bg-red-500 border-red-400 text-white animate-pulse"
+                            : voiceState === "processing"
+                            ? "bg-amber-500/20 border-amber-500/40 text-amber-400"
+                            : "bg-zinc-800 border-zinc-700 text-zinc-400 hover:text-white hover:bg-zinc-700"
+                        }`}
+                      >
+                        {voiceState !== "off" ? <MicOff size={15} /> : <Mic size={15} />}
+                      </button>
+                    )}
+
+                    {/* Manual analyze */}
                     {sessionState === "active" && (
                       <button
                         onClick={() => analyzeFrame()}
                         disabled={isAnalyzing}
-                        title="Analyze now"
+                        title="Analyze screen now"
                         className="w-11 h-11 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 disabled:opacity-40 rounded-xl flex items-center justify-center transition-colors"
                       >
-                        <RefreshCw size={14} className={`text-zinc-400 ${isAnalyzing ? "animate-spin" : ""}`} />
+                        <RefreshCw size={13} className={`text-zinc-400 ${isAnalyzing ? "animate-spin" : ""}`} />
                       </button>
                     )}
                   </div>
                 </div>
+
                 <p className="text-center text-xs text-zinc-700 mt-2">
                   {sessionState === "active"
-                    ? autoMode
-                      ? "Auto-analyzing every 20 seconds · Type a task to get instant guidance"
-                      : "Manual mode — click ↑ to analyze or type a task"
+                    ? "🎙️ Press mic to speak a command · ⌨️ Type a task · 🔄 Auto-analyzes every 20s"
                     : sessionState === "paused"
-                    ? "Session paused — resume to continue analysis"
+                    ? "Session paused — resume to continue"
                     : "Upgrade to Pro for unlimited sessions"}
                 </p>
               </div>
@@ -623,7 +678,6 @@ export default function AICoachPage() {
         </div>
       </div>
 
-      {/* Upgrade modal */}
       {showUpgrade && <UpgradeModal onClose={() => setShowUpgrade(false)} />}
     </div>
   );
