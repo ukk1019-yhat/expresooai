@@ -275,6 +275,17 @@ export default function AICoachPage() {
   useEffect(() => { historyRef.current = messages; }, [messages]);
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
+  // Attach stream to preview video after sidebar renders (it's conditionally mounted)
+  useEffect(() => {
+    if (sessionState === "active" && streamRef.current && previewVideoRef.current) {
+      const video = previewVideoRef.current;
+      if (!video.srcObject) {
+        video.srcObject = streamRef.current;
+        video.play().catch(() => {/* autoplay may be blocked, user interaction will trigger */});
+      }
+    }
+  }, [sessionState]); // fires after sessionState becomes "active" and sidebar mounts
+
   // Init TTS
   useEffect(() => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
@@ -545,18 +556,20 @@ export default function AICoachPage() {
         audio: false,
       });
       streamRef.current = stream;
+
+      // Attach to hidden capture video — always in DOM
       if (captureVideoRef.current) {
         captureVideoRef.current.srcObject = stream;
         await captureVideoRef.current.play();
       }
-      if (previewVideoRef.current) {
-        previewVideoRef.current.srcObject = stream;
-        await previewVideoRef.current.play();
-      }
+
+      // Preview video is not in DOM yet (sidebar only renders when active)
+      // useEffect below attaches stream after render
+
       stream.getVideoTracks()[0].addEventListener("ended", stopSession);
       setSessionState("active");
       const greeting = "Screen connected. I'm your execution agent — I see your screen and produce ready-to-use output. Give me a command like 'write a reply to this email', 'draft an ad for this product', or 'summarize these analytics' and I'll generate the full output instantly.";
-      setMessages([{ role: "assistant", content: "�️ " + greeting, timestamp: Date.now() }]);
+      setMessages([{ role: "assistant", content: "👁️ " + greeting, timestamp: Date.now() }]);
       speak(greeting);
     } catch (err) {
       console.error("Screen share error:", err);
@@ -710,7 +723,19 @@ export default function AICoachPage() {
             </div>
             <div className="flex-1 p-3 flex items-start justify-center pt-4">
               <div className="w-full rounded-xl overflow-hidden border border-zinc-800 bg-zinc-900">
-                <video ref={previewVideoRef} className="w-full h-auto block" muted playsInline />
+                <video
+                  ref={(el) => {
+                    (previewVideoRef as React.MutableRefObject<HTMLVideoElement | null>).current = el;
+                    // Attach stream as soon as this element mounts
+                    if (el && streamRef.current && !el.srcObject) {
+                      el.srcObject = streamRef.current;
+                      el.play().catch(() => {});
+                    }
+                  }}
+                  className="w-full h-auto block"
+                  muted
+                  playsInline
+                />
               </div>
             </div>
             {lastFrameTime && (
