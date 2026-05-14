@@ -253,7 +253,7 @@ export default function AICoachPage() {
   // Voice state
   const [voiceState, setVoiceState] = useState<VoiceState>("off");
   const [voiceTranscript, setVoiceTranscript] = useState("");
-  const [ttsEnabled, setTtsEnabled] = useState(true);
+  const [ttsEnabled, setTtsEnabled] = useState(false); // off by default
 
   // Extension bridge
   const [extensionId, setExtensionId] = useState("");
@@ -324,15 +324,44 @@ export default function AICoachPage() {
   // Test extension connection
   async function testExtension(id: string) {
     if (!id.trim()) return;
-    const res = await sendToExtension(id.trim(), "readPage", {});
+    const trimmedId = id.trim();
+
+    // Check chrome API is available
+    if (typeof chrome === "undefined" || !chrome?.runtime?.sendMessage) {
+      alert("Chrome extension API not detected.\n\nMake sure you are using Chrome or Edge browser (not Firefox/Safari).");
+      return;
+    }
+
+    setLastAction("Testing connection...");
+    const res = await sendToExtension(trimmedId, "readPage", {});
+
     if (res.success) {
       setExtensionConnected(true);
-      setExtensionId(id.trim());
+      setExtensionId(trimmedId);
+      setLastAction(null);
+      // Save to localStorage so it persists across refreshes
+      localStorage.setItem("expressoExtensionId", trimmedId);
     } else {
       setExtensionConnected(false);
-      alert("Could not connect to extension. Make sure it is installed and the ID is correct.\n\nError: " + res.error);
+      setLastAction(null);
+      alert(
+        "Could not connect to extension.\n\n" +
+        "Error: " + res.error + "\n\n" +
+        "Checklist:\n" +
+        "1. Extension is installed at chrome://extensions\n" +
+        "2. Extension is ENABLED (blue toggle)\n" +
+        "3. You are on a regular website tab (not chrome:// pages)\n" +
+        "4. The Extension ID is correct: " + trimmedId + "\n" +
+        "5. Try reloading the extension at chrome://extensions"
+      );
     }
   }
+
+  // Load saved extension ID on mount
+  useEffect(() => {
+    const saved = localStorage.getItem("expressoExtensionId");
+    if (saved) setExtensionId(saved);
+  }, []);
 
   // Execute actions returned by AI on the active tab via extension
   async function executeActions(aiResponse: string, userCommand: string) {
@@ -701,12 +730,13 @@ export default function AICoachPage() {
                   <input
                     type="text"
                     placeholder="Paste Extension ID..."
+                    defaultValue={extensionId}
                     className="w-full bg-zinc-900 border border-zinc-700 focus:border-[#c47d3b] rounded-lg px-3 py-2 text-xs text-white placeholder-zinc-600 focus:outline-none"
                     onKeyDown={(e) => { if (e.key === "Enter") testExtension((e.target as HTMLInputElement).value); }}
-                    onBlur={(e) => { if (e.target.value) testExtension(e.target.value); }}
+                    onBlur={(e) => { if (e.target.value.trim()) testExtension(e.target.value); }}
                   />
                   <p className="text-[10px] text-zinc-600 leading-relaxed">
-                    Install the extension from <code className="text-zinc-500">/extension</code> folder, then paste the ID shown in the extension popup.
+                    Get ID from <strong className="text-zinc-500">chrome://extensions</strong> → EXPRESSO AI Agent → copy the ID shown there.
                   </p>
                 </div>
               ) : (

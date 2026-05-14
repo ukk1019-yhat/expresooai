@@ -1,63 +1,117 @@
 // EXPRESSO AI Agent — Background Service Worker
-// Receives commands from the web app and routes them to the active tab's content script
 
 const ALLOWED_ORIGINS = [
-  "http://localhost:3000",
-  "https://expresooai.vercel.app"
+  "http://localhost",
+  "https://localhost",
+  "https://expresooai.vercel.app",
+  "https://expresso"
 ];
 
-// Listen for messages from the web app (externally_connectable)
+// Pages where content scripts cannot be injected
+const RESTRICTED_PREFIXES = [
+  "chrome://",
+  "chrome-extension://",
+  "edge://",
+  "about:",
+  "data:",
+  "file://"
+];
+
+function isRestricted(url) {
+  if (!url) return true;
+  return RESTRICTED_PREFIXES.some(p => url.startsWith(p));
+}
+
+function isAllowedOrigin(origin) {
+  if (!origin) return false;
+  return ALLOWED_ORIGINS.some(o => origin.startsWith(o));
+}
+
+// ── External messages (from web app via externally_connectable) ───────────────
 chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
-  const origin = sender.origin || sender.url?.split("/").slice(0, 3).join("/");
-  if (!ALLOWED_ORIGINS.some(o => origin?.startsWith(o))) {
-    sendResponse({ success: false, error: "Unauthorized origin" });
-    return;
+  const origin = sender.origin || "";
+  console.log("[EXPRESSO] External message from:", origin, "action:", message?.action);
+
+  if (!isAllowedOrigin(origin)) {
+    console.warn("[EXPRESSO] Blocked origin:", origin);
+    sendResponse({ success: false, error: "Unauthorized origin: " + origin });
+    return true;
   }
 
   handleCommand(message, sendResponse);
-  return true; // keep channel open for async response
+  return true;
 });
 
-// Also listen from popup / internal pages
+// ── Internal messages (from popup) ────────────────────────────────────────────
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.source === "popup" || message.source === "content") {
-    handleCommand(message, sendResponse);
-    return true;
-  }
+  console.log("[EXPRESSO] Internal message:", message?.action);
+  handleCommand(message, sendResponse);
+  return true;
 });
 
+// ── Core command handler ──────────────────────────────────────────────────────
 async function handleCommand(message, sendResponse) {
-  const { action, payload } = message;
+  const { action, payload } = message || {};
+
+  if (!action) {
+    sendResponse({ success: false, error: "No action specified" });
+    return;
+  }
 
   try {
-    // Get the active tab
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    // Get active tab
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+    const tab = tabs[0];
+
     if (!tab?.id) {
       sendResponse({ success: false, error: "No active tab found" });
       return;
     }
 
-    // Inject content script if not already there
+    if (isRestricted(tab.url)) {
+      sendResponse({
+        success: false,
+        error: `Cannot run on restricted page: ${tab.url}. Please switch to a regular website tab (Gmail, WhatsApp, etc.)`
+      });
+      return;
+    }
+
+    console.log("[EXPRESSO] Executing action:", action, "on tab:", tab.url);
+
+    // Try to inject content script (safe — already-injected is handled)
     try {
       await chrome.scripting.executeScript({
         target: { tabId: tab.id },
         files: ["content.js"]
       });
-    } catch (_) {
-      // Already injected — ignore
+    } catch (injectErr) {
+      // Script already injected or page doesn't allow injection
+      console.log("[EXPRESSO] Script inject note:", injectErr.message);
     }
 
-    // Forward command to content script
-    const result = await chrome.tabs.sendMessage(tab.id, { action, payload });
+    // Small delay to ensure script is ready
+    await new Promise(r => setTimeout(r, 150));
+
+    // Send command to content script
+    let result;
+    try {
+      result = await chrome.tabs.sendMessage(tab.id, { action, payload: payload || {} });
+    } catch (msgErr) {
+      sendResponse({ success: false, error: "Content script not responding: " + msgErr.message });
+      return;
+    }
+
+    console.log("[EXPRESSO] Action result:", result);
     sendResponse({ success: true, result, tabUrl: tab.url, tabTitle: tab.title });
 
   } catch (err) {
+    console.error("[EXPRESSO] Error:", err);
     sendResponse({ success: false, error: err.message });
   }
 }
 
-// Store extension ID in local storage so web app can read it
+// ── Install handler ───────────────────────────────────────────────────────────
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.set({ extensionId: chrome.runtime.id, installed: true });
-  console.log("EXPRESSO AI Agent installed. Extension ID:", chrome.runtime.id);
+  console.log("[EXPRESSO] Agent installed. ID:", chrome.runtime.id);
 });
