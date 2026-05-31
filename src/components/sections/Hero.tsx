@@ -32,7 +32,7 @@ export function Hero() {
           </h1>
 
           <p className="text-base sm:text-lg text-[#6e5646] max-w-xl leading-relaxed">
-            EXPRESSO AI creates realistic AI roleplay environments that help sales, support, and leadership teams improve communication performance at scale.
+            BeyonAi creates realistic AI roleplay environments that help sales, support, and leadership teams improve communication performance at scale.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 mt-1">

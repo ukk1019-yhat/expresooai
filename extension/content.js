@@ -1,11 +1,11 @@
-// EXPRESSO AI Agent — Content Script v2
+// BEYON AI Agent — Content Script v2
 // Uses modern InputEvent API instead of deprecated execCommand
 
 (function () {
   "use strict";
 
-  if (window.__expressoAgentReady) return; // prevent double-injection
-  window.__expressoAgentReady = true;
+  if (window.__beyonaiAgentReady) return; // prevent double-injection
+  window.__beyonaiAgentReady = true;
 
   // ── Utilities ──────────────────────────────────────────────────────────────
 
@@ -113,7 +113,7 @@
       }
       return true;
     } catch (e) {
-      console.error("[EXPRESSO] Type error:", e);
+      console.error("[BEYONAI] Type error:", e);
       return false;
     }
   }
@@ -397,5 +397,5 @@
     return true;
   });
 
-  console.log("[EXPRESSO] Content script ready on:", window.location.href);
+  console.log("[BEYONAI] Content script ready on:", window.location.href);
 })();

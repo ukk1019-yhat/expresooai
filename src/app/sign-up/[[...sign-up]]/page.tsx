@@ -18,7 +18,7 @@ export default function SignUpPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-block">
             <h1 className="text-2xl font-bold text-white mb-2 hover:opacity-80 transition-opacity">
-              EXPRESSO<span className="text-[#c47d3b]">AI</span>
+              BEYON<span className="text-[#c47d3b]">AI</span>
             </h1>
           </Link>
           <p className="text-zinc-400 text-sm">Create your account to get started</p>

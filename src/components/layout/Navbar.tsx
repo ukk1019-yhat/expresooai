@@ -27,7 +27,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <span className="font-bold text-xl tracking-tight text-[#2c1e16]">
-            EXPRESSO<span className="text-[#704823]">AI</span>
+            BEYON<span className="text-[#704823]">AI</span>
           </span>
         </Link>
         {/* Desktop Nav */}

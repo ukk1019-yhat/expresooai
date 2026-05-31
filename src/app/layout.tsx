@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 export const metadata: Metadata = {
-  title: "EXPRESSO AI | AI Sales Training Simulator",
+  title: "BeyonAi | AI Sales Training Simulator",
   description: "Practice high-stakes sales conversations with a realistic AI buyer. Get scored on confidence, persuasion, and objection handling.",
 };
 

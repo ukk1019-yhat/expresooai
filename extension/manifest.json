@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "EXPRESSO AI Agent",
+  "name": "BeyonAi Agent",
   "version": "1.0.0",
-  "description": "Autonomous AI screen agent — executes tasks on your active tab via voice or text commands from EXPRESSO AI Coach.",
+  "description": "Autonomous AI screen agent — executes tasks on your active tab via voice or text commands from BeyonAi Coach.",
   "permissions": [
     "activeTab",
     "scripting",
@@ -41,7 +41,7 @@
     "matches": [
       "http://localhost/*",
       "https://localhost/*",
-      "https://expresooai.vercel.app/*",
+      "https://beyonai.vercel.app/*",
       "https://*.vercel.app/*"
     ]
   }

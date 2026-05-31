@@ -6,7 +6,7 @@ export default function Page() {
           <span className="w-2 h-2 rounded-full bg-[#8b5a2b] animate-pulse" />
           <span className="text-xs font-medium text-[#5c4433] uppercase tracking-wider">Coming Soon</span>
         </div>
-        <h1 className="text-4xl md:text-6xl font-bold text-[#2c1e16] mb-6">About Expresso AI</h1>
+        <h1 className="text-4xl md:text-6xl font-bold text-[#2c1e16] mb-6">About BeyonAi</h1>
         <p className="text-xl text-[#6e5646] mb-12">
           We are building the infrastructure for human behavioral intelligence.
         </p>

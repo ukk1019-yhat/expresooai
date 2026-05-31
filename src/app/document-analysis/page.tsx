@@ -3,7 +3,7 @@ import { ArrowLeft, FileSearch, Zap, Share2, Shield } from "lucide-react";
 import { DocumentAnalyzer } from "@/components/sections/DocumentAnalyzer";
 
 export const metadata = {
-  title: "Document Analysis · EXPRESSO AI",
+  title: "Document Analysis · BeyonAi",
   description:
     "Upload any document and get an instant AI-powered analysis with issues, solutions, and recommendations. Share results to Email, Slack, or Notion.",
 };

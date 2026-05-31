@@ -7,6 +7,8 @@ import {
   Crown, Bot, User, Zap, AlertTriangle, RefreshCw, Mic, MicOff, Volume2, VolumeX,
   Copy, CheckCircle2,
 } from "lucide-react";
+import WebcamFaceAnalysis from "@/components/WebcamFaceAnalysis";
+import { startPreloadModels } from "@/lib/faceDetection";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const FREE_LIMIT_SECONDS = 15 * 60;
@@ -255,6 +257,16 @@ export default function AICoachPage() {
   const [voiceTranscript, setVoiceTranscript] = useState("");
   const [ttsEnabled, setTtsEnabled] = useState(false); // off by default
 
+  // Face analysis
+  const [showFacePanel, setShowFacePanel] = useState(false);
+  const [faceData, setFaceData] = useState<{
+    faceDetected: boolean;
+    expression: string;
+    expressionProb: number;
+    mouthOpen: boolean;
+    mouthAspectRatio: number;
+  } | null>(null);
+
   // Extension bridge
   const [extensionId, setExtensionId] = useState("");
   const [extensionConnected, setExtensionConnected] = useState(false);
@@ -310,6 +322,13 @@ export default function AICoachPage() {
     synthRef.current.speak(utt);
   }, [ttsEnabled]);
 
+  // Preload face models when session starts
+  useEffect(() => {
+    if (sessionState === "active") {
+      startPreloadModels();
+    }
+  }, [sessionState]);
+
   // Countdown timer
   useEffect(() => {
     if (sessionState === "active") {
@@ -351,7 +370,7 @@ export default function AICoachPage() {
       setExtensionId(trimmedId);
       setLastAction(null);
       // Save to localStorage so it persists across refreshes
-      localStorage.setItem("expressoExtensionId", trimmedId);
+      localStorage.setItem("beyonaiExtensionId", trimmedId);
     } else {
       setExtensionConnected(false);
       setLastAction(null);
@@ -370,7 +389,7 @@ export default function AICoachPage() {
 
   // Load saved extension ID on mount
   useEffect(() => {
-    const saved = localStorage.getItem("expressoExtensionId");
+    const saved = localStorage.getItem("beyonaiExtensionId");
     if (saved) setExtensionId(saved);
   }, []);
 
@@ -418,6 +437,7 @@ export default function AICoachPage() {
           frameBase64,
           userMessage: userMsg ?? "",
           history: historyRef.current.slice(-8).map((m) => ({ role: m.role, content: m.content })),
+          faceData: faceData || undefined,
         }),
       });
       const data = await res.json();
@@ -438,7 +458,7 @@ export default function AICoachPage() {
       isAnalyzingRef.current = false;
       setIsAnalyzing(false);
     }
-  }, [sessionState, speak]);
+  }, [sessionState, speak, faceData]);
 
   // Auto-capture loop
   useEffect(() => {
@@ -651,12 +671,34 @@ export default function AICoachPage() {
             </div>
           )}
 
+          {/* Face status pill */}
+          {isSessionActive && showFacePanel && (
+            <div className={`hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-full border text-xs font-medium ${faceData?.faceDetected ? "bg-cyan-500/10 border-cyan-500/20 text-cyan-400" : "bg-zinc-800 border-zinc-700 text-zinc-500"}`}>
+              <div className={`w-1.5 h-1.5 rounded-full ${faceData?.faceDetected ? "bg-cyan-400" : "bg-zinc-600"}`} />
+              {faceData?.faceDetected ? `${faceData.expression}${faceData.mouthOpen ? " 🗣" : ""}` : "No Face"}
+            </div>
+          )}
+
           {/* Extension status pill */}
           {isSessionActive && (
             <div className={`hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-full border text-xs font-medium ${extensionConnected ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400" : "bg-zinc-800 border-zinc-700 text-zinc-500"}`}>
               <div className={`w-1.5 h-1.5 rounded-full ${extensionConnected ? "bg-emerald-400" : "bg-zinc-600"}`} />
               {extensionConnected ? "Agent Active" : "No Extension"}
             </div>
+          )}
+
+          {/* Face panel toggle */}
+          {isSessionActive && (
+            <button
+              onClick={() => setShowFacePanel(v => !v)}
+              title="Toggle face analysis"
+              className={`w-8 h-8 rounded-lg flex items-center justify-center border transition-all ${showFacePanel ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400" : "bg-zinc-800 border-zinc-700 text-zinc-500"}`}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </button>
           )}
 
           {/* TTS toggle */}
@@ -744,6 +786,14 @@ export default function AICoachPage() {
               </div>
             )}
 
+            {/* Face analysis panel */}
+            {showFacePanel && (
+              <WebcamFaceAnalysis
+                className="border-t border-zinc-800"
+                onFaceData={setFaceData}
+              />
+            )}
+
             {/* Extension connection panel */}
             <div className="mx-3 mb-3 bg-[#111118] border border-zinc-800 rounded-xl p-3">
               <div className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
@@ -761,7 +811,7 @@ export default function AICoachPage() {
                     onBlur={(e) => { if (e.target.value.trim()) testExtension(e.target.value); }}
                   />
                   <p className="text-[10px] text-zinc-600 leading-relaxed">
-                    Get ID from <strong className="text-zinc-500">chrome://extensions</strong> → EXPRESSO AI Agent → copy the ID shown there.
+                    Get ID from <strong className="text-zinc-500">chrome://extensions</strong> → BeyonAi Agent → copy the ID shown there.
                   </p>
                 </div>
               ) : (

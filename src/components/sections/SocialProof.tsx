@@ -31,7 +31,7 @@ export function SocialProof() {
             The gap between training and performance is practice.
           </h3>
           <p className="text-[#6e5646] mt-4 max-w-xl">
-            Most teams know what good communication looks like. They just don&apos;t get enough reps to make it automatic. EXPRESSO AI fixes that.
+            Most teams know what good communication looks like. They just don&apos;t get enough reps to make it automatic. BeyonAi fixes that.
           </p>
         </div>
 

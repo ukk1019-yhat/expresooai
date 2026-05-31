@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "FAQ | EXPRESSO AI",
-  description: "Frequently asked questions about EXPRESSO AI's product, technology, and use cases.",
+  title: "FAQ | BeyonAi",
+  description: "Frequently asked questions about BeyonAi's product, technology, and use cases.",
 };
 
 export default function FAQPage() {
@@ -11,7 +11,7 @@ export default function FAQPage() {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-6xl font-bold text-[#2c1e16] mb-6">Frequently Asked Questions</h1>
         <p className="text-lg text-[#6e5646] mb-16">
-          Everything you need to know about the product, underlying technology, and how enterprises are deploying EXPRESSO AI.
+          Everything you need to know about the product, underlying technology, and how enterprises are deploying BeyonAi.
         </p>
 
         {/* Section 1: Product */}
@@ -19,12 +19,12 @@ export default function FAQPage() {
           <h2 className="text-2xl font-bold text-[#8b5a2b] mb-8 border-b border-[#d4c3ab] pb-4">Product</h2>
           <div className="space-y-8">
             <FAQItem 
-              question="What exactly is EXPRESSO AI?"
-              answer="EXPRESSO AI is an enterprise behavioral intelligence platform. We use adaptive AI roleplay simulations to help your team practice high-stakes conversations—such as sales calls, negotiations, and interviews—while providing real-time, objective scoring on metrics like persuasion, clarity, and emotional intelligence."
+              question="What exactly is BeyonAi?"
+              answer="BeyonAi is an enterprise behavioral intelligence platform. We use adaptive AI roleplay simulations to help your team practice high-stakes conversations—such as sales calls, negotiations, and interviews—while providing real-time, objective scoring on metrics like persuasion, clarity, and emotional intelligence."
             />
             <FAQItem 
               question="How is this different from a standard LMS or video training?"
-              answer="Standard training is static and passive. EXPRESSO AI is interactive and adaptive. Instead of watching a video about handling objections, your team actually practices handling dynamic objections thrown at them by an AI that reacts to their tone, pacing, and choice of words in real-time."
+              answer="Standard training is static and passive. BeyonAi is interactive and adaptive. Instead of watching a video about handling objections, your team actually practices handling dynamic objections thrown at them by an AI that reacts to their tone, pacing, and choice of words in real-time."
             />
             <FAQItem 
               question="Can we customize the AI personas and scenarios?"
@@ -57,12 +57,12 @@ export default function FAQPage() {
           <h2 className="text-2xl font-bold text-[#8b5a2b] mb-8 border-b border-[#d4c3ab] pb-4">Use Cases</h2>
           <div className="space-y-8">
             <FAQItem 
-              question="How do Sales teams use EXPRESSO AI?"
+              question="How do Sales teams use BeyonAi?"
               answer="Sales teams use the platform to practice discovery calls, pitch presentations, and complex pricing negotiations. It reduces ramp time for new reps by 35% by allowing them to fail safely in a simulation rather than burning live leads."
             />
             <FAQItem 
               question="Can this be used for Leadership & Management?"
-              answer="Yes. Executives and managers use EXPRESSO AI to practice difficult performance reviews, crisis communication, and board presentations, resulting in a 40% increase in reported communication confidence."
+              answer="Yes. Executives and managers use BeyonAi to practice difficult performance reviews, crisis communication, and board presentations, resulting in a 40% increase in reported communication confidence."
             />
             <FAQItem 
               question="Is there an application for Customer Support?"
@@ -73,7 +73,7 @@ export default function FAQPage() {
 
         <div className="mt-24 p-8 bg-[#f4ebd8] border border-[#d4c3ab] rounded-2xl text-center">
           <h3 className="text-2xl font-bold text-[#2c1e16] mb-4">Still have questions?</h3>
-          <p className="text-[#6e5646] mb-8">We'd love to show you how EXPRESSO AI can transform your organization.</p>
+          <p className="text-[#6e5646] mb-8">We'd love to show you how BeyonAi can transform your organization.</p>
           <a 
             href="https://calendly.com/ukkukk97/30min"
             target="_blank"

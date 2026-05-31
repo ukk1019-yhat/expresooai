@@ -9,14 +9,14 @@ export function Footer() {
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <span className="font-bold text-xl tracking-tight text-[#2c1e16]">
-                EXPRESSO<span className="text-[#704823]">AI</span>
+                BEYON<span className="text-[#704823]">AI</span>
               </span>
             </Link>
             <p className="text-sm text-[#826a57] mb-6 leading-relaxed">
               The Operating System for Human Behavioral Intelligence. Measure, train, and scale communication performance across your enterprise.
             </p>
             <div className="flex items-center gap-4 text-[#826a57]">
-              <a href="https://x.com/expressooai" target="_blank" rel="noopener noreferrer" className="hover:text-[#2c1e16] transition-colors">
+              <a href="https://x.com/beyonai" target="_blank" rel="noopener noreferrer" className="hover:text-[#2c1e16] transition-colors">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
                 <span className="sr-only">Twitter</span>
               </a>
@@ -64,7 +64,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-[#e3d5c1] flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-[#967f6c]">
-            © {new Date().getFullYear()} Expresso AI. All rights reserved.
+            © {new Date().getFullYear()} BeyonAi. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <Link href="#" className="text-xs text-[#967f6c] hover:text-[#6e5646]">Privacy Policy</Link>

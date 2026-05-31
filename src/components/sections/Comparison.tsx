@@ -24,7 +24,7 @@ export function Comparison() {
     <section className="py-32 bg-[#fdfbf7] relative border-t border-[#e3d5c1]">
       <div className="max-w-5xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-sm font-semibold tracking-widest text-[#8b5a2b] uppercase mb-3">Why EXPRESSO AI</h2>
+          <h2 className="text-sm font-semibold tracking-widest text-[#8b5a2b] uppercase mb-3">Why BeyonAi</h2>
           <h3 className="text-3xl md:text-4xl font-bold text-[#2c1e16]">Static training doesn&apos;t change behavior.</h3>
           <p className="text-[#6e5646] mt-4 max-w-2xl mx-auto">
             Watching videos and clicking through slides doesn&apos;t prepare your team for a real objection. Adaptive AI roleplay does.
@@ -52,7 +52,7 @@ export function Comparison() {
                     <div>{renderIcon(feat.genAi)}</div>
                   </div>
                   <div className="bg-[#8b5a2b]/5 border border-[#8b5a2b]/20 rounded-lg p-2">
-                    <div className="text-[#8b5a2b] font-bold mb-1">Expresso</div>
+                    <div className="text-[#8b5a2b] font-bold mb-1">BeyonAi</div>
                     <div>{renderIcon(feat.expresso)}</div>
                   </div>
                 </div>
@@ -76,7 +76,7 @@ export function Comparison() {
               </div>
               <div className="p-6 text-center border-l border-[#8b5a2b]/30 bg-[#8b5a2b]/5 relative">
                 <div className="absolute top-0 left-0 right-0 h-1 bg-[#8b5a2b]" />
-                <h4 className="text-[#8b5a2b] font-bold">EXPRESSO AI</h4>
+                <h4 className="text-[#8b5a2b] font-bold">BeyonAi</h4>
                 <p className="text-xs text-[#8b5a2b]/70 mt-1">Behavioral Platform</p>
               </div>
             </div>

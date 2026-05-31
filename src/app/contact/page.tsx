@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import { ContactForm } from "@/components/ContactForm";
 
 export const metadata: Metadata = {
-  title: "Contact | EXPRESSO AI",
-  description: "Get in touch with the EXPRESSO AI team.",
+  title: "Contact | BeyonAi",
+  description: "Get in touch with the BeyonAi team.",
 };
 
 export default function ContactPage() {
@@ -13,7 +13,7 @@ export default function ContactPage() {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-[#2c1e16] mb-4">Contact Our Team</h1>
           <p className="text-[#6e5646]">
-            Get in touch to learn how EXPRESSO AI can transform your organization&apos;s communication.
+            Get in touch to learn how BeyonAi can transform your organization&apos;s communication.
           </p>
         </div>
         <div className="bg-[#f4ebd8] p-8 rounded-2xl border border-[#d4c3ab]">

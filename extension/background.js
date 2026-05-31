@@ -1,10 +1,9 @@
-// EXPRESSO AI Agent — Background Service Worker
+// BEYON AI Agent — Background Service Worker
 
 const ALLOWED_ORIGINS = [
   "http://localhost",
   "https://localhost",
-  "https://expresooai.vercel.app",
-  "https://expresso"
+  "https://beyonai.vercel.app",
 ];
 
 // Pages where content scripts cannot be injected
@@ -30,10 +29,10 @@ function isAllowedOrigin(origin) {
 // ── External messages (from web app via externally_connectable) ───────────────
 chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
   const origin = sender.origin || "";
-  console.log("[EXPRESSO] External message from:", origin, "action:", message?.action);
+  console.log("[BEYONAI] External message from:", origin, "action:", message?.action);
 
   if (!isAllowedOrigin(origin)) {
-    console.warn("[EXPRESSO] Blocked origin:", origin);
+    console.warn("[BEYONAI] Blocked origin:", origin);
     sendResponse({ success: false, error: "Unauthorized origin: " + origin });
     return true;
   }
@@ -44,7 +43,7 @@ chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => 
 
 // ── Internal messages (from popup) ────────────────────────────────────────────
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log("[EXPRESSO] Internal message:", message?.action);
+  console.log("[BEYONAI] Internal message:", message?.action);
   handleCommand(message, sendResponse);
   return true;
 });
@@ -76,7 +75,7 @@ async function handleCommand(message, sendResponse) {
       return;
     }
 
-    console.log("[EXPRESSO] Executing action:", action, "on tab:", tab.url);
+    console.log("[BEYONAI] Executing action:", action, "on tab:", tab.url);
 
     // Try to inject content script (safe — already-injected is handled)
     try {
@@ -86,7 +85,7 @@ async function handleCommand(message, sendResponse) {
       });
     } catch (injectErr) {
       // Script already injected or page doesn't allow injection
-      console.log("[EXPRESSO] Script inject note:", injectErr.message);
+      console.log("[BEYONAI] Script inject note:", injectErr.message);
     }
 
     // Small delay to ensure script is ready
@@ -101,11 +100,11 @@ async function handleCommand(message, sendResponse) {
       return;
     }
 
-    console.log("[EXPRESSO] Action result:", result);
+    console.log("[BEYONAI] Action result:", result);
     sendResponse({ success: true, result, tabUrl: tab.url, tabTitle: tab.title });
 
   } catch (err) {
-    console.error("[EXPRESSO] Error:", err);
+    console.error("[BEYONAI] Error:", err);
     sendResponse({ success: false, error: err.message });
   }
 }
@@ -113,5 +112,5 @@ async function handleCommand(message, sendResponse) {
 // ── Install handler ───────────────────────────────────────────────────────────
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.set({ extensionId: chrome.runtime.id, installed: true });
-  console.log("[EXPRESSO] Agent installed. ID:", chrome.runtime.id);
+  console.log("[BEYONAI] Agent installed. ID:", chrome.runtime.id);
 });

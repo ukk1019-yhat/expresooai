@@ -1,4 +1,4 @@
-# EXPRESSO AI Agent — Browser Extension
+# BeyonAi Agent — Browser Extension
 
 This Chrome/Edge extension enables the AI Coach to **actually execute actions** on your active browser tab — clicking buttons, filling forms, sending messages, drafting emails — all triggered by voice or text commands.
 
@@ -8,7 +8,7 @@ This Chrome/Edge extension enables the AI Coach to **actually execute actions** 
 2. Enable **Developer Mode** (top right toggle)
 3. Click **Load unpacked**
 4. Select this `extension` folder
-5. The extension will appear with the EXPRESSO AI logo
+5. The extension will appear with the BeyonAi logo
 
 ## How to Connect
 
@@ -48,7 +48,7 @@ Once connected, the AI agent can autonomously:
 
 ## Security
 
-- The extension only communicates with `localhost:3000` and `expresooai.vercel.app`
+- The extension only communicates with `localhost:3000` and `beyonai.vercel.app`
 - No data is stored or sent to third parties
 - All actions require an active screen share session
 - You can disconnect at any time from the AI Coach sidebar
