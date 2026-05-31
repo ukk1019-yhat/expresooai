@@ -1,22 +1,22 @@
-<!-- EXPRESSO AI — README -->
+<!-- BEYON AI — README -->
 
 <div align="center">
 
 ```
-███████╗██╗  ██╗██████╗ ██████╗ ███████╗███████╗███████╗ ██████╗
-██╔════╝╚██╗██╔╝██╔══██╗██╔══██╗██╔════╝██╔════╝██╔════╝██╔═══██╗
-█████╗   ╚███╔╝ ██████╔╝██████╔╝█████╗  ███████╗███████╗██║   ██║
-██╔══╝   ██╔██╗ ██╔═══╝ ██╔══██╗██╔══╝  ╚════██║╚════██║██║   ██║
-███████╗██╔╝ ██╗██║     ██║  ██║███████╗███████║███████║╚██████╔╝
-╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝ ╚═════╝
-                                                              A  I
+██████╗ ███████╗██╗   ██╗ ██████╗ ███╗   ██╗ █████╗ ██╗
+██╔══██╗██╔════╝╚██╗ ██╔╝██╔═══██╗████╗  ██║██╔══██╗██║
+██████╔╝█████╗   ╚████╔╝ ██║   ██║██╔██╗ ██║███████║██║
+██╔══██╗██╔══╝    ╚██╔╝  ██║   ██║██║╚██╗██║██╔══██║██║
+██████╔╝███████╗   ██║   ╚██████╔╝██║ ╚████║██║  ██║██║
+╚═════╝ ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝
+                                                      A  I
 ```
 
 ### *Train your mind. Not just your skills.*
 
 **Behavioral Intelligence Platform** · **AI-Powered Simulations** · **Real-time Emotional Scoring**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-expresooai.vercel.app-FF4E00?style=for-the-badge&logo=vercel&logoColor=white)](https://expresooai.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-beyonai.vercel.app-FF4E00?style=for-the-badge&logo=vercel&logoColor=white)](https://beyonai.vercel.app)
 [![Next.js](https://img.shields.io/badge/Next.js-15-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-89%25-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Supabase](https://img.shields.io/badge/Supabase-Database-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com)
@@ -26,12 +26,12 @@
 
 ---
 
-## ◈ What Is EXPRESSO AI?
+## ◈ What Is BeyonAI?
 
 > Most platforms teach you **what** to say.  
-> EXPRESSO AI teaches you **how** to be heard.
+> BeyonAI teaches you **how** to be heard.
 
-EXPRESSO AI is a **Behavioral Intelligence Infrastructure** — a simulation engine that recreates the cognitive and emotional complexity of real human interactions. Instead of static courses, you're dropped into live AI conversations with dynamic personas: a skeptical investor, a difficult team member, a high-stakes negotiator.
+BeyonAI is a **Behavioral Intelligence Infrastructure** — a simulation engine that recreates the cognitive and emotional complexity of real human interactions. Instead of static courses, you're dropped into live AI conversations with dynamic personas: a skeptical investor, a difficult team member, a high-stakes negotiator.
 
 Every word you say is **scored in real-time**. Every emotional shift is **tracked and analyzed**. Every session ends with a behavioral report that shows you exactly where you succeeded, where you hesitated, and where you lost the room.
 
@@ -41,7 +41,7 @@ Every word you say is **scored in real-time**. Every emotional shift is **tracke
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                     THE EXPRESSO ENGINE                         │
+│                       THE BEYON ENGINE                          │
 │                                                                 │
 │   SIMULATE ──────► SCORE ──────► ADAPT ──────► REPORT          │
 │                                                                 │
@@ -119,7 +119,7 @@ Every word you say is **scored in real-time**. Every emotional shift is **tracke
 ## ◈ Repository Structure
 
 ```
-expresooai/
+beyonai/
 ├── src/                    # Core application source
 │   ├── app/                # Next.js App Router pages & layouts
 │   ├── components/         # Reusable UI components
@@ -140,8 +140,8 @@ expresooai/
 
 ```bash
 # Clone the repository
-git clone https://github.com/ukk1019-yhat/expresooai.git
-cd expresooai
+git clone https://github.com/ukk1019-yhat/beyonai.git
+cd beyonai
 
 # Install dependencies
 npm install
@@ -179,7 +179,7 @@ Open [http://localhost:3000](http://localhost:3000) — your behavioral intellig
 
 ## ◈ Chrome Extension
 
-The `/extension` directory contains the EXPRESSO AI Chrome extension — bringing behavioral intelligence directly into any web conversation.
+The `/extension` directory contains the BeyonAI Chrome extension — bringing behavioral intelligence directly into any web conversation.
 
 ```bash
 # Load in Chrome
@@ -204,7 +204,7 @@ To initialize:
 
 ## ◈ Deployment
 
-EXPRESSO AI is optimized for Vercel deployment with `vercel.json` pre-configured.
+BeyonAI is optimized for Vercel deployment with `vercel.json` pre-configured.
 
 ```bash
 # Deploy to production
@@ -219,7 +219,7 @@ Or connect your GitHub repo directly in the [Vercel Dashboard](https://vercel.co
 
 Most communication training gives you scripts. Scripts break the moment reality diverges from the expected.
 
-EXPRESSO AI takes a different approach — it trains the **behavioral layer beneath the words**: how you respond under pressure, how you read emotional shifts, how you adapt when someone pushes back harder than expected.
+BeyonAI takes a different approach — it trains the **behavioral layer beneath the words**: how you respond under pressure, how you read emotional shifts, how you adapt when someone pushes back harder than expected.
 
 The goal isn't to make you sound better. It's to make you think faster, feel more clearly, and communicate with precision when it actually matters.
 
@@ -227,8 +227,8 @@ The goal isn't to make you sound better. It's to make you think faster, feel mor
 
 <div align="center">
 
-**Built with intention** · **Deployed at [expresooai.vercel.app](https://expresooai.vercel.app)**
+**Built with intention** · **Deployed at [beyonai.vercel.app](https://beyonai.vercel.app)**
 
-*© 2025 EXPRESSO AI. All rights reserved.*
+*© 2025 BeyonAI. All rights reserved.*
 
 </div>
