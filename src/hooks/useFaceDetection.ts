@@ -8,8 +8,8 @@ import {
   getLoadState,
   startPreloadModels,
   onLoadChange,
-  type FaceDetectionResult,
   getDominantExpression,
+  type FaceDetectionResult,
 } from "@/lib/faceDetection";
 
 type UseFaceDetectionOptions = {
@@ -94,14 +94,9 @@ export function useFaceDetection({ enabled = true, intervalMs = 200 }: UseFaceDe
         setFaceDetected(detections.length > 0);
 
         if (detections.length > 0) {
-          const { expression, probability } = getDominantExpression(detections[0].expressions);
-          setDominantExpression(expression);
-          setExpressionProb(probability);
           setMouthOpen(detections[0].mouthOpen);
           setMouthAspectRatio(detections[0].mouthAspectRatio);
         } else {
-          setDominantExpression("");
-          setExpressionProb(0);
           setMouthOpen(false);
           setMouthAspectRatio(0);
         }

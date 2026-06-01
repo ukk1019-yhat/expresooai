@@ -3,37 +3,17 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
-  ArrowLeft, Camera, CameraOff, Loader2, Monitor,
-  AlertTriangle, RefreshCw, Smile, Meh, Frown, Brain,
+  ArrowLeft, Camera, CameraOff, Loader2,
+  AlertTriangle, RefreshCw, Smile, Brain,
 } from "lucide-react";
 import {
   loadFaceModels,
   detectAllFaces,
   drawFaceOverlay,
-  getDominantExpression,
   onLoadChange,
   getLoadState,
   type FaceDetectionResult,
 } from "@/lib/faceDetection";
-
-const expressionIcons: Record<string, typeof Smile> = {
-  happy: Smile,
-  surprised: Smile,
-  neutral: Meh,
-  sad: Frown,
-  angry: Frown,
-  fearful: Frown,
-  disgusted: Meh,
-};
-
-const stageLabels: Record<string, string> = {
-  "loading-library": "Downloading AI engine (~5MB)...",
-  "library-loaded": "Initializing...",
-  "loading-tiny-face-detector": "Loading face detector...",
-  "loading-face-landmarks": "Loading facial landmarks...",
-  "loading-face-expressions": "Loading expression model...",
-  ready: "Ready",
-};
 
 export default function FaceAnalysisPage() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -45,7 +25,6 @@ export default function FaceAnalysisPage() {
   const [webcamActive, setWebcamActive] = useState(false);
   const [webcamError, setWebcamError] = useState<string | null>(null);
   const [results, setResults] = useState<FaceDetectionResult[]>([]);
-  const [history, setHistory] = useState<{ expression: string; timestamp: number }[]>([]);
 
   useEffect(() => {
     const unsub = onLoadChange(() => {
@@ -97,14 +76,6 @@ export default function FaceAnalysisPage() {
           .then((detections) => {
             setResults(detections);
             drawFaceOverlay(canvas, video, detections);
-            if (detections.length > 0) {
-              const { expression } = getDominantExpression(detections[0].expressions);
-              setHistory((prev) => {
-                const last = prev[prev.length - 1];
-                if (last?.expression === expression) return prev;
-                return [...prev, { expression, timestamp: now }].slice(-50);
-              });
-            }
           })
           .catch(() => {});
       }
@@ -112,20 +83,15 @@ export default function FaceAnalysisPage() {
     };
     animRef.current = requestAnimationFrame(loop);
 
-      return () => {
-        if (animRef.current) cancelAnimationFrame(animRef.current);
-      };
-    }, [webcamActive, modelState.loaded]);
+    return () => {
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+    };
+  }, [webcamActive, modelState.loaded]);
 
   const toggleWebcam = () => {
     if (webcamActive) stopWebcam();
     else startWebcam();
   };
-
-  const dominant = results.length > 0 ? getDominantExpression(results[0].expressions) : null;
-  const emotionSummary = history.length > 0
-    ? [...new Set(history.slice(-20).map((h) => h.expression))]
-    : [];
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] flex flex-col">
@@ -139,7 +105,7 @@ export default function FaceAnalysisPage() {
           </div>
           <div>
             <div className="text-sm font-semibold text-white">Face Analysis</div>
-            <div className="text-xs text-zinc-500">Expression &bull; Detection &bull; Lip Sync</div>
+            <div className="text-xs text-zinc-500">Detection &bull; Lip Sync</div>
           </div>
         </div>
         <button
@@ -161,24 +127,15 @@ export default function FaceAnalysisPage() {
           {modelState.loading && (
             <div className="flex flex-col items-center gap-4 py-16">
               <Loader2 size={32} className="animate-spin text-[#c47d3b]" />
-              <div className="w-full max-w-xs bg-zinc-800 rounded-full h-2 overflow-hidden">
-                <div
-                  className="h-full bg-[#c47d3b] rounded-full transition-all duration-500 ease-out"
-                  style={{ width: `${modelState.progress}%` }}
-                />
-              </div>
-              <p className="text-sm text-zinc-500">{stageLabels[modelState.stage] || modelState.stage || "Loading..."}</p>
+              <p className="text-sm text-zinc-500">Checking browser support...</p>
             </div>
           )}
 
-          {modelState.error && !webcamActive && (
+          {modelState.error && (
             <div className="flex flex-col items-center gap-3 py-12">
               <AlertTriangle size={28} className="text-red-400" />
-              <p className="text-sm text-red-400">Failed to load models</p>
-              <p className="text-xs text-zinc-500 max-w-md text-center">{modelState.error}</p>
-              <button onClick={() => window.location.reload()} className="flex items-center gap-1 text-xs text-[#c47d3b] hover:underline">
-                <RefreshCw size={10} /> Reload page
-              </button>
+              <p className="text-sm text-red-400">{modelState.error}</p>
+              <p className="text-xs text-zinc-500 max-w-md text-center">Try using Google Chrome or Microsoft Edge.</p>
             </div>
           )}
 
@@ -193,7 +150,7 @@ export default function FaceAnalysisPage() {
               <Camera size={48} className="text-zinc-700" />
               <h2 className="text-lg font-semibold text-white">Webcam Face Analysis</h2>
               <p className="text-sm text-zinc-500 max-w-md text-center">
-                Turn on your webcam to see real-time face detection, expression recognition, and lip movement tracking.
+                Turn on your webcam to see real-time face detection and lip movement tracking.
               </p>
               <button onClick={startWebcam} className="bg-[#c47d3b] hover:bg-[#a66830] text-white font-semibold py-3 px-6 rounded-xl transition-colors flex items-center gap-2 text-sm">
                 <Camera size={16} /> Start Webcam
@@ -216,45 +173,17 @@ export default function FaceAnalysisPage() {
             </div>
           )}
 
-          {webcamActive && results.length > 0 && dominant && (
+          {webcamActive && results.length > 0 && (
             <div className="w-full max-w-xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <MetricCard
-                icon={Brain}
-                label="Face"
-                value={`${results.length} detected`}
-                color="text-emerald-400"
-              />
-              <MetricCard
-                icon={expressionIcons[dominant.expression] || Meh}
-                label="Expression"
-                value={`${dominant.expression} (${(dominant.probability * 100).toFixed(0)}%)`}
-                color="text-cyan-400"
-              />
+              <MetricCard icon={Brain} label="Face" value={`${results.length} detected`} color="text-emerald-400" />
+              <MetricCard icon={Smile} label="Expression" value="detected" color="text-cyan-400" />
               <MetricCard
                 icon={results[0].mouthOpen ? Camera : CameraOff}
                 label="Mouth"
                 value={results[0].mouthOpen ? "Open" : "Closed"}
                 color={results[0].mouthOpen ? "text-amber-400" : "text-zinc-400"}
               />
-              <MetricCard
-                icon={Monitor}
-                label="MAR"
-                value={results[0].mouthAspectRatio.toFixed(3)}
-                color="text-purple-400"
-              />
-            </div>
-          )}
-
-          {webcamActive && emotionSummary.length > 1 && (
-            <div className="w-full max-w-xl mx-auto bg-[#111118] border border-zinc-800 rounded-xl p-4">
-              <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2">Recent Expressions</h3>
-              <div className="flex gap-1.5 flex-wrap">
-                {emotionSummary.map((expr) => (
-                  <span key={expr} className="text-xs bg-zinc-800 text-zinc-300 px-2 py-1 rounded-full">
-                    {expr}
-                  </span>
-                ))}
-              </div>
+              <MetricCard icon={Brain} label="MAR" value={results[0].mouthAspectRatio.toFixed(3)} color="text-purple-400" />
             </div>
           )}
         </div>

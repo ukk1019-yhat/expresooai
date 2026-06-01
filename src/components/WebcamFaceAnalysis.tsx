@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  Camera, CameraOff, Loader2, AlertTriangle, RefreshCw,
+  Camera, CameraOff, Loader2, AlertTriangle,
 } from "lucide-react";
 import { useFaceDetection } from "@/hooks/useFaceDetection";
 
@@ -15,15 +15,6 @@ type WebcamFaceAnalysisProps = {
     mouthOpen: boolean;
     mouthAspectRatio: number;
   }) => void;
-};
-
-const stageLabels: Record<string, string> = {
-  "loading-library": "Downloading AI engine (~5MB)...",
-  "library-loaded": "Initializing...",
-  "loading-tiny-face-detector": "Loading face detector...",
-  "loading-face-landmarks": "Loading facial landmarks...",
-  "loading-face-expressions": "Loading expression model...",
-  ready: "Ready",
 };
 
 export default function WebcamFaceAnalysis({ className = "", onFaceData }: WebcamFaceAnalysisProps) {
@@ -39,8 +30,6 @@ export default function WebcamFaceAnalysis({ className = "", onFaceData }: Webca
     stopWebcam,
     webcamActive,
     faceDetected,
-    dominantExpression,
-    expressionProb,
     mouthOpen,
     mouthAspectRatio,
   } = useFaceDetection({ enabled: webcamOn, intervalMs: 250 });
@@ -51,9 +40,9 @@ export default function WebcamFaceAnalysis({ className = "", onFaceData }: Webca
 
   useEffect(() => {
     if (onFaceData) {
-      onFaceData({ faceDetected, expression: dominantExpression, expressionProb, mouthOpen, mouthAspectRatio });
+      onFaceData({ faceDetected, expression: "", expressionProb: 0, mouthOpen, mouthAspectRatio });
     }
-  }, [faceDetected, dominantExpression, expressionProb, mouthOpen, mouthAspectRatio, onFaceData]);
+  }, [faceDetected, mouthOpen, mouthAspectRatio, onFaceData]);
 
   const handleStartWebcam = useCallback(async () => {
     setInitError(null);
@@ -80,11 +69,6 @@ export default function WebcamFaceAnalysis({ className = "", onFaceData }: Webca
       handleStartWebcam();
     }
   }, [webcamOn, stopWebcam, handleStartWebcam]);
-
-  const expressionLabel =
-    faceDetected && dominantExpression
-      ? `${dominantExpression.charAt(0).toUpperCase() + dominantExpression.slice(1)} (${(expressionProb * 100).toFixed(0)}%)`
-      : "No face detected";
 
   return (
     <div className={`flex flex-col ${className}`}>
@@ -114,30 +98,16 @@ export default function WebcamFaceAnalysis({ className = "", onFaceData }: Webca
 
       <div className="flex-1 p-3 flex flex-col items-center justify-start pt-4 gap-3">
         {modelState.loading && (
-          <div className="flex flex-col items-center gap-3 py-4 w-full">
-            <Loader2 size={24} className="animate-spin text-[#c47d3b]" />
-            <div className="w-full max-w-[200px] bg-zinc-800 rounded-full h-1.5 overflow-hidden">
-              <div
-                className="h-full bg-[#c47d3b] rounded-full transition-all duration-500 ease-out"
-                style={{ width: `${modelState.progress}%` }}
-              />
-            </div>
-            <p className="text-xs text-zinc-500 text-center">
-              {stageLabels[modelState.stage] || modelState.stage || "Loading..."}
-            </p>
+          <div className="flex flex-col items-center gap-2 py-4 w-full">
+            <Loader2 size={20} className="animate-spin text-[#c47d3b]" />
+            <p className="text-xs text-zinc-500">Checking browser support...</p>
           </div>
         )}
 
         {modelState.error && !webcamOn && (
           <div className="flex flex-col items-center gap-2 py-6 px-3 text-center">
             <AlertTriangle size={20} className="text-red-400" />
-            <p className="text-xs text-red-400">Model load failed</p>
-            <button
-              onClick={loadModels}
-              className="flex items-center gap-1 text-xs text-[#c47d3b] hover:underline"
-            >
-              <RefreshCw size={10} /> Retry
-            </button>
+            <p className="text-xs text-red-400">{modelState.error}</p>
           </div>
         )}
 
@@ -145,7 +115,7 @@ export default function WebcamFaceAnalysis({ className = "", onFaceData }: Webca
           <div className="flex flex-col items-center gap-3 py-8">
             <Camera size={28} className="text-zinc-600" />
             <p className="text-xs text-zinc-500 text-center">
-              Models ready. Turn on your webcam for<br />real-time face analysis
+              Ready. Turn on your webcam for<br />real-time face analysis
             </p>
           </div>
         )}
@@ -186,12 +156,6 @@ export default function WebcamFaceAnalysis({ className = "", onFaceData }: Webca
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-zinc-500">Expression</span>
-                <span className={`text-xs font-semibold ${faceDetected ? "text-cyan-400" : "text-zinc-600"}`}>
-                  {expressionLabel}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
                 <span className="text-xs text-zinc-500">Mouth</span>
                 <span className={`text-xs font-semibold ${mouthOpen ? "text-amber-400" : "text-zinc-500"}`}>
                   {mouthOpen ? "Open" : "Closed"}
@@ -204,17 +168,6 @@ export default function WebcamFaceAnalysis({ className = "", onFaceData }: Webca
                 </span>
               </div>
             </div>
-
-            {faceDetected && (
-              <div className="h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden">
-                <div
-                  className={`h-full rounded-full transition-all duration-300 ${
-                    mouthOpen ? "bg-amber-500" : "bg-cyan-500"
-                  }`}
-                  style={{ width: `${Math.min(expressionProb * 100, 100)}%` }}
-                />
-              </div>
-            )}
           </div>
         )}
       </div>

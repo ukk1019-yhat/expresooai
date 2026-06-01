@@ -675,7 +675,7 @@ export default function AICoachPage() {
           {isSessionActive && showFacePanel && (
             <div className={`hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-full border text-xs font-medium ${faceData?.faceDetected ? "bg-cyan-500/10 border-cyan-500/20 text-cyan-400" : "bg-zinc-800 border-zinc-700 text-zinc-500"}`}>
               <div className={`w-1.5 h-1.5 rounded-full ${faceData?.faceDetected ? "bg-cyan-400" : "bg-zinc-600"}`} />
-              {faceData?.faceDetected ? `${faceData.expression}${faceData.mouthOpen ? " 🗣" : ""}` : "No Face"}
+              {faceData?.faceDetected ? "Face ✓" : "No Face"}
             </div>
           )}
 
